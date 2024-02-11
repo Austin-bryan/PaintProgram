@@ -1,22 +1,24 @@
-﻿using System.Drawing.Drawing2D;
-using System.Windows.Forms.VisualStyles;
-using static PaintProgram.Handle;
+﻿using System.Runtime.InteropServices;
+using System.Security.Cryptography;
+using static PaintProgram.Shapes.Handle;
 
-namespace PaintProgram;
+namespace PaintProgram.Shapes;
 
 enum Handle { TopLeft, TopMiddle, TopRight, CenterRight, BottomRight, BottomMiddle, BottomLeft, CenterLeft }
 
-public partial class Shape : UserControl
+public partial class Shape : Form
 {
-    protected int Gap = 5;
-    protected float Alpha = 0.25f;
+    protected const int Gap = 5;
+    protected bool shouldShowHandles = false;
+    protected Point resizeStart, moveStart;
+    protected Point[] points;
 
     private const int HandleSize = 8;
-    private bool isResizing = false, isMoving = false, isAdjustingAlpha = false;
-    private Point resizeStart, moveStart;
+    private bool isResizing = false, isMoving = false;
     private Rectangle[] resizeHandles;
     private Handle activeHandle;
-    private Rectangle[] alphaHandles;
+    private static readonly List<Shape> shapes = new();
+    protected bool isAdjustingAlpha = false;
 
     public Shape()
     {
@@ -26,9 +28,55 @@ public partial class Shape : UserControl
         InitializeResizeHandles();
 
         OnResize(default);
+
+        BackColor       = Color.LimeGreen;
+        TransparencyKey = BackColor;
+        ControlBox      = false;
+        ShowInTaskbar   = false;
+        DisableFormShadow();
+        BringToFront();
+        shapes.Add(this);
     }
 
-    private static float Lerp(float start, float end, float t) => start + t * (end - start);
+    // Import necessary WinAPI functions
+    [DllImport("dwmapi.dll")]
+    private static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int attrValue, int attrSize);
+
+    private const int DWMWA_NCRENDERING_POLICY = 2;
+    private const int DWMNCRP_DISABLED = 1;
+
+    private void DisableFormShadow()
+    {
+        try
+        {
+            // Disable shadow effect
+            int value = DWMNCRP_DISABLED;
+            DwmSetWindowAttribute(this.Handle, DWMWA_NCRENDERING_POLICY, ref value, sizeof(int));
+            FormBorderStyle = FormBorderStyle.None;
+
+        }
+        catch (Exception ex)
+        {
+            // Handle any exceptions, such as when the DwmSetWindowAttribute function is not available
+            Console.WriteLine("Error disabling form shadow: " + ex.Message);
+        }
+    }
+    private void ChildForm_SizeChanged(object sender, EventArgs e)
+    {
+        // Check if the child form's boundaries exceed Form1's boundaries
+        if (Right > Owner.Right)
+        {
+            // Adjust the child form's width to fit within the bounds of Form1
+            Width = Owner.Width - (Left - Owner.Left);
+        }
+        if (Bottom > Owner.Bottom)
+        {
+            // Adjust the child form's height to fit within the bounds of Form1
+            Height = Owner.Height - (Top - Owner.Top);
+        }
+    }
+
+    protected static float Lerp(float start, float end, float t) => start + t * (end - start);
     private static Cursor GetCursorForHandle(int handleIndex) => handleIndex switch
     {
         0 or 4 => Cursors.SizeNWSE,
@@ -40,100 +88,30 @@ public partial class Shape : UserControl
 
     protected virtual Point[] GetPoints() => Array.Empty<Point>();
 
-    protected override void OnPaint(PaintEventArgs e)
-    {
-        base.OnPaint(e);
-        BackColor = Color.Transparent;
-
-        //SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-        //SetStyle(ControlStyles.Opaque, true);
-        //SetStyle(ControlStyles.ResizeRedraw, true);
-        //this.BackColor = Color.Transparent;
-
-        // Cross
-        //const int diamondRadius = 5;
-        //Point[] diamondPoints = new Point[]
-        //{
-        //    points[0].Add(new(0, -diamondRadius)),
-        //    points[0].Add(new(diamondRadius, 0)),
-        //    points[0].Add(new(0, diamondRadius)),
-        //    points[0].Add(new(-diamondRadius, 0))
-        //};
-        //e.Graphics.FillPolygon(Brushes.MediumBlue, points);
-        //e.Graphics.DrawPolygon(new Pen(Color.Black, 2), diamondPoints);
-        //e.Graphics.FillPolygon(Brushes.Orange, diamondPoints);
-        //alphaHandles[0] = new Rectangle(points[0].X - diamondRadius, points[0].Y - diamondRadius, 10, 10);
-
-        // David Star
-        //int numSides = 12;
-
-        //// Initialize the points array with the appropriate size
-        //Point[] points = new Point[numSides];
-
-        //// Calculate the coordinates of each vertex
-        //for (int i = 0; i < numSides; i++)
-        //{
-        //    // Calculate the angle for each vertex
-        //    double angle = 2 * Math.PI * i / numSides;
-
-        //    // Calculate the coordinates of the vertex
-        //    int x = (int)(Width  / 2 + (Width  / 2 * Math.Cos(angle))); // Center x-coordinate + (radius * cos(angle))
-        //    int y = (int)(Height / 2 + (Height / 2 * Math.Sin(angle))); // Center y-coordinate + (radius * sin(angle))
-
-        //    if (i % 2 == 0)
-        //    {
-        //        x = (int)Lerp(x, Width / 2, alpha);
-        //        y = (int)Lerp(y, Height / 2, alpha);
-        //    }
-
-        //    // Store the vertex coordinates in the points array
-        //    points[i] = new Point(x, y);
-        //}
-        //const int diamondRadius = 5;
-        //Point[] diamondPoints = new Point[]
-        //{
-        //    points[6].Add(new(0, -diamondRadius)),
-        //    points[6].Add(new(diamondRadius, 0)),
-        //    points[6].Add(new(0, diamondRadius)),
-        //    points[6].Add(new(-diamondRadius, 0))
-        //};
-        //e.Graphics.FillPolygon(Brushes.MediumBlue, points);
-        //e.Graphics.DrawPolygon(new Pen(Color.Black, 2), diamondPoints);
-        //e.Graphics.FillPolygon(Brushes.Orange, diamondPoints);
-        //alphaHandles[0] = new Rectangle(points[6].X - diamondRadius, points[6].Y - diamondRadius, 10, 10);
-
-        Point[] points = GetPoints();
-        DrawShape(e, ref points);
-
-        // Define a pen for drawing the border
-        var borderPen = new Pen(Color.Black, 2);
-
-        // Draw the border of each rectangle
-        foreach (Rectangle handle in resizeHandles)
-            e.Graphics.DrawRectangle(borderPen, handle);
-
-        // Draw resize handles
-        foreach (Rectangle handle in resizeHandles)
-            e.Graphics.FillRectangle(Brushes.White, handle);
-    }
     protected virtual void DrawShape(PaintEventArgs e, ref Point[] points)
     {
         e.Graphics.FillPolygon(Brushes.MediumBlue, points);
     }
-    protected void DrawAlphaHandle(PaintEventArgs e, ref Point[] points, int pointIndex)
+    protected override void OnPaint(PaintEventArgs e)
     {
-        const int diamondRadius = 5;
-        Point[] diamondPoints = new Point[]
-        {
-            points[pointIndex].Add(new(0, -diamondRadius)),
-            points[pointIndex].Add(new(diamondRadius, 0)),
-            points[pointIndex].Add(new(0, diamondRadius)),
-            points[pointIndex].Add(new(-diamondRadius, 0))
-        };
-        e.Graphics.DrawPolygon(new Pen(Color.Black, 2), diamondPoints);
-        e.Graphics.FillPolygon(Brushes.Orange, diamondPoints);
+        base.OnPaint(e);
+        
+        points = GetPoints();
+        DrawShape(e, ref points);
 
-        alphaHandles[0] = new Rectangle(points[pointIndex].X - diamondRadius, points[pointIndex].Y - diamondRadius, 10, 10);
+        // Draw resize handles
+        if (shouldShowHandles)
+        {
+            // Define a pen for drawing the border
+            var borderPen = new Pen(Color.Black, 2);
+
+            // Draw the border of each rectangle
+            foreach (Rectangle handle in resizeHandles)
+                e.Graphics.DrawRectangle(borderPen, handle);
+
+            foreach (Rectangle handle in resizeHandles)
+                e.Graphics.FillRectangle(Brushes.White, handle);
+        }
     }
     protected override void OnMouseDown(MouseEventArgs e)
     {
@@ -144,7 +122,7 @@ public partial class Shape : UserControl
         {
             if (!resizeHandles[i].Contains(e.Location))
                 continue;
-            
+
             isResizing   = true;
             resizeStart  = e.Location;
             Cursor       = GetCursorForHandle(i);
@@ -152,9 +130,9 @@ public partial class Shape : UserControl
 
             return;
         }
-        if (alphaHandles.Length > 0 && alphaHandles[0].Contains(e.Location))
-             isAdjustingAlpha = true;
-        else isMoving = true;
+        shapes.ForEach(s => s.HideHandles());
+        isMoving = shouldShowHandles = true;
+        Refresh();
 
         moveStart = e.Location;
     }
@@ -180,6 +158,10 @@ public partial class Shape : UserControl
                 case BottomRight:  ResizeControl(sizeDelta: (deltaX, deltaY),   positionDelta: (0, 0), e.Location); break;
             }
         }
+        else if (isAdjustingAlpha)
+        {
+            AdjustAlpha(e);
+        }
         else if (isMoving)
         {
             int deltaX = e.X - moveStart.X;
@@ -187,35 +169,28 @@ public partial class Shape : UserControl
 
             Location = new Point(Location.X + deltaX, Location.Y + deltaY);
         }
-        else if (isAdjustingAlpha)
-        {
-            Alpha = Lerp(0, 0.49f, (GetAlphaHandleX(e)) / (float)Width * 2);
-            Alpha = Math.Min(Alpha, 1);
-            Alpha = Math.Max(Alpha, 0);
-            Refresh();
-        }
-        else
-        {
-            // Change cursor if the mouse is over a resize handle
-            for (int i = 0; i < resizeHandles.Length; i++)
-            {
-                if (resizeHandles[i].Contains(e.Location))
-                {
-                    Cursor = GetCursorForHandle(i);
-                    return;
-                }
-            }
-            if (alphaHandles.Length > 0 && alphaHandles[0].Contains(e.Location))
-            {
-                Cursor = Cursors.Cross;
-                return;
-            }
-            Cursor = Cursors.SizeAll;
-        }
+        else UpdateCursor(e);
+    }
+    protected void HideHandles()
+    {
+        shouldShowHandles = false;
+        Refresh();
     }
 
-    protected virtual int GetAlphaHandleX(MouseEventArgs e) => e.X + moveStart.X;
-
+    protected virtual void AdjustAlpha(MouseEventArgs e) {  }
+    protected virtual void UpdateCursor(MouseEventArgs e)
+    {
+        // Change cursor if the mouse is over a resize handle
+        for (int i = 0; i < resizeHandles.Length; i++)
+        {
+            if (resizeHandles[i].Contains(e.Location))
+            {
+                Cursor = GetCursorForHandle(i);
+                return;
+            }
+        }
+        Cursor = Cursors.SizeAll;
+    }
     protected override void OnMouseUp(MouseEventArgs e)
     {
         base.OnMouseUp(e);
@@ -242,21 +217,44 @@ public partial class Shape : UserControl
         Invalidate();
     }
 
-    private void InitializeResizeHandles()
+    protected virtual void InitializeResizeHandles()
     {
         resizeHandles = new Rectangle[8];
         for (int i = 0; i < 8; i++)
             resizeHandles[i] = new Rectangle(0, 0, HandleSize, HandleSize);
-
-        alphaHandles = new Rectangle[1];
     }
     private void ResizeControl((int width, int height) sizeDelta, (int left, int top) positionDelta) => ResizeControl(sizeDelta, positionDelta, new(0, 0));
     private void ResizeControl((int width, int height) sizeDelta, (int left, int top) positionDelta, Point newResizeStart)
     {
-        (Width, Height) = (Width + sizeDelta.width, Height + sizeDelta.height);
-        (Left, Top)     = (Left + positionDelta.left, Top + positionDelta.top);
+        const int minSize = 12;
+
+        if (Width + sizeDelta.width > minSize)
+        {
+            Width += sizeDelta.width;
+            Left  += positionDelta.left;
+        }
+        if (Height + sizeDelta.height > minSize)
+        {
+            Height += sizeDelta.height;
+            Top    += positionDelta.top;
+        }
 
         if (newResizeStart != Point.Empty)
             resizeStart = newResizeStart;
+    }
+
+    private void Shape_MouseHover(object sender, EventArgs e)
+    {
+        //isHovered = true;
+        //Refresh();
+    }
+    private void Shape_MouseLeave(object sender, EventArgs e)
+    {
+        //isHovered = false;
+        //Refresh();
+    }
+    private void Shape_Load_1(object sender, EventArgs e)
+    {
+
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace PaintProgram;
+﻿namespace PaintProgram.Shapes;
 
-partial class RectangleShape
+public partial class RectangleShape
 {
     /// <summary> 
     /// Required designer variable.

@@ -1,4 +1,4 @@
-﻿namespace PaintProgram;
+﻿namespace PaintProgram.Shapes;
 
 partial class EllipseShape
 {

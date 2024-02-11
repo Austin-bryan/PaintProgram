@@ -1,5 +1,5 @@
 ﻿
-namespace PaintProgram;
+namespace PaintProgram.Shapes;
 
 public partial class RightTriangleShape : Shape
 {

@@ -1,7 +1,10 @@
-﻿namespace PaintProgram;
+﻿namespace PaintProgram.Shapes;
 
-public partial class CrossShape : Shape
+public partial class CrossShape : ParametetricShape
 {
+    protected override int AlphaPointIndex => 0;
+    protected override float MaxAlpha => 0.4999f;
+
     public CrossShape()
     {
         InitializeComponent();
@@ -23,17 +26,5 @@ public partial class CrossShape : Shape
         new(Gap,                ShortLength(Height)),
         new(ShortLength(Width), ShortLength(Height))
     };
-
-    protected override void DrawShape(PaintEventArgs e, ref Point[] points)
-    {
-        e.Graphics.FillPolygon(Brushes.MediumBlue, points);
-
-        DrawAlphaHandle(e, ref points, 0);
-    }
-
-    private int ShortLength(int n) => (int)(n * Alpha);
-    private int LongLength(int n) => (int)(n * (1 - Alpha));
-
-    protected override int GetAlphaHandleX(MouseEventArgs e) => e.X;
-
+    protected override float GetAlpha(MouseEventArgs e) => Lerp(0, 0.49f, e.X / (float)Width * 2f);
 }

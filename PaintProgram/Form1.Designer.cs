@@ -1,109 +1,136 @@
-﻿namespace PaintProgram
+﻿using PaintProgram.Shapes;
+namespace PaintProgram;
+
+partial class Form1
 {
-    partial class Form1
+    /// <summary>
+    ///  Required designer variable.
+    /// </summary>
+    private System.ComponentModel.IContainer components = null;
+
+    /// <summary>
+    ///  Clean up any resources being used.
+    /// </summary>
+    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    protected override void Dispose(bool disposing)
     {
-        /// <summary>
-        ///  Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
-        /// <summary>
-        ///  Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
+        if (disposing && (components != null))
         {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
+            components.Dispose();
         }
-
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            components = new System.ComponentModel.Container();
-            contextMenuStrip1 = new ContextMenuStrip(components);
-            rectangleShape1 = new RectangleShape();
-            triangleShape1 = new TriangleShape();
-            rightTriangleShape1 = new RightTriangleShape();
-            ellipseShape1 = new EllipseShape();
-            crossShape1 = new CrossShape();
-            SuspendLayout();
-            // 
-            // contextMenuStrip1
-            // 
-            contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(61, 4);
-            // 
-            // rectangleShape1
-            // 
-            rectangleShape1.BackColor = Color.Transparent;
-            rectangleShape1.Location = new Point(369, 50);
-            rectangleShape1.Name = "rectangleShape1";
-            rectangleShape1.Size = new Size(150, 150);
-            rectangleShape1.TabIndex = 1;
-            // 
-            // triangleShape1
-            // 
-            triangleShape1.BackColor = Color.Transparent;
-            triangleShape1.Location = new Point(645, 270);
-            triangleShape1.Name = "triangleShape1";
-            triangleShape1.Size = new Size(150, 150);
-            triangleShape1.TabIndex = 2;
-            // 
-            // rightTriangleShape1
-            // 
-            rightTriangleShape1.BackColor = Color.Transparent;
-            rightTriangleShape1.Location = new Point(57, 65);
-            rightTriangleShape1.Name = "rightTriangleShape1";
-            rightTriangleShape1.Size = new Size(150, 150);
-            rightTriangleShape1.TabIndex = 3;
-            // 
-            // ellipseShape1
-            // 
-            ellipseShape1.BackColor = Color.Transparent;
-            ellipseShape1.Location = new Point(449, 220);
-            ellipseShape1.Name = "ellipseShape1";
-            ellipseShape1.Size = new Size(153, 150);
-            ellipseShape1.TabIndex = 4;
-            // 
-            // crossShape1
-            // 
-            crossShape1.BackColor = Color.Transparent;
-            crossShape1.Location = new Point(242, 233);
-            crossShape1.Name = "crossShape1";
-            crossShape1.Size = new Size(150, 150);
-            crossShape1.TabIndex = 5;
-            // 
-            // Form1
-            // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(1085, 566);
-            Controls.Add(crossShape1);
-            Controls.Add(ellipseShape1);
-            Controls.Add(rightTriangleShape1);
-            Controls.Add(triangleShape1);
-            Controls.Add(rectangleShape1);
-            Name = "Form1";
-            Text = "Form1";
-            ResumeLayout(false);
-        }
-
-        #endregion
-        private ContextMenuStrip contextMenuStrip1;
-        private RectangleShape rectangleShape1;
-        private TriangleShape triangleShape1;
-        private RightTriangleShape rightTriangleShape1;
-        private EllipseShape ellipseShape1;
-        private CrossShape crossShape1;
+        base.Dispose(disposing);
     }
+
+    #region Windows Form Designer generated code
+
+    /// <summary>
+    ///  Required method for Designer support - do not modify
+    ///  the contents of this method with the code editor.
+    /// </summary>
+    private void InitializeComponent()
+    {
+        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+        titleBarImage = new PictureBox();
+        exitButton = new Button();
+        minimizeButton = new Button();
+        titleLabel = new Label();
+        pictureBox1 = new PictureBox();
+        ((System.ComponentModel.ISupportInitialize)titleBarImage).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+        SuspendLayout();
+        // 
+        // titleBarImage
+        // 
+        titleBarImage.BackColor = SystemColors.Control;
+        titleBarImage.Location = new Point(0, 0);
+        titleBarImage.Name = "titleBarImage";
+        titleBarImage.Size = new Size(601, 34);
+        titleBarImage.TabIndex = 0;
+        titleBarImage.TabStop = false;
+        // 
+        // exitButton
+        // 
+        exitButton.BackColor = SystemColors.Control;
+        exitButton.FlatAppearance.BorderSize = 0;
+        exitButton.FlatStyle = FlatStyle.Flat;
+        exitButton.Font = new Font("Consolas", 15F, FontStyle.Regular, GraphicsUnit.Point);
+        exitButton.ImageAlign = ContentAlignment.TopCenter;
+        exitButton.Location = new Point(567, 0);
+        exitButton.Name = "exitButton";
+        exitButton.Size = new Size(34, 34);
+        exitButton.TabIndex = 1;
+        exitButton.Text = "x";
+        exitButton.UseVisualStyleBackColor = false;
+        exitButton.Click += exitButton_Click;
+        exitButton.MouseLeave += exitButton_MouseLeave;
+        exitButton.MouseHover += exitButton_MouseHover;
+        // 
+        // minimizeButton
+        // 
+        minimizeButton.BackColor = SystemColors.Control;
+        minimizeButton.FlatAppearance.BorderSize = 0;
+        minimizeButton.FlatStyle = FlatStyle.Flat;
+        minimizeButton.Font = new Font("Consolas", 15F, FontStyle.Regular, GraphicsUnit.Point);
+        minimizeButton.ImageAlign = ContentAlignment.TopCenter;
+        minimizeButton.Location = new Point(530, 0);
+        minimizeButton.Name = "minimizeButton";
+        minimizeButton.Size = new Size(34, 34);
+        minimizeButton.TabIndex = 2;
+        minimizeButton.Text = "-";
+        minimizeButton.UseVisualStyleBackColor = false;
+        minimizeButton.Click += minimizeButton_Click;
+        // 
+        // titleLabel
+        // 
+        titleLabel.AutoSize = true;
+        titleLabel.BackColor = SystemColors.Control;
+        titleLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+        titleLabel.Location = new Point(35, 9);
+        titleLabel.Name = "titleLabel";
+        titleLabel.Size = new Size(83, 15);
+        titleLabel.TabIndex = 3;
+        titleLabel.Text = "Paint Program";
+        // 
+        // pictureBox1
+        // 
+        pictureBox1.BackColor = SystemColors.Control;
+        pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+        pictureBox1.InitialImage = (Image)resources.GetObject("pictureBox1.InitialImage");
+        pictureBox1.Location = new Point(5, 5);
+        pictureBox1.Name = "pictureBox1";
+        pictureBox1.Size = new Size(25, 25);
+        pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+        pictureBox1.TabIndex = 4;
+        pictureBox1.TabStop = false;
+        // 
+        // Form1
+        // 
+        AutoScaleDimensions = new SizeF(7F, 15F);
+        AutoScaleMode = AutoScaleMode.Font;
+        BackColor = SystemColors.ActiveCaption;
+        ClientSize = new Size(1089, 566);
+        Controls.Add(pictureBox1);
+        Controls.Add(titleLabel);
+        Controls.Add(minimizeButton);
+        Controls.Add(exitButton);
+        Controls.Add(titleBarImage);
+        Name = "Form1";
+        Text = "Form1";
+        ((System.ComponentModel.ISupportInitialize)titleBarImage).EndInit();
+        ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+        ResumeLayout(false);
+        PerformLayout();
+    }
+
+    #endregion
+    private RectangleShape rectangleShape1;
+    private TriangleShape triangleShape1;
+    private RightTriangleShape rightTriangleShape1;
+    private EllipseShape ellipseShape1;
+    private CrossShape crossShape1;
+    private PictureBox titleBarImage;
+    private Button exitButton;
+    private Button minimizeButton;
+    private Label titleLabel;
+    private PictureBox pictureBox1;
 }
