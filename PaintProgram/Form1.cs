@@ -15,9 +15,11 @@ public partial class Form1 : Form
         exitButton.Location     = new Point(1885, 0);
         minimizeButton.Location = new(exitButton.Location.X - exitButton.Width, minimizeButton.Location.Y);
 
-        //CreateShape<triangleShape>();
+        CreateShape<TriangleShape>();
+        CreateShape<RightTriangleShape>();
         CreateShape<CrossShape>();
         CreateShape<Star4Points>();
+        CreateShape<Star5Points>();
         CreateShape<Star5Points>();
         CreateShape<Star6Points>();
         CreateShape<TrapazoidShape>();

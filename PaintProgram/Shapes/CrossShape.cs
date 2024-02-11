@@ -8,7 +8,7 @@ public partial class CrossShape : ParametetricShape
     public CrossShape()
     {
         InitializeComponent();
-        Alpha = 0.25f;
+        Alpha = 0.35f;
     }
 
     protected override Point[] GetPoints() => new Point[]

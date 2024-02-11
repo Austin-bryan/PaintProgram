@@ -8,7 +8,7 @@ enum Handle { TopLeft, TopMiddle, TopRight, CenterRight, BottomRight, BottomMidd
 
 public partial class Shape : Form
 {
-    protected const int Gap = 5;
+    protected const int Gap = 50;
     protected bool shouldShowHandles = false;
     protected Point resizeStart, moveStart;
     protected Point[] points;
@@ -16,8 +16,11 @@ public partial class Shape : Form
     private const int HandleSize = 8;
     private bool isResizing = false, isMoving = false;
     private Rectangle[] resizeHandles;
+    private Rectangle rotateHandle;
     private Handle activeHandle;
+    private bool isRotating;
     private static readonly List<Shape> shapes = new();
+    private double rotationDegrees;
     protected bool isAdjustingAlpha = false;
 
     public Shape()
@@ -25,7 +28,9 @@ public partial class Shape : Form
         DoubleBuffered = true; // Enable double buffering to reduce flickering during resizing
 
         InitializeComponent();
-        InitializeResizeHandles();
+        InitializeHandles();
+
+        Width = Height = 350;
 
         OnResize(default);
 
@@ -88,29 +93,63 @@ public partial class Shape : Form
 
     protected virtual Point[] GetPoints() => Array.Empty<Point>();
 
-    protected virtual void DrawShape(PaintEventArgs e, ref Point[] points)
+    protected virtual void DrawShape(PaintEventArgs e)
     {
-        e.Graphics.FillPolygon(Brushes.MediumBlue, points);
+        // Convert degrees to radians
+        double rotationRadians = rotationDegrees * Math.PI / 180.0;
+
+        // Calculate the new coordinates after rotation
+        //int newX = (int)(originalPoint.X * Math.Cos(rotationRadians) - originalPoint.Y * Math.Sin(rotationRadians));
+        //int newY = (int)(originalPoint.X * Math.Sin(rotationRadians) + originalPoint.Y * Math.Cos(rotationRadians));
+
+        for (int i = 0; i < points.Length; i++)
+        {
+            Point point = points[i];
+            points[i] = new ((int)(point.X + Math.Cos(rotationRadians) - point.Y * Math.Sin(rotationRadians)),
+                             (int)(point.X * Math.Sin(rotationRadians) + point.Y * Math.Cos(rotationRadians)));
+        }
+
+
+        e.Graphics.FillPolygon(new SolidBrush(Color.FromArgb(255, 206, 226, 242)), points);
+        e.Graphics.DrawPolygon(new Pen(Color.Black, 2), points);
     }
     protected override void OnPaint(PaintEventArgs e)
     {
         base.OnPaint(e);
         
         points = GetPoints();
-        DrawShape(e, ref points);
+        DrawShape(e);
 
         // Draw resize handles
         if (shouldShowHandles)
         {
+
             // Define a pen for drawing the border
-            var borderPen = new Pen(Color.Black, 2);
+            var borderPen = new Pen(Color.RebeccaPurple, 2);
+            var linePen = new Pen(Color.RebeccaPurple, 2);
+            
+            for (int i = 0; i < resizeHandles.Length; i++)
+            {
+                int j = i + 1;
+                if (j >= resizeHandles.Length)
+                    j = 0;
 
-            // Draw the border of each rectangle
-            foreach (Rectangle handle in resizeHandles)
-                e.Graphics.DrawRectangle(borderPen, handle);
+                e.Graphics.DrawLine(linePen,
+                    resizeHandles[i].Location.Add(new(resizeHandles[i].Width / 2, resizeHandles[i].Height / 2)), 
+                    resizeHandles[j].Location.Add(new(resizeHandles[j].Width / 2, resizeHandles[j].Height / 2)));
+            }
 
-            foreach (Rectangle handle in resizeHandles)
-                e.Graphics.FillRectangle(Brushes.White, handle);
+            foreach (Rectangle handleRectangle in resizeHandles)
+            {
+                e.Graphics.DrawRectangle(borderPen, handleRectangle);
+                e.Graphics.FillRectangle(Brushes.CornflowerBlue, handleRectangle);
+            }
+
+            e.Graphics.DrawEllipse(borderPen, rotateHandle);
+            e.Graphics.FillEllipse(Brushes.MediumVioletRed, rotateHandle);
+
+            var rect = new Rectangle((resizeHandles[(int)CenterLeft].X + resizeHandles[(int)CenterRight].X) / 2, resizeHandles[(int)CenterLeft].Y, 10, 10);
+            e.Graphics.FillEllipse(Brushes.Black, rect);
         }
     }
     protected override void OnMouseDown(MouseEventArgs e)
@@ -128,6 +167,12 @@ public partial class Shape : Form
             Cursor       = GetCursorForHandle(i);
             activeHandle = (Handle)i;
 
+            return;
+        }
+        if (rotateHandle.Contains(e.Location))
+        {
+            isRotating = true;
+            moveStart = e.Location;
             return;
         }
         shapes.ForEach(s => s.HideHandles());
@@ -169,12 +214,41 @@ public partial class Shape : Form
 
             Location = new Point(Location.X + deltaX, Location.Y + deltaY);
         }
+        else if (isRotating)
+        {
+            Point origin = new((resizeHandles[(int)CenterLeft].X + resizeHandles[(int)CenterRight].X) / 2, resizeHandles[(int)CenterLeft].Y);
+
+            double currentRotation = GetRotation(e.Location, origin);
+            double startRotation = GetRotation(moveStart, origin);
+
+            rotationDegrees = currentRotation - startRotation;
+            if (rotationDegrees < 0)
+                rotationDegrees += 360;
+            label1.Text = rotationDegrees.ToString();
+        }
         else UpdateCursor(e);
     }
     protected void HideHandles()
     {
         shouldShowHandles = false;
         Refresh();
+    }
+    private double GetRotation(Point a, Point b)
+    {
+        int dx = a.X - b.X;
+        int dy = a.Y - b.Y;
+
+        // Calculate the rotation angle in radians
+        double rotationRadians = Math.Atan2(dy, dx);
+
+        // Convert radians to degrees
+        double degrees = rotationRadians * (180 / Math.PI);
+
+        // Ensure the angle is between 0 and 360 degrees
+        if (degrees < 0)
+            degrees += 360;
+
+        return degrees;
     }
 
     protected virtual void AdjustAlpha(MouseEventArgs e) {  }
@@ -189,6 +263,11 @@ public partial class Shape : Form
                 return;
             }
         }
+        if (rotateHandle.Contains(e.Location))
+        {
+            Cursor = Cursors.Cross;
+            return;
+        }
         Cursor = Cursors.SizeAll;
     }
     protected override void OnMouseUp(MouseEventArgs e)
@@ -202,26 +281,28 @@ public partial class Shape : Form
     {
         base.OnResize(e);
 
-        const int gap = 2;
+        const int gap = 45;
 
         // Update positions of resize handles
         resizeHandles[(int)TopLeft]     .Location = new Point(gap, gap);
-        resizeHandles[(int)TopMiddle]   .Location = new Point((Width - HandleSize - gap) / 2, gap);
+        resizeHandles[(int)TopMiddle]   .Location = new Point((Width - HandleSize) / 2, gap);
         resizeHandles[(int)TopRight]    .Location = new Point( Width - HandleSize - gap, gap);
-        resizeHandles[(int)CenterRight] .Location = new Point( Width - HandleSize - gap, (Height - HandleSize - gap) / 2);
+        resizeHandles[(int)CenterRight] .Location = new Point( Width - HandleSize - gap, (Height - HandleSize) / 2);
         resizeHandles[(int)BottomRight] .Location = new Point( Width - HandleSize - gap,  Height - HandleSize - gap);
-        resizeHandles[(int)BottomMiddle].Location = new Point((Width - HandleSize - gap) / 2, Height - HandleSize - gap);
+        resizeHandles[(int)BottomMiddle].Location = new Point((Width - HandleSize) / 2, Height - HandleSize - gap);
         resizeHandles[(int)BottomLeft]  .Location = new Point(gap,  Height - HandleSize - gap);
-        resizeHandles[(int)CenterLeft]  .Location = new Point(gap, (Height - HandleSize - gap) / 2);
+        resizeHandles[(int)CenterLeft]  .Location = new Point(gap, (Height - HandleSize) / 2);
+        rotateHandle.Location = resizeHandles[(int)TopMiddle].Location.Subtract(new(0, 40));
 
         Invalidate();
     }
 
-    protected virtual void InitializeResizeHandles()
+    protected virtual void InitializeHandles()
     {
         resizeHandles = new Rectangle[8];
         for (int i = 0; i < 8; i++)
             resizeHandles[i] = new Rectangle(0, 0, HandleSize, HandleSize);
+        rotateHandle = new Rectangle(0, 0, HandleSize, HandleSize); 
     }
     private void ResizeControl((int width, int height) sizeDelta, (int left, int top) positionDelta) => ResizeControl(sizeDelta, positionDelta, new(0, 0));
     private void ResizeControl((int width, int height) sizeDelta, (int left, int top) positionDelta, Point newResizeStart)
