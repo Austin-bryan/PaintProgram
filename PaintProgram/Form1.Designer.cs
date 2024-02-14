@@ -47,6 +47,7 @@ partial class Form1
         titleBarImage.Size = new Size(601, 34);
         titleBarImage.TabIndex = 0;
         titleBarImage.TabStop = false;
+        titleBarImage.Visible = false;
         // 
         // exitButton
         // 
@@ -61,6 +62,7 @@ partial class Form1
         exitButton.TabIndex = 1;
         exitButton.Text = "x";
         exitButton.UseVisualStyleBackColor = false;
+        exitButton.Visible = false;
         exitButton.Click += exitButton_Click;
         exitButton.MouseLeave += exitButton_MouseLeave;
         exitButton.MouseHover += exitButton_MouseHover;
@@ -78,6 +80,7 @@ partial class Form1
         minimizeButton.TabIndex = 2;
         minimizeButton.Text = "-";
         minimizeButton.UseVisualStyleBackColor = false;
+        minimizeButton.Visible = false;
         minimizeButton.Click += minimizeButton_Click;
         // 
         // titleLabel
@@ -90,6 +93,7 @@ partial class Form1
         titleLabel.Size = new Size(83, 15);
         titleLabel.TabIndex = 3;
         titleLabel.Text = "Paint Program";
+        titleLabel.Visible = false;
         // 
         // pictureBox1
         // 
@@ -102,6 +106,7 @@ partial class Form1
         pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
         pictureBox1.TabIndex = 4;
         pictureBox1.TabStop = false;
+        pictureBox1.Visible = false;
         // 
         // Form1
         // 

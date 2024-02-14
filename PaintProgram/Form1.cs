@@ -10,11 +10,16 @@ public partial class Form1 : Form
         InitializeComponent();
 
         WindowState             = FormWindowState.Maximized;
-        titleBarImage.Width     = ClientSize.Width;
-        titleBarImage.Location  = new Point(0, 0);
-        titleBarImage.Dock      = DockStyle.Top;
-        exitButton.Location     = new Point(1885, 0);
+        //titleBarImage.Width     = ClientSize.Width;
+        //titleBarImage.Location  = new Point(0, 0);
+        //titleBarImage.Dock      = DockStyle.Top;
+        //exitButton.Location     = new Point(1885, 0);
         minimizeButton.Location = new(exitButton.Location.X - exitButton.Width, minimizeButton.Location.Y);
+
+        TitleBar titleBar = new TitleBar();
+        titleBar.TopMost = true;
+        titleBar.Show();
+        titleBar.Owner = this;
 
         CreateShape<TriangleShape>();
         CreateShape<RightTriangleShape>();
