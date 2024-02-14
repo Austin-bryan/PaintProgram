@@ -116,6 +116,7 @@ partial class Form1
         Controls.Add(titleBarImage);
         Name = "Form1";
         Text = "Form1";
+        Click += Form1_Click;
         ((System.ComponentModel.ISupportInitialize)titleBarImage).EndInit();
         ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
         ResumeLayout(false);

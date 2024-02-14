@@ -5,23 +5,20 @@ using static PaintProgram.Shapes.Handle;
 namespace PaintProgram.Shapes;
 
 enum Handle { TopLeft, TopMiddle, TopRight, CenterRight, BottomRight, BottomMiddle, BottomLeft, CenterLeft }
+public enum State { Idle, Resizing, ChangingAlpha, Moving}
 
 public partial class Shape : Form
 {
-    protected const int Gap = 50;
+    protected const int Gap = 10;
     protected bool shouldShowHandles = false;
     protected Point resizeStart, moveStart;
     protected Point[] points;
+    protected State State;
 
     private const int HandleSize = 8;
-    private bool isResizing = false, isMoving = false;
     private Rectangle[] resizeHandles;
-    private Rectangle rotateHandle;
     private Handle activeHandle;
-    private bool isRotating;
     private static readonly List<Shape> shapes = new();
-    private double rotationDegrees;
-    protected bool isAdjustingAlpha = false;
 
     public Shape()
     {
@@ -34,10 +31,10 @@ public partial class Shape : Form
 
         OnResize(default);
 
-        BackColor       = Color.LimeGreen;
+        BackColor = Color.LimeGreen;
         TransparencyKey = BackColor;
-        ControlBox      = false;
-        ShowInTaskbar   = false;
+        ControlBox = false;
+        ShowInTaskbar = false;
         DisableFormShadow();
         BringToFront();
         shapes.Add(this);
@@ -95,21 +92,6 @@ public partial class Shape : Form
 
     protected virtual void DrawShape(PaintEventArgs e)
     {
-        // Convert degrees to radians
-        double rotationRadians = rotationDegrees * Math.PI / 180.0;
-
-        // Calculate the new coordinates after rotation
-        //int newX = (int)(originalPoint.X * Math.Cos(rotationRadians) - originalPoint.Y * Math.Sin(rotationRadians));
-        //int newY = (int)(originalPoint.X * Math.Sin(rotationRadians) + originalPoint.Y * Math.Cos(rotationRadians));
-
-        for (int i = 0; i < points.Length; i++)
-        {
-            Point point = points[i];
-            points[i] = new ((int)(point.X + Math.Cos(rotationRadians) - point.Y * Math.Sin(rotationRadians)),
-                             (int)(point.X * Math.Sin(rotationRadians) + point.Y * Math.Cos(rotationRadians)));
-        }
-
-
         e.Graphics.FillPolygon(new SolidBrush(Color.FromArgb(255, 206, 226, 242)), points);
         e.Graphics.DrawPolygon(new Pen(Color.Black, 2), points);
     }
@@ -145,11 +127,8 @@ public partial class Shape : Form
                 e.Graphics.FillRectangle(Brushes.CornflowerBlue, handleRectangle);
             }
 
-            e.Graphics.DrawEllipse(borderPen, rotateHandle);
-            e.Graphics.FillEllipse(Brushes.MediumVioletRed, rotateHandle);
-
-            var rect = new Rectangle((resizeHandles[(int)CenterLeft].X + resizeHandles[(int)CenterRight].X) / 2, resizeHandles[(int)CenterLeft].Y, 10, 10);
-            e.Graphics.FillEllipse(Brushes.Black, rect);
+            //var rect = new Rectangle((resizeHandles[(int)CenterLeft].X + resizeHandles[(int)CenterRight].X) / 2, resizeHandles[(int)CenterLeft].Y, 10, 10);
+            //e.Graphics.FillEllipse(Brushes.Black, rect);
         }
     }
     protected override void OnMouseDown(MouseEventArgs e)
@@ -162,21 +141,16 @@ public partial class Shape : Form
             if (!resizeHandles[i].Contains(e.Location))
                 continue;
 
-            isResizing   = true;
+            State        = State.Resizing;
             resizeStart  = e.Location;
             Cursor       = GetCursorForHandle(i);
             activeHandle = (Handle)i;
 
             return;
         }
-        if (rotateHandle.Contains(e.Location))
-        {
-            isRotating = true;
-            moveStart = e.Location;
-            return;
-        }
         shapes.ForEach(s => s.HideHandles());
-        isMoving = shouldShowHandles = true;
+        State = State.Moving;
+        shouldShowHandles = true;
         Refresh();
 
         moveStart = e.Location;
@@ -186,11 +160,12 @@ public partial class Shape : Form
         base.OnMouseMove(e);
 
         // Resize the control if the left mouse button is pressed and the cursor is over a resize handle
-        if (isResizing)
+    
+        switch (State)
         {
-            int deltaX = e.X - resizeStart.X;
-            int deltaY = e.Y - resizeStart.Y;
-
+        case State.Resizing:
+        {
+            var (deltaX, deltaY) = GetDelta(resizeStart);
             switch (activeHandle)
             {
                 case TopLeft:      ResizeControl(sizeDelta: (-deltaX, -deltaY), positionDelta: (deltaX, deltaY)); break;
@@ -202,53 +177,29 @@ public partial class Shape : Form
                 case BottomMiddle: ResizeControl(sizeDelta: (0, deltaY),        positionDelta: (0, 0), e.Location); break;
                 case BottomRight:  ResizeControl(sizeDelta: (deltaX, deltaY),   positionDelta: (0, 0), e.Location); break;
             }
+            break;
         }
-        else if (isAdjustingAlpha)
-        {
+        case State.ChangingAlpha:
             AdjustAlpha(e);
-        }
-        else if (isMoving)
+            break;
+        case State.Moving:
         {
-            int deltaX = e.X - moveStart.X;
-            int deltaY = e.Y - moveStart.Y;
-
+            var (deltaX, deltaY) = GetDelta(moveStart);
             Location = new Point(Location.X + deltaX, Location.Y + deltaY);
+            break;
         }
-        else if (isRotating)
-        {
-            Point origin = new((resizeHandles[(int)CenterLeft].X + resizeHandles[(int)CenterRight].X) / 2, resizeHandles[(int)CenterLeft].Y);
+        default:
+            UpdateCursor(e);
+            break;
 
-            double currentRotation = GetRotation(e.Location, origin);
-            double startRotation = GetRotation(moveStart, origin);
-
-            rotationDegrees = currentRotation - startRotation;
-            if (rotationDegrees < 0)
-                rotationDegrees += 360;
-            label1.Text = rotationDegrees.ToString();
         }
-        else UpdateCursor(e);
+
+        (int, int) GetDelta(Point point) => (e.X - point.X, e.Y - point.Y);
     }
-    protected void HideHandles()
+    public void HideHandles()
     {
         shouldShowHandles = false;
         Refresh();
-    }
-    private double GetRotation(Point a, Point b)
-    {
-        int dx = a.X - b.X;
-        int dy = a.Y - b.Y;
-
-        // Calculate the rotation angle in radians
-        double rotationRadians = Math.Atan2(dy, dx);
-
-        // Convert radians to degrees
-        double degrees = rotationRadians * (180 / Math.PI);
-
-        // Ensure the angle is between 0 and 360 degrees
-        if (degrees < 0)
-            degrees += 360;
-
-        return degrees;
     }
 
     protected virtual void AdjustAlpha(MouseEventArgs e) {  }
@@ -263,25 +214,20 @@ public partial class Shape : Form
                 return;
             }
         }
-        if (rotateHandle.Contains(e.Location))
-        {
-            Cursor = Cursors.Cross;
-            return;
-        }
         Cursor = Cursors.SizeAll;
     }
     protected override void OnMouseUp(MouseEventArgs e)
     {
         base.OnMouseUp(e);
 
-        isResizing = isMoving = isAdjustingAlpha = false;
+        State = State.Idle;
         Cursor = Cursors.Default;
     }
     protected override void OnResize(EventArgs e)
     {
         base.OnResize(e);
 
-        const int gap = 45;
+        const int gap = 5;
 
         // Update positions of resize handles
         resizeHandles[(int)TopLeft]     .Location = new Point(gap, gap);
@@ -292,7 +238,6 @@ public partial class Shape : Form
         resizeHandles[(int)BottomMiddle].Location = new Point((Width - HandleSize) / 2, Height - HandleSize - gap);
         resizeHandles[(int)BottomLeft]  .Location = new Point(gap,  Height - HandleSize - gap);
         resizeHandles[(int)CenterLeft]  .Location = new Point(gap, (Height - HandleSize) / 2);
-        rotateHandle.Location = resizeHandles[(int)TopMiddle].Location.Subtract(new(0, 40));
 
         Invalidate();
     }
@@ -302,7 +247,6 @@ public partial class Shape : Form
         resizeHandles = new Rectangle[8];
         for (int i = 0; i < 8; i++)
             resizeHandles[i] = new Rectangle(0, 0, HandleSize, HandleSize);
-        rotateHandle = new Rectangle(0, 0, HandleSize, HandleSize); 
     }
     private void ResizeControl((int width, int height) sizeDelta, (int left, int top) positionDelta) => ResizeControl(sizeDelta, positionDelta, new(0, 0));
     private void ResizeControl((int width, int height) sizeDelta, (int left, int top) positionDelta, Point newResizeStart)
@@ -319,23 +263,7 @@ public partial class Shape : Form
             Height += sizeDelta.height;
             Top    += positionDelta.top;
         }
-
         if (newResizeStart != Point.Empty)
             resizeStart = newResizeStart;
-    }
-
-    private void Shape_MouseHover(object sender, EventArgs e)
-    {
-        //isHovered = true;
-        //Refresh();
-    }
-    private void Shape_MouseLeave(object sender, EventArgs e)
-    {
-        //isHovered = false;
-        //Refresh();
-    }
-    private void Shape_Load_1(object sender, EventArgs e)
-    {
-
     }
 }

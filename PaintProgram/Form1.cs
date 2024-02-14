@@ -4,6 +4,7 @@ namespace PaintProgram;
 
 public partial class Form1 : Form
 {
+    private readonly List<Shape> shapes = new();
     public Form1()
     {
         InitializeComponent();
@@ -29,15 +30,13 @@ public partial class Form1 : Form
 
     private void CreateShape<T>() where T : Shape, new()
     {
-        var shape = new T();
-        shape.Owner = this;
+        var shape = new T { Owner = this };
         shape.Show();
+        shapes.Add(shape);
     }
     private void InitializeCustomTitleBar()
     {
-        // Hide the default title bar
         ControlBox = false;
-        Text = ""; // Optionally hide the form title text
     }
 
     // Handle the FormClosing event
@@ -58,4 +57,6 @@ public partial class Form1 : Form
     private void exitButton_MouseHover(object sender, EventArgs e) => (exitButton.BackColor, exitButton.ForeColor) = (Color.FromArgb(255, 200, 50, 50), Color.White);
 
     private void exitButton_MouseLeave(object sender, EventArgs e) => (exitButton.BackColor, exitButton.ForeColor) = (SystemColors.Control, Color.Black);
+
+    private void Form1_Click(object sender, EventArgs e) => shapes.ForEach(s => s.HideHandles());
 }
