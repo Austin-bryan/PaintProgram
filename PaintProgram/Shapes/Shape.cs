@@ -71,8 +71,10 @@ public partial class Shape : Form
     protected virtual Point[] GetPoints() => Array.Empty<Point>();
     protected virtual void DrawShape(PaintEventArgs e)
     {
-        e.Graphics.FillPolygon(new SolidBrush(Color.FromArgb(255, 206, 226, 242)), points);
-        e.Graphics.DrawPolygon(new Pen(Color.Black, 2), points);
+        const int shade = 90;
+        e.Graphics.FillPolygon(new SolidBrush(Color.FromArgb(255, shade, shade, shade + 20)), points);
+        //e.Graphics.FillPolygon(new SolidBrush(Color.FromArgb(255, 206, 226, 242)), points);
+        e.Graphics.DrawPolygon(new Pen(Color.Black, 4), points);
     }
     protected virtual void AdjustAlpha(MouseEventArgs e) { }
     protected virtual void UpdateCursor(MouseEventArgs e)
@@ -105,7 +107,6 @@ public partial class Shape : Form
         // Draw resize handles
         if (shouldShowHandles)
         {
-
             // Define a pen for drawing the border
             var borderPen = new Pen(Color.RebeccaPurple, 2);
             var linePen = new Pen(Color.RebeccaPurple, 2);
