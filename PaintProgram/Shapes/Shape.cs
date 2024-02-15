@@ -72,7 +72,7 @@ public partial class Shape : Form
     protected virtual void DrawShape(PaintEventArgs e)
     {
         const int shade = 90;
-        e.Graphics.FillPolygon(new SolidBrush(Color.FromArgb(255, shade, shade, shade + 20)), points);
+        e.Graphics.FillPolygon(new SolidBrush(Color.FromArgb(255, shade, shade, shade + 60)), points);
         //e.Graphics.FillPolygon(new SolidBrush(Color.FromArgb(255, 206, 226, 242)), points);
         e.Graphics.DrawPolygon(new Pen(Color.Black, 4), points);
     }
@@ -96,7 +96,7 @@ public partial class Shape : Form
         for (int i = 0; i < 8; i++)
             resizeHandles[i] = new Rectangle(0, 0, HandleSize, HandleSize);
     }
-    
+
     protected override void OnPaint(PaintEventArgs e)
     {
         base.OnPaint(e);
@@ -137,9 +137,9 @@ public partial class Shape : Form
             if (!resizeHandles[i].Contains(e.Location))
                 continue;
 
-            State        = State.Resizing;
-            resizeStart  = e.Location;
-            Cursor       = GetCursorForHandle(i);
+            State = State.Resizing;
+            resizeStart = e.Location;
+            Cursor = GetCursorForHandle(i);
             activeHandle = (Handle)i;
 
             return;
@@ -159,34 +159,34 @@ public partial class Shape : Form
         // Resize the control if the left mouse button is pressed and the cursor is over a resize handle
         switch (State)
         {
-        case State.Resizing:
-        {
-            var (deltaX, deltaY) = GetDelta(resizeStart);
-            switch (activeHandle)
-            {
-                case TopLeft:      ResizeControl(sizeDelta: (-deltaX, -deltaY), positionDelta: (deltaX, deltaY)); break;
-                case TopMiddle:    ResizeControl(sizeDelta: (0, -deltaY), positionDelta: (0, deltaY)); break;
-                case TopRight:     ResizeControl(sizeDelta: (deltaX, -deltaY), positionDelta: (0, deltaY), new(e.X, resizeStart.Y)); break;
-                case CenterLeft:   ResizeControl(sizeDelta: (-deltaX, 0), positionDelta: (deltaX, 0)); break;
-                case CenterRight:  ResizeControl(sizeDelta: (deltaX, 0), positionDelta: (0, 0), e.Location); break;
-                case BottomLeft:   ResizeControl(sizeDelta: (-deltaX, deltaY), positionDelta: (deltaX, 0), new(resizeStart.X, e.Y)); break;
-                case BottomMiddle: ResizeControl(sizeDelta: (0, deltaY), positionDelta: (0, 0), e.Location); break;
-                case BottomRight:  ResizeControl(sizeDelta: (deltaX, deltaY), positionDelta: (0, 0), e.Location); break;
-            }
-            break;
-        }
-        case State.ChangingAlpha:
-            AdjustAlpha(e);
-            break;
-        case State.Moving:
-        {
-            var (deltaX, deltaY) = GetDelta(moveStart);
-            Location = new Point(Location.X + deltaX, Location.Y + deltaY);
-            break;
-        }
-        default:
-            UpdateCursor(e);
-            break;
+            case State.Resizing:
+                {
+                    var (deltaX, deltaY) = GetDelta(resizeStart);
+                    switch (activeHandle)
+                    {
+                        case TopLeft: ResizeControl(sizeDelta: (-deltaX, -deltaY), positionDelta: (deltaX, deltaY)); break;
+                        case TopMiddle: ResizeControl(sizeDelta: (0, -deltaY), positionDelta: (0, deltaY)); break;
+                        case TopRight: ResizeControl(sizeDelta: (deltaX, -deltaY), positionDelta: (0, deltaY), new(e.X, resizeStart.Y)); break;
+                        case CenterLeft: ResizeControl(sizeDelta: (-deltaX, 0), positionDelta: (deltaX, 0)); break;
+                        case CenterRight: ResizeControl(sizeDelta: (deltaX, 0), positionDelta: (0, 0), e.Location); break;
+                        case BottomLeft: ResizeControl(sizeDelta: (-deltaX, deltaY), positionDelta: (deltaX, 0), new(resizeStart.X, e.Y)); break;
+                        case BottomMiddle: ResizeControl(sizeDelta: (0, deltaY), positionDelta: (0, 0), e.Location); break;
+                        case BottomRight: ResizeControl(sizeDelta: (deltaX, deltaY), positionDelta: (0, 0), e.Location); break;
+                    }
+                    break;
+                }
+            case State.ChangingAlpha:
+                AdjustAlpha(e);
+                break;
+            case State.Moving:
+                {
+                    var (deltaX, deltaY) = GetDelta(moveStart);
+                    Location = new Point(Location.X + deltaX, Location.Y + deltaY);
+                    break;
+                }
+            default:
+                UpdateCursor(e);
+                break;
 
         }
 
@@ -206,14 +206,14 @@ public partial class Shape : Form
         const int gap = 5;
 
         // Update positions of resize handles
-        resizeHandles[(int)TopLeft]     .Location = new Point(gap, gap);
-        resizeHandles[(int)TopMiddle]   .Location = new Point((Width - HandleSize) / 2, gap);
-        resizeHandles[(int)TopRight]    .Location = new Point(Width - HandleSize - gap, gap);
-        resizeHandles[(int)CenterRight] .Location = new Point(Width - HandleSize - gap, (Height - HandleSize) / 2);
-        resizeHandles[(int)BottomRight] .Location = new Point(Width - HandleSize - gap, Height - HandleSize - gap);
+        resizeHandles[(int)TopLeft].Location = new Point(gap, gap);
+        resizeHandles[(int)TopMiddle].Location = new Point((Width - HandleSize) / 2, gap);
+        resizeHandles[(int)TopRight].Location = new Point(Width - HandleSize - gap, gap);
+        resizeHandles[(int)CenterRight].Location = new Point(Width - HandleSize - gap, (Height - HandleSize) / 2);
+        resizeHandles[(int)BottomRight].Location = new Point(Width - HandleSize - gap, Height - HandleSize - gap);
         resizeHandles[(int)BottomMiddle].Location = new Point((Width - HandleSize) / 2, Height - HandleSize - gap);
-        resizeHandles[(int)BottomLeft]  .Location = new Point(gap, Height - HandleSize - gap);
-        resizeHandles[(int)CenterLeft]  .Location = new Point(gap, (Height - HandleSize) / 2);
+        resizeHandles[(int)BottomLeft].Location = new Point(gap, Height - HandleSize - gap);
+        resizeHandles[(int)CenterLeft].Location = new Point(gap, (Height - HandleSize) / 2);
 
         Invalidate();
     }
@@ -258,4 +258,28 @@ public partial class Shape : Form
         3 or 7 => Cursors.SizeWE,
         _ => Cursors.Default,
     };
+
+    private void Shape_MouseClick(object sender, MouseEventArgs e)
+    {
+        if (e.Button != MouseButtons.Right)
+            return;
+
+        contextMenuStrip1.Show(this, e.Location);
+    }
+
+    private void sendToBackToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        foreach(var shape in shapes)
+        {
+            if (shape == this)
+                continue;
+            shape.BringToFront();
+        }
+    }
+
+    private void bringToFrontToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        BringToFront();
+        ((Form1)Owner).BringTitleBarToFront();
+    }
 }
