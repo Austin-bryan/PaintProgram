@@ -37,10 +37,6 @@ partial class Shape
         BackColor = Color.Cyan;
         ClientSize = new Size(284, 261);
         Name = "Shape";
-        Activated += Shape_Activated;
-        Deactivate += Shape_Deactivate;
-        VisibleChanged += Shape_VisibleChanged;
-        Leave += Shape_Leave;
         ResumeLayout(false);
     }
 

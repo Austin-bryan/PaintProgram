@@ -50,12 +50,7 @@ partial class Form1
         Controls.Add(label1);
         Name = "Form1";
         Text = "Form1";
-        Activated += Form1_Activated;
-        Deactivate += Form1_Deactivate;
-        ClientSizeChanged += Form1_ClientSizeChanged;
-        VisibleChanged += Form1_VisibleChanged;
         Click += Form1_Click;
-        Enter += Form1_Enter;
         ResumeLayout(false);
         PerformLayout();
     }
