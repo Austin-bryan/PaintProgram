@@ -12,7 +12,7 @@ public partial class Form1 : Form
         InitializeComponent();
         WindowState = FormWindowState.Maximized;
 
-        titleBar.TopMost = true;
+        //titleBar.TopMost = true;
         titleBar.Show();
         titleBar.Owner = this;
 
@@ -21,19 +21,25 @@ public partial class Form1 : Form
         CreateShape<CrossShape>();
         CreateShape<Star4Points>();
         CreateShape<Star5Points>();
-        CreateShape<Star5Points>();
         CreateShape<Star6Points>();
         CreateShape<TrapazoidShape>();
 
         InitializeCustomTitleBar();
     }
-
+    
     private void CreateShape<T>() where T : Shape, new()
     {
         var shape = new T { Owner = this };
         shape.Show();
         shapes.Add(shape);
+        foobar();
     }
+
+    public void foobar()
+    {
+        titleBar.BringToFront();
+    }
+
     private void InitializeCustomTitleBar()
     {
         FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -50,8 +56,8 @@ public partial class Form1 : Form
 
     private void Form1_Deactivate(object sender, EventArgs e)
     {
-        titleBar.Visible = false;
-        wasActivated = false;
+        //titleBar.Visible = false;
+        //wasActivated = false;
     }
 
     private void Form1_Activated(object sender, EventArgs e)
@@ -77,9 +83,9 @@ public partial class Form1 : Form
 
     public void ShowTitleBar(bool value = true)
     {
-        label1.Text = "";
-        shapes.ForEach(s => label1.Text = label1.Text + "\n" + s.GetType().Name + s.hasFocus);
-        titleBar.Visible = value;
+        //label1.Text = "";
+        //shapes.ForEach(s => label1.Text = label1.Text + "\n" + s.GetType().Name + s.hasFocus);
+        //titleBar.Visible = value;
     }
     public void Foo(Form form) => label1.Text = form.GetType().Name;
     public void Foo(string str) => label1.Text = str;

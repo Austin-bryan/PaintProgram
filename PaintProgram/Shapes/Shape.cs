@@ -21,6 +21,10 @@ public partial class Shape : Form
     private Handle activeHandle;
     private static readonly List<Shape> shapes = new();
 
+    static int foo;
+    public bool hasFocus;
+    private System.Windows.Forms.Timer delayTimer;
+
     public Shape() : base()
     {
         DoubleBuffered = true; // Enable double buffering to reduce flickering during resizing
@@ -47,12 +51,50 @@ public partial class Shape : Form
     }
 
     protected static float Lerp(float start, float end, float t) => start + t * (end - start);
+
+    protected override void WndProc(ref Message m)
+    {
+        const int WM_MOUSEACTIVATE = 0x0021;
+
+        // Intercept mouse activation message
+        if (m.Msg == WM_MOUSEACTIVATE)
+        {
+            // Suppress activation to prevent the form from being brought to the front
+            m.Result = (IntPtr)3; // Returns MA_NOACTIVATE
+            return;
+        }
+
+        // Call base WndProc for default processing of other messages
+        base.WndProc(ref m);
+    }
+
     protected virtual Point[] GetPoints() => Array.Empty<Point>();
     protected virtual void DrawShape(PaintEventArgs e)
     {
         e.Graphics.FillPolygon(new SolidBrush(Color.FromArgb(255, 206, 226, 242)), points);
         e.Graphics.DrawPolygon(new Pen(Color.Black, 2), points);
     }
+    protected virtual void AdjustAlpha(MouseEventArgs e) { }
+    protected virtual void UpdateCursor(MouseEventArgs e)
+    {
+        // Change cursor if the mouse is over a resize handle
+        for (int i = 0; i < resizeHandles.Length; i++)
+        {
+            if (resizeHandles[i].Contains(e.Location))
+            {
+                Cursor = GetCursorForHandle(i);
+                return;
+            }
+        }
+        Cursor = Cursors.SizeAll;
+    }
+    protected virtual void InitializeHandles()
+    {
+        resizeHandles = new Rectangle[8];
+        for (int i = 0; i < 8; i++)
+            resizeHandles[i] = new Rectangle(0, 0, HandleSize, HandleSize);
+    }
+    
     protected override void OnPaint(PaintEventArgs e)
     {
         base.OnPaint(e);
@@ -91,7 +133,8 @@ public partial class Shape : Form
     }
     protected override void OnMouseDown(MouseEventArgs e)
     {
-        base.OnMouseDown(e);
+        //base.OnMouseDown(e);
+        //Activate();
         ((Form1)Owner).ShowTitleBar();
 
         // Check if the mouse is within any of the resize handles
@@ -100,9 +143,9 @@ public partial class Shape : Form
             if (!resizeHandles[i].Contains(e.Location))
                 continue;
 
-            State = State.Resizing;
-            resizeStart = e.Location;
-            Cursor = GetCursorForHandle(i);
+            State        = State.Resizing;
+            resizeStart  = e.Location;
+            Cursor       = GetCursorForHandle(i);
             activeHandle = (Handle)i;
 
             return;
@@ -113,6 +156,8 @@ public partial class Shape : Form
         Refresh();
 
         moveStart = e.Location;
+        ((Form1)Owner).foobar();
+        //((Form1)Owner).TopMost = true;
     }
     protected override void OnMouseMove(MouseEventArgs e)
     {
@@ -155,20 +200,6 @@ public partial class Shape : Form
 
         (int, int) GetDelta(Point point) => (e.X - point.X, e.Y - point.Y);
     }
-    protected virtual void AdjustAlpha(MouseEventArgs e) { }
-    protected virtual void UpdateCursor(MouseEventArgs e)
-    {
-        // Change cursor if the mouse is over a resize handle
-        for (int i = 0; i < resizeHandles.Length; i++)
-        {
-            if (resizeHandles[i].Contains(e.Location))
-            {
-                Cursor = GetCursorForHandle(i);
-                return;
-            }
-        }
-        Cursor = Cursors.SizeAll;
-    }
     protected override void OnMouseUp(MouseEventArgs e)
     {
         base.OnMouseUp(e);
@@ -193,12 +224,6 @@ public partial class Shape : Form
         resizeHandles[(int)CenterLeft].Location = new Point(gap, (Height - HandleSize) / 2);
 
         Invalidate();
-    }
-    protected virtual void InitializeHandles()
-    {
-        resizeHandles = new Rectangle[8];
-        for (int i = 0; i < 8; i++)
-            resizeHandles[i] = new Rectangle(0, 0, HandleSize, HandleSize);
     }
 
     private void ChildForm_SizeChanged(object sender, EventArgs e)
@@ -248,46 +273,38 @@ public partial class Shape : Form
         //foreach (var shape in shapes)
         //    if (shape.IsFocused)
         //        return;
-        ((Form1)Owner).ShowTitleBar(false);
+        //((Form1)Owner).ShowTitleBar(false);
         //((Form1)Owner).Foo(this);
     }
-
-    static int foo;
-    public bool hasFocus;
-    private System.Windows.Forms.Timer delayTimer;
-
     private void Shape_Deactivate(object sender, EventArgs e)
     {
-        hasFocus = false;
-        ////MessageBox.Show("Test");
-        foreach (var shape in shapes)
-            if (shape.hasFocus)
-            {
-                ((Form1)Owner).Foo(this.GetType().Name + (++foo).ToString());
-                return;
-            }
-        ((Form1)Owner).ShowTitleBar(false);
+        //hasFocus = false;
+        //////MessageBox.Show("Test");
+        //foreach (var shape in shapes)
+        //    if (shape.hasFocus)
+        //    {
+        //        ((Form1)Owner).Foo(this.GetType().Name + (++foo).ToString());
+        //        return;
+        //    }
+        //((Form1)Owner).ShowTitleBar(false);
         //((Form1)Owner).ShowTitleBar(false);
     }
-
     private void Shape_VisibleChanged(object sender, EventArgs e)
     {
     }
-
     private void Shape_Activated(object sender, EventArgs e)
     {
-        hasFocus = true;
-        delayTimer = new System.Windows.Forms.Timer();
-        delayTimer.Interval = 1; // 1 millisecond delay
-        delayTimer.Tick += DelayTimer_Tick;
-        delayTimer.Start();
+        //hasFocus = true;
+        //delayTimer = new System.Windows.Forms.Timer();
+        //delayTimer.Interval = 1; // 1 millisecond delay
+        //delayTimer.Tick += DelayTimer_Tick;
+        //delayTimer.Start();
     }
-
     private void DelayTimer_Tick(object? sender, EventArgs e)
     {
-        delayTimer.Stop();
+        //delayTimer.Stop();
 
-        // Perform the action after the delay
-        ((Form1)Owner).ShowTitleBar(true);
+        //// Perform the action after the delay
+        //((Form1)Owner).ShowTitleBar(true);
     }
 }
