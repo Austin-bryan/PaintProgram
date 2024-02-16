@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using System.Security.Cryptography;
-using static PaintProgram.Shapes.Handle;
+﻿using static PaintProgram.Shapes.Handle;
 
 namespace PaintProgram.Shapes;
 
@@ -9,35 +7,37 @@ public enum State { Idle, Resizing, ChangingAlpha, Moving}
 
 public partial class Shape : Form
 {
+    // ---- Properties ---- //
+    // - Public - //
     public bool IsFocused => this == ActiveForm;
 
-    int zOrder;
+    private int _zOrder;
     public int ZOrder
     {
-        get => zOrder;
+        get => _zOrder;
         set
         {
-            zOrder = value;
-            label1.Text = value.ToString();
+            _zOrder = value;
+            zOrderLabel.Text = value.ToString();
         }
     }
-
+    
+    // - Protected - //
     protected const int Gap = 10;
     protected bool shouldShowHandles = false;
     protected Point resizeStart, moveStart;
     protected Point[] points;
     protected State State;
 
+    // - Private - //
     private const int HandleSize = 8;
     private Rectangle[] resizeHandles;
     private Handle activeHandle;
     private static readonly List<Shape> shapes = new();
     private static readonly Dictionary<int, Shape> zOrderMap = new();
 
-    static int foo;
-    public bool hasFocus;
-    private System.Windows.Forms.Timer delayTimer;
-
+    // ---- Methods ---- //
+    // - Public - //
     public Shape() : base()
     {
         DoubleBuffered = true; // Enable double buffering to reduce flickering during resizing
@@ -58,30 +58,14 @@ public partial class Shape : Form
         ZOrder = shapes.Count - 1;
         zOrderMap.Add(ZOrder, this);
     }
-
     public void HideHandles()
     {
         shouldShowHandles = false;
         Refresh();
     }
 
+    // - Protected - //
     protected static float Lerp(float start, float end, float t) => start + t * (end - start);
-
-    protected override void WndProc(ref Message m)
-    {
-        const int WM_MOUSEACTIVATE = 0x0021;
-
-        // Intercept mouse activation message
-        if (m.Msg == WM_MOUSEACTIVATE)
-        {
-            // Suppress activation to prevent the form from being brought to the front
-            m.Result = (IntPtr)3; // Returns MA_NOACTIVATE
-            return;
-        }
-
-        // Call base WndProc for default processing of other messages
-        base.WndProc(ref m);
-    }
 
     protected virtual Point[] GetPoints() => Array.Empty<Point>();
     protected virtual void DrawShape(PaintEventArgs e)
@@ -232,21 +216,31 @@ public partial class Shape : Form
 
         Invalidate();
     }
-
-    private void ChildForm_SizeChanged(object sender, EventArgs e)
+    protected override void WndProc(ref Message m)
     {
-        // Check if the child form's boundaries exceed Form1's boundaries
-        if (Right > Owner.Right)
+        const int WM_MOUSEACTIVATE = 0x0021;
+
+        // Intercept mouse activation message
+        if (m.Msg == WM_MOUSEACTIVATE)
         {
-            // Adjust the child form's width to fit within the bounds of Form1
-            Width = Owner.Width - (Left - Owner.Left);
+            // Suppress activation to prevent the form from being brought to the front
+            m.Result = (IntPtr)3; // Returns MA_NOACTIVATE
+            return;
         }
-        if (Bottom > Owner.Bottom)
-        {
-            // Adjust the child form's height to fit within the bounds of Form1
-            Height = Owner.Height - (Top - Owner.Top);
-        }
+
+        // Call base WndProc for default processing of other messages
+        base.WndProc(ref m);
     }
+
+    // - Private - //
+    private static Cursor GetCursorForHandle(int handleIndex) => handleIndex switch
+    {
+        0 or 4 => Cursors.SizeNWSE,
+        1 or 5 => Cursors.SizeNS,
+        2 or 6 => Cursors.SizeNESW,
+        3 or 7 => Cursors.SizeWE,
+        _ => Cursors.Default,
+    };
     private void ResizeControl((int width, int height) sizeDelta, (int left, int top) positionDelta) => ResizeControl(sizeDelta, positionDelta, new(0, 0));
     private void ResizeControl((int width, int height) sizeDelta, (int left, int top) positionDelta, Point newResizeStart)
     {
@@ -265,15 +259,21 @@ public partial class Shape : Form
         if (newResizeStart != Point.Empty)
             resizeStart = newResizeStart;
     }
-    private static Cursor GetCursorForHandle(int handleIndex) => handleIndex switch
-    {
-        0 or 4 => Cursors.SizeNWSE,
-        1 or 5 => Cursors.SizeNS,
-        2 or 6 => Cursors.SizeNESW,
-        3 or 7 => Cursors.SizeWE,
-        _ => Cursors.Default,
-    };
 
+    private void ChildForm_SizeChanged(object sender, EventArgs e)
+    {
+        // Check if the child form's boundaries exceed Form1's boundaries
+        if (Right > Owner.Right)
+        {
+            // Adjust the child form's width to fit within the bounds of Form1
+            Width = Owner.Width - (Left - Owner.Left);
+        }
+        if (Bottom > Owner.Bottom)
+        {
+            // Adjust the child form's height to fit within the bounds of Form1
+            Height = Owner.Height - (Top - Owner.Top);
+        }
+    }
     private void Shape_MouseClick(object sender, MouseEventArgs e)
     {
         if (e.Button != MouseButtons.Right)
@@ -281,7 +281,6 @@ public partial class Shape : Form
 
         contextMenuStrip1.Show(this, e.Location);
     }
-
     private void sendToBackToolStripMenuItem_Click(object sender, EventArgs e)
     {
         if (ZOrder == 0)
@@ -336,6 +335,6 @@ public partial class Shape : Form
         zOrderMap.Add(ZOrder, this);
         zOrderMap.Add(other.ZOrder, other);
 
-        shapes.Where(s => s.zOrder > zOrder).ToList().ForEach(shape => shape.BringToFront());
+        shapes.Where(s => s._zOrder > _zOrder).ToList().ForEach(shape => shape.BringToFront());
     }
 }

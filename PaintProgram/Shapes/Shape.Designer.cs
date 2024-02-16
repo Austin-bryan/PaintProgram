@@ -34,7 +34,7 @@ partial class Shape
         sendBackwardsToolStripMenuItem = new ToolStripMenuItem();
         bringForwardsToolStripMenuItem = new ToolStripMenuItem();
         bringToFrontToolStripMenuItem = new ToolStripMenuItem();
-        label1 = new Label();
+        zOrderLabel = new Label();
         contextMenuStrip1.SuspendLayout();
         SuspendLayout();
         // 
@@ -80,16 +80,16 @@ partial class Shape
         bringToFrontToolStripMenuItem.Text = "Bring to Front";
         bringToFrontToolStripMenuItem.Click += bringToFrontToolStripMenuItem_Click;
         // 
-        // label1
+        // zOrderLabel
         // 
-        label1.AutoSize = true;
-        label1.BackColor = Color.Transparent;
-        label1.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point);
-        label1.Location = new Point(142, 147);
-        label1.Name = "label1";
-        label1.Size = new Size(130, 54);
-        label1.TabIndex = 1;
-        label1.Text = "label1";
+        zOrderLabel.BackColor = Color.Transparent;
+        zOrderLabel.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point);
+        zOrderLabel.Location = new Point(142, 147);
+        zOrderLabel.Name = "zOrderLabel";
+        zOrderLabel.Size = new Size(130, 54);
+        zOrderLabel.TabIndex = 1;
+        zOrderLabel.Text = "zOrder";
+        zOrderLabel.Visible = false;
         // 
         // Shape
         // 
@@ -97,12 +97,11 @@ partial class Shape
         AutoScaleMode = AutoScaleMode.Font;
         BackColor = Color.Cyan;
         ClientSize = new Size(284, 261);
-        Controls.Add(label1);
+        Controls.Add(zOrderLabel);
         Name = "Shape";
         MouseClick += Shape_MouseClick;
         contextMenuStrip1.ResumeLayout(false);
         ResumeLayout(false);
-        PerformLayout();
     }
 
     #endregion
@@ -112,5 +111,5 @@ partial class Shape
     private ToolStripMenuItem sendBackwardsToolStripMenuItem;
     private ToolStripMenuItem bringForwardsToolStripMenuItem;
     private ToolStripMenuItem bringToFrontToolStripMenuItem;
-    private Label label1;
+    private Label zOrderLabel;
 }

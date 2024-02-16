@@ -1,5 +1,4 @@
 using PaintProgram.Shapes;
-using System.ComponentModel;
 
 namespace PaintProgram;
 
@@ -15,6 +14,7 @@ public partial class Form1 : Form
         titleBar.Show();
         titleBar.Owner = this;
 
+        CreateShape<RectangleShape>();
         CreateShape<TriangleShape>();
         CreateShape<RightTriangleShape>();
         CreateShape<CrossShape>();
