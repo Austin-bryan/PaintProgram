@@ -10,6 +10,18 @@ public enum State { Idle, Resizing, ChangingAlpha, Moving}
 public partial class Shape : Form
 {
     public bool IsFocused => this == ActiveForm;
+
+    int zOrder;
+    public int ZOrder
+    {
+        get => zOrder;
+        set
+        {
+            zOrder = value;
+            label1.Text = value.ToString();
+        }
+    }
+
     protected const int Gap = 10;
     protected bool shouldShowHandles = false;
     protected Point resizeStart, moveStart;
@@ -20,6 +32,7 @@ public partial class Shape : Form
     private Rectangle[] resizeHandles;
     private Handle activeHandle;
     private static readonly List<Shape> shapes = new();
+    private static readonly Dictionary<int, Shape> zOrderMap = new();
 
     static int foo;
     public bool hasFocus;
@@ -36,12 +49,14 @@ public partial class Shape : Form
 
         OnResize(default);
 
-        BackColor = Color.LimeGreen;
+        BackColor       = Color.LimeGreen;
         TransparencyKey = BackColor;
-        ShowInTaskbar = false;
+        ShowInTaskbar   = false;
         FormBorderStyle = FormBorderStyle.None;
 
         shapes.Add(this);
+        ZOrder = shapes.Count - 1;
+        zOrderMap.Add(ZOrder, this);
     }
 
     public void HideHandles()
@@ -137,9 +152,9 @@ public partial class Shape : Form
             if (!resizeHandles[i].Contains(e.Location))
                 continue;
 
-            State = State.Resizing;
-            resizeStart = e.Location;
-            Cursor = GetCursorForHandle(i);
+            State        = State.Resizing;
+            resizeStart  = e.Location;
+            Cursor       = GetCursorForHandle(i);
             activeHandle = (Handle)i;
 
             return;
@@ -206,14 +221,14 @@ public partial class Shape : Form
         const int gap = 5;
 
         // Update positions of resize handles
-        resizeHandles[(int)TopLeft].Location = new Point(gap, gap);
-        resizeHandles[(int)TopMiddle].Location = new Point((Width - HandleSize) / 2, gap);
-        resizeHandles[(int)TopRight].Location = new Point(Width - HandleSize - gap, gap);
-        resizeHandles[(int)CenterRight].Location = new Point(Width - HandleSize - gap, (Height - HandleSize) / 2);
-        resizeHandles[(int)BottomRight].Location = new Point(Width - HandleSize - gap, Height - HandleSize - gap);
+        resizeHandles[(int)TopLeft]     .Location = new Point(gap, gap);
+        resizeHandles[(int)TopMiddle]   .Location = new Point((Width - HandleSize) / 2, gap);
+        resizeHandles[(int)TopRight]    .Location = new Point( Width - HandleSize - gap, gap);
+        resizeHandles[(int)CenterRight] .Location = new Point( Width - HandleSize - gap, (Height - HandleSize) / 2);
+        resizeHandles[(int)BottomRight] .Location = new Point( Width - HandleSize - gap, Height - HandleSize - gap);
         resizeHandles[(int)BottomMiddle].Location = new Point((Width - HandleSize) / 2, Height - HandleSize - gap);
-        resizeHandles[(int)BottomLeft].Location = new Point(gap, Height - HandleSize - gap);
-        resizeHandles[(int)CenterLeft].Location = new Point(gap, (Height - HandleSize) / 2);
+        resizeHandles[(int)BottomLeft]  .Location = new Point(gap,  Height - HandleSize - gap);
+        resizeHandles[(int)CenterLeft]  .Location = new Point(gap, (Height - HandleSize) / 2);
 
         Invalidate();
     }
@@ -269,17 +284,58 @@ public partial class Shape : Form
 
     private void sendToBackToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        foreach(var shape in shapes)
-        {
-            if (shape == this)
-                continue;
-            shape.BringToFront();
-        }
-    }
+        if (ZOrder == 0)
+            return;
+        zOrderMap.Clear();
 
+        shapes.OrderBy(s => s.ZOrder).ToList().ForEach(s =>
+        {
+            if (s != this)
+            {
+                s.ZOrder++;
+                s.BringToFront();
+            }
+        });
+        foreach (var shape in shapes)
+        ZOrder = 0;
+    }
     private void bringToFrontToolStripMenuItem_Click(object sender, EventArgs e)
     {
         BringToFront();
         ((Form1)Owner).BringTitleBarToFront();
+
+        var above = shapes.Where(s =>  s.ZOrder > ZOrder).ToList();
+        above.ForEach(s => zOrderMap.Remove(s.ZOrder));
+
+        zOrderMap.Remove(ZOrder);
+        ZOrder = shapes.Count - 1;
+        above.ForEach(s => s.ZOrder--);
+    }
+    private void sendBackwardsToolStripMenuItem_Click(object sender, EventArgs e) => SendBackwards();
+    private void bringForwardsToolStripMenuItem_Click(object sender, EventArgs e) => BringForwards();
+
+    private void BringForwards() => zOrderMap[ZOrder + 1].SendBackwards();
+    private void SendBackwards()
+    {
+        if (ZOrder == 0)
+            return;
+
+        string str = "";
+
+        zOrderMap.Keys.ToList().ForEach(Keys => str += ", " + Keys.ToString());
+
+        Shape other = zOrderMap[ZOrder - 1];
+
+        zOrderMap.Remove(ZOrder);
+        zOrderMap.Remove(ZOrder - 1);
+
+        other.BringToFront();
+        other.ZOrder++;
+        ZOrder--;
+
+        zOrderMap.Add(ZOrder, this);
+        zOrderMap.Add(other.ZOrder, other);
+
+        shapes.Where(s => s.zOrder > zOrder).ToList().ForEach(shape => shape.BringToFront());
     }
 }

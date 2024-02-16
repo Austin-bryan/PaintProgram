@@ -34,6 +34,7 @@ partial class Shape
         sendBackwardsToolStripMenuItem = new ToolStripMenuItem();
         bringForwardsToolStripMenuItem = new ToolStripMenuItem();
         bringToFrontToolStripMenuItem = new ToolStripMenuItem();
+        label1 = new Label();
         contextMenuStrip1.SuspendLayout();
         SuspendLayout();
         // 
@@ -59,6 +60,7 @@ partial class Shape
         sendBackwardsToolStripMenuItem.Name = "sendBackwardsToolStripMenuItem";
         sendBackwardsToolStripMenuItem.Size = new Size(159, 22);
         sendBackwardsToolStripMenuItem.Text = "Send Backwards";
+        sendBackwardsToolStripMenuItem.Click += sendBackwardsToolStripMenuItem_Click;
         // 
         // bringForwardsToolStripMenuItem
         // 
@@ -67,6 +69,7 @@ partial class Shape
         bringForwardsToolStripMenuItem.Name = "bringForwardsToolStripMenuItem";
         bringForwardsToolStripMenuItem.Size = new Size(159, 22);
         bringForwardsToolStripMenuItem.Text = "Bring Forwards";
+        bringForwardsToolStripMenuItem.Click += bringForwardsToolStripMenuItem_Click;
         // 
         // bringToFrontToolStripMenuItem
         // 
@@ -77,16 +80,29 @@ partial class Shape
         bringToFrontToolStripMenuItem.Text = "Bring to Front";
         bringToFrontToolStripMenuItem.Click += bringToFrontToolStripMenuItem_Click;
         // 
+        // label1
+        // 
+        label1.AutoSize = true;
+        label1.BackColor = Color.Transparent;
+        label1.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point);
+        label1.Location = new Point(142, 147);
+        label1.Name = "label1";
+        label1.Size = new Size(130, 54);
+        label1.TabIndex = 1;
+        label1.Text = "label1";
+        // 
         // Shape
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         BackColor = Color.Cyan;
         ClientSize = new Size(284, 261);
+        Controls.Add(label1);
         Name = "Shape";
         MouseClick += Shape_MouseClick;
         contextMenuStrip1.ResumeLayout(false);
         ResumeLayout(false);
+        PerformLayout();
     }
 
     #endregion
@@ -96,4 +112,5 @@ partial class Shape
     private ToolStripMenuItem sendBackwardsToolStripMenuItem;
     private ToolStripMenuItem bringForwardsToolStripMenuItem;
     private ToolStripMenuItem bringToFrontToolStripMenuItem;
+    private Label label1;
 }
