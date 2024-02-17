@@ -22,7 +22,7 @@ public partial class Form1 : Form
         CreateShape<Star5Points>();
         CreateShape<Star6Points>();
         CreateShape<TrapazoidShape>();
-        Cursor.Hide();
+        //Cursor.Hide();
 
         InitializeCustomTitleBar();
         resizerF();
@@ -61,7 +61,7 @@ public partial class Form1 : Form
 
     public void resizerF()
     {
-        g = panel1.CreateGraphics();
+        g = paintPanel.CreateGraphics();
         g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
         brush = new SolidBrush(absoluteColor);
         pen = new Pen(absoluteColor, 3);
@@ -111,7 +111,7 @@ public partial class Form1 : Form
                 break;
             case EPaintTool.Eraser:
 
-                brush = new SolidBrush(panel1.BackColor);
+                brush = new SolidBrush(paintPanel.BackColor);
                 g.FillEllipse(brush, x, y, AbsoluteRadius, AbsoluteRadius);
                 break;
             default:
@@ -122,26 +122,6 @@ public partial class Form1 : Form
         return 0;
     }
 
-    private void panel1_MouseMove(object sender, MouseEventArgs e)
-    {
-        if (mouseIsDown && x != -1 && y != -1)
-        {
-            PaintScreen(e.X, e.Y);
-            (x, y) = (e.X, e.Y);
-        }
-    }
-
-    private void panel1_MouseDown(object sender, MouseEventArgs e)
-    {
-        (x, y) = (e.X, e.Y);
-        PaintScreen(e.X, e.Y);
-        mouseIsDown = true;
-    }
-
-    private void panel1_MouseUp(object sender, MouseEventArgs e)
-    {
-        mouseIsDown = false;
-    }
 
     //this lets the expanded canvas be useable.
     private void panel1_Resize(object sender, EventArgs e)
@@ -153,7 +133,29 @@ public partial class Form1 : Form
     //erases the canvas
     private void eraser()
     {
-        panel1.Invalidate();
+        paintPanel.Invalidate();
+    }
+
+    private void paintPanel_MouseDown(object sender, MouseEventArgs e)
+    {
+        (x, y) = (e.X, e.Y);
+        PaintScreen(e.X, e.Y);
+        mouseIsDown = true;
+    }
+
+    private void paintPanel_MouseMove(object sender, MouseEventArgs e)
+    {
+        if (mouseIsDown && x != -1 && y != -1)
+        {
+            PaintScreen(e.X, e.Y);
+            (x, y) = (e.X, e.Y);
+        }
+    }
+
+    private void paintPanel_MouseUp(object sender, MouseEventArgs e)
+    {
+        mouseIsDown = false;
+
     }
 }
 

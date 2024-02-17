@@ -29,19 +29,19 @@ partial class Form1
     /// </summary>
     private void InitializeComponent()
     {
-        panel1 = new Panel();
+        paintPanel = new Panel();
         SuspendLayout();
         // 
-        // panel1
+        // paintPanel
         // 
-        panel1.BackColor = Color.FromArgb(255, 128, 128);
-        panel1.Location = new Point(3, 12);
-        panel1.Name = "panel1";
-        panel1.Size = new Size(1374, 584);
-        panel1.TabIndex = 0;
-        panel1.MouseDown += panel1_MouseDown;
-        panel1.MouseMove += panel1_MouseMove;
-        panel1.MouseUp += panel1_MouseUp;
+        paintPanel.BackColor = Color.White;
+        paintPanel.Location = new Point(3, 12);
+        paintPanel.Name = "paintPanel";
+        paintPanel.Size = new Size(1374, 584);
+        paintPanel.TabIndex = 0;
+        paintPanel.MouseDown += paintPanel_MouseDown;
+        paintPanel.MouseMove += paintPanel_MouseMove;
+        paintPanel.MouseUp += paintPanel_MouseUp;
         // 
         // Form1
         // 
@@ -49,7 +49,7 @@ partial class Form1
         AutoScaleMode = AutoScaleMode.Font;
         BackColor = Color.FromArgb(50, 50, 50);
         ClientSize = new Size(1867, 1132);
-        Controls.Add(panel1);
+        Controls.Add(paintPanel);
         Margin = new Padding(5, 6, 5, 6);
         Name = "Form1";
         Text = "Form1";
@@ -64,5 +64,5 @@ partial class Form1
     private EllipseShape ellipseShape1;
     private CrossShape crossShape1;
     private Label label1;
-    private Panel panel1;
+    private Panel paintPanel;
 }
