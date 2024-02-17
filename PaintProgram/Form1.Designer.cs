@@ -29,14 +29,25 @@ partial class Form1
     /// </summary>
     private void InitializeComponent()
     {
+        toolBar1 = new ToolBar();
         SuspendLayout();
+        // 
+        // toolBar1
+        // 
+        toolBar1.BackColor = Color.FromArgb(64, 64, 64);
+        toolBar1.Location = new Point(0, 50);
+        toolBar1.Name = "toolBar1";
+        toolBar1.Size = new Size(129, 897);
+        toolBar1.TabIndex = 0;
         // 
         // Form1
         // 
-        AutoScaleDimensions = new SizeF(7F, 15F);
+        AutoScaleDimensions = new SizeF(10F, 25F);
         AutoScaleMode = AutoScaleMode.Font;
         BackColor = Color.FromArgb(50, 50, 50);
-        ClientSize = new Size(1089, 566);
+        ClientSize = new Size(1556, 943);
+        Controls.Add(toolBar1);
+        Margin = new Padding(4, 5, 4, 5);
         Name = "Form1";
         Text = "Form1";
         Click += Form1_Click;
@@ -50,4 +61,5 @@ partial class Form1
     private EllipseShape ellipseShape1;
     private CrossShape crossShape1;
     private Label label1;
+    private ToolBar toolBar1;
 }

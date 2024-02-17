@@ -25,7 +25,7 @@ public partial class Form1 : Form
 
         InitializeCustomTitleBar();
     }
-    
+
     private void CreateShape<T>() where T : Shape, new()
     {
         var shape = new T { Owner = this };
@@ -42,4 +42,13 @@ public partial class Form1 : Form
         ControlBox = false;
     }
     private void Form1_Click(object sender, EventArgs e) => shapes.ForEach(s => s.HideHandles());
+
+    private void shapeButton4_Load(object sender, EventArgs e)
+    {
+
+    }
+
+    private void toolBar1_Load(object sender, EventArgs e)
+    {
+    }
 }
