@@ -6,6 +6,7 @@ public partial class Form1 : Form
 {
     private readonly List<Shape> shapes = new();
     private readonly TitleBar titleBar = new();
+    private readonly ToolBarForm toolBarForm = new();
     public Form1()
     {
         InitializeComponent();
@@ -13,6 +14,10 @@ public partial class Form1 : Form
 
         titleBar.Show();
         titleBar.Owner = this;
+
+        
+
+
 
         CreateShape<RectangleShape>();
         CreateShape<TriangleShape>();
@@ -22,6 +27,10 @@ public partial class Form1 : Form
         CreateShape<Star5Points>();
         CreateShape<Star6Points>();
         CreateShape<TrapazoidShape>();
+        toolBarForm.Show();
+        toolBarForm.Owner = this;
+
+        toolBarForm.Location = new Point(0, 60);
 
         InitializeCustomTitleBar();
     }
@@ -34,7 +43,12 @@ public partial class Form1 : Form
         BringTitleBarToFront();
     }
 
-    public void BringTitleBarToFront() => titleBar.BringToFront();
+    public void BringTitleBarToFront()
+    {
+        titleBar.BringToFront();
+        toolBarForm.BringToFront();
+
+    }
 
     private void InitializeCustomTitleBar()
     {

@@ -43,15 +43,9 @@ public partial class Shape : Form
         DoubleBuffered = true; // Enable double buffering to reduce flickering during resizing
 
         InitializeComponent();
-
         Width = Height = 350;
-
         OnResize(default);
-
-        BackColor       = Color.LimeGreen;
-        TransparencyKey = BackColor;
-        ShowInTaskbar   = false;
-        FormBorderStyle = FormBorderStyle.None;
+        FormHider.Hide(this);
 
         shapes.Add(this);
         ZOrder = shapes.Count - 1;

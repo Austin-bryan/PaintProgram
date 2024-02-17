@@ -7,12 +7,9 @@ public partial class TitleBar : Form
     public TitleBar()
     {
         InitializeComponent();
+        FormHider.Hide(this);
 
-        BackColor       = Color.LimeGreen;
-        TransparencyKey = BackColor;
-        ControlBox      = false;
-        ShowInTaskbar   = false;
-        Width           = 2000;
+        Width = 2000;
 
         titleBarImage.Width     = ClientSize.Width;
         titleBarImage.Location  = new Point(0, 0);
