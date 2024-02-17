@@ -43,7 +43,6 @@ public partial class Shape : Form
         DoubleBuffered = true; // Enable double buffering to reduce flickering during resizing
 
         InitializeComponent();
-        InitializeHandles();
 
         Width = Height = 350;
 
@@ -201,6 +200,9 @@ public partial class Shape : Form
     protected override void OnResize(EventArgs e)
     {
         base.OnResize(e);
+
+        if (resizeHandles == null)
+            InitializeHandles();
 
         const int gap = 5;
 
