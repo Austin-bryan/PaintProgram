@@ -15,26 +15,28 @@ public partial class Form1 : Form
         titleBar.Show();
         titleBar.Owner = this;
 
-        
+        //CreateShape<RectangleShape>();
+        //CreateShape<TriangleShape>();
+        //CreateShape<RightTriangleShape>();
+        //CreateShape<CrossShape>();
+        //CreateShape<Star4Points>();
+        //CreateShape<Star5Points>();
+        //CreateShape<Star6Points>();
+        //CreateShape<TrapazoidShape>();
 
-
-
-        CreateShape<RectangleShape>();
-        CreateShape<TriangleShape>();
-        CreateShape<RightTriangleShape>();
-        CreateShape<CrossShape>();
-        CreateShape<Star4Points>();
-        CreateShape<Star5Points>();
-        CreateShape<Star6Points>();
-        CreateShape<TrapazoidShape>();
         toolBarForm.Show();
         toolBarForm.Owner = this;
-
         toolBarForm.Location = new Point(0, 60);
+        toolBarForm.InitOwner();
 
         InitializeCustomTitleBar();
     }
 
+
+    public void AddShape(Shape shape)
+    {
+        shapes.Add(shape);
+    }
     private void CreateShape<T>() where T : Shape, new()
     {
         var shape = new T { Owner = this };

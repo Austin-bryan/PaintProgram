@@ -35,6 +35,10 @@ public partial class Shape : Form
     private Handle activeHandle;
     private static readonly List<Shape> shapes = new();
     private static readonly Dictionary<int, Shape> zOrderMap = new();
+    private const int shade = 90;
+    protected Color ShapeColor => Color.FromArgb(255, shade, shade, shade + 60);
+    protected Color BorderColor => Color.Black;
+    protected const int BorderLength = 4;
 
     // ---- Methods ---- //
     // - Public - //
@@ -63,10 +67,8 @@ public partial class Shape : Form
     protected virtual Point[] GetPoints() => Array.Empty<Point>();
     protected virtual void DrawShape(PaintEventArgs e)
     {
-        const int shade = 90;
-        e.Graphics.FillPolygon(new SolidBrush(Color.FromArgb(255, shade, shade, shade + 60)), points);
-        //e.Graphics.FillPolygon(new SolidBrush(Color.FromArgb(255, 206, 226, 242)), points);
-        e.Graphics.DrawPolygon(new Pen(Color.Black, 4), points);
+        e.Graphics.FillPolygon(new SolidBrush(ShapeColor), points);
+        e.Graphics.DrawPolygon(new Pen(BorderColor, BorderLength), points); ;
     }
     protected virtual void AdjustAlpha(MouseEventArgs e) { }
     protected virtual void UpdateCursor(MouseEventArgs e)
