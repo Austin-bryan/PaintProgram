@@ -40,6 +40,9 @@ partial class Form1
         paintPanel.Size = new Size(1374, 584);
         paintPanel.TabIndex = 0;
         paintPanel.MouseDown += paintPanel_MouseDown;
+        paintPanel.MouseEnter += paintPanel_MouseEnter;
+        paintPanel.MouseLeave += paintPanel_MouseLeave;
+        paintPanel.MouseHover += paintPanel_MouseHover;
         paintPanel.MouseMove += paintPanel_MouseMove;
         paintPanel.MouseUp += paintPanel_MouseUp;
         // 

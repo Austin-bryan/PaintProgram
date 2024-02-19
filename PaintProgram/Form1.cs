@@ -1,4 +1,5 @@
 using PaintProgram.Shapes;
+using System.Drawing.Design;
 
 namespace PaintProgram;
 
@@ -22,7 +23,6 @@ public partial class Form1 : Form
         CreateShape<Star5Points>();
         CreateShape<Star6Points>();
         CreateShape<TrapazoidShape>();
-        //Cursor.Hide();
 
         InitializeCustomTitleBar();
         resizerF();
@@ -61,6 +61,7 @@ public partial class Form1 : Form
 
     public void resizerF()
     {
+        //Cursors(Cursors.)
         g = paintPanel.CreateGraphics();
         g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
         brush = new SolidBrush(absoluteColor);
@@ -89,6 +90,8 @@ public partial class Form1 : Form
 
         return sX < sY ? 10 : 2;
     }
+
+
 
     //the function which draws onto the panel
     private int PaintScreen(int x, int y)
@@ -145,6 +148,7 @@ public partial class Form1 : Form
 
     private void paintPanel_MouseMove(object sender, MouseEventArgs e)
     {
+        Cursor.Current = Cursors.WaitCursor;
         if (mouseIsDown && x != -1 && y != -1)
         {
             PaintScreen(e.X, e.Y);
@@ -152,10 +156,15 @@ public partial class Form1 : Form
         }
     }
 
-    private void paintPanel_MouseUp(object sender, MouseEventArgs e)
-    {
-        mouseIsDown = false;
+    private void paintPanel_MouseUp(object sender, MouseEventArgs e) => mouseIsDown = false;
 
+    private void paintPanel_MouseEnter(object sender, EventArgs e) => Cursor.Show();
+
+    private void paintPanel_MouseLeave(object sender, EventArgs e) => Cursor.Show();
+
+    private void paintPanel_MouseHover(object sender, EventArgs e)
+    {
+        //Cursor.Current = Cursors.Default;
     }
 }
 
