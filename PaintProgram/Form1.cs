@@ -7,22 +7,16 @@ public partial class Form1 : Form
     private readonly List<Shape> shapes     = new();
     private readonly TitleBar    titleBar   = new();
     private readonly ColorWheel  colorWheel = new();
-    private readonly Stupid stupid = new();
+    private readonly Stupid      stupid = new();
 
     public Form1()
     {
         InitializeComponent();
         WindowState = FormWindowState.Maximized;
 
-        titleBar.Show();
-        titleBar.Owner = this;
-
-        stupid.Show();
-        stupid.Owner = this;
-
-        //CreateShape<RectangleShape>();
-        //CreateShape<TriangleShape>();
-        //CreateShape<RightTriangleShape>();
+        CreateShape<RectangleShape>();
+        CreateShape<TriangleShape>();
+        CreateShape<RightTriangleShape>();
         //CreateShape<CrossShape>();
         //CreateShape<Star4Points>();
         //CreateShape<Star5Points>();
@@ -30,8 +24,21 @@ public partial class Form1 : Form
         //CreateShape<TrapazoidShape>();
 
         InitializeCustomTitleBar();
+        titleBar.Show();
+        titleBar.Owner  = this;
+        stupid.Owner    = this;
+        stupid.Location = titleBar.ExitButtonLocation.Subtract(new Point(stupid.Width, 0));
+        stupid.Location = new (0, 0);
     }
     
+    public void ShowShapeEditor(Shape shape)
+    {
+        stupid.Show();
+        stupid.Location = new(0, 0); 
+        stupid.Location = titleBar.ExitButtonLocation.Subtract(new Point(stupid.Width, -50));
+
+        stupid.ActiveShape = shape;
+    }
     private void CreateShape<T>() where T : Shape, new()
     {
         var shape = new T { Owner = this };
@@ -42,14 +49,14 @@ public partial class Form1 : Form
 
     public void BringTitleBarToFront()
     {
-        colorWheel.BringToFront();
+        stupid.BringToFront();
         titleBar.BringToFront();
     }
 
-    private void InitializeCustomTitleBar()
+    private void InitializeCustomTitleBar() => (FormBorderStyle, ControlBox) = (FormBorderStyle.None, false);
+    private void Form1_Click(object sender, EventArgs e)
     {
-        FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-        ControlBox = false;
+        shapes.ForEach(s => s.HideHandles());
+        stupid.Hide();
     }
-    private void Form1_Click(object sender, EventArgs e) => shapes.ForEach(s => s.HideHandles());
 }

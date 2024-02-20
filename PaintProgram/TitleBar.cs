@@ -4,6 +4,8 @@ namespace PaintProgram;
 
 public partial class TitleBar : Form
 {
+    public Point ExitButtonLocation => exitButton.Location;
+
     public TitleBar()
     {
         InitializeComponent();

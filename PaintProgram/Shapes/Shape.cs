@@ -21,15 +21,26 @@ public partial class Shape : Form
             zOrderLabel.Text = value.ToString();
         }
     }
-    
+
+
     // - Protected - //
     protected const int Gap = 10;
     protected bool shouldShowHandles = false;
     protected Point resizeStart, moveStart;
     protected Point[] points;
     protected State State;
+    public Color ShapeColor
+    {
+        get => color;
+        set
+        {
+            color = value;
+            Refresh();
+        }
+    }
 
     // - Private - //
+    private Color color = Color.FromArgb(255, 90, 90, 150);
     private const int HandleSize = 8;
     private Rectangle[] resizeHandles;
     private Handle activeHandle;
@@ -70,9 +81,7 @@ public partial class Shape : Form
     protected virtual Point[] GetPoints() => Array.Empty<Point>();
     protected virtual void DrawShape(PaintEventArgs e)
     {
-        const int shade = 90;
-        e.Graphics.FillPolygon(new SolidBrush(Color.FromArgb(255, shade, shade, shade + 60)), points);
-        //e.Graphics.FillPolygon(new SolidBrush(Color.FromArgb(255, 206, 226, 242)), points);
+        e.Graphics.FillPolygon(new SolidBrush(ShapeColor), points);
         e.Graphics.DrawPolygon(new Pen(Color.Black, 4), points);
     }
     protected virtual void AdjustAlpha(MouseEventArgs e) { }
@@ -143,12 +152,15 @@ public partial class Shape : Form
 
             return;
         }
+        
         shapes.ForEach(s => s.HideHandles());
         State = State.Moving;
         shouldShowHandles = true;
         Refresh();
 
         moveStart = e.Location;
+
+        ((Form1)Owner).ShowShapeEditor(this);
         ((Form1)Owner).BringTitleBarToFront();
     }
     protected override void OnMouseMove(MouseEventArgs e)
