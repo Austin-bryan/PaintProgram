@@ -31,9 +31,9 @@ public partial class Stupid : Form
     {
         InitializeComponent();
 
-        BackColor = Color.LimeGreen;
+        BackColor       = Color.LimeGreen;
         TransparencyKey = BackColor;
-        ShowInTaskbar = false;
+        ShowInTaskbar   = false;
         FormBorderStyle = FormBorderStyle.None;
 
         valueSliderPictureBox.Image = GenerateValueSlider();
@@ -46,6 +46,7 @@ public partial class Stupid : Form
 
         colorWheelPictureBox.Refresh();
         valueSliderPictureBox.Refresh();
+        colorWheelPictureBox.BackColor = colorWheelBackground.BackColor;
 
         // Generate the bitmaps for the color wheel for every possible value.
         // This dramatically improves preformance of the color wheel slider

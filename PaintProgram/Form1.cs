@@ -35,7 +35,7 @@ public partial class Form1 : Form
     {
         stupid.Show();
         stupid.Location = new(0, 0); 
-        stupid.Location = titleBar.ExitButtonLocation.Subtract(new Point(stupid.Width, -50));
+        stupid.Location = titleBar.ExitButtonLocation.Subtract(new Point(stupid.Width - 20, -50));
 
         stupid.ActiveShape = shape;
     }
