@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using PaintProgram.Shapes;
+﻿using PaintProgram.Shapes;
 
 namespace PaintProgram;
 
@@ -8,21 +7,24 @@ public partial class Stupid : Form
     public Shape ActiveShape { get; set; }
 
     private Point wheelCursorPoint, valueCursorPoint;
-    private bool  sliderMouseDown;
-    private bool  wheelMouseDown;
+    private bool sliderMouseDown;
+    private bool wheelMouseDown;
     private float sliderValue = 1.0f;
     private const int cursorDiameter = 12;
     private readonly int sliderMin, sliderMax;
     private readonly Dictionary<float, Bitmap> cachedBitmaps = new();
-    private int diameter = 200;
-    private int radius => diameter / 2;
+    private readonly int diameter = 200;
+    private int Radius => diameter / 2;
+    private bool linkedEnabled = false;
+    private readonly Color unlinkedColor = Color.FromArgb(255, 110, 110, 110);
+
 
     private static bool CursorVisible
     {
         set
         {
             if (value)
-                 Cursor.Show();
+                Cursor.Show();
             else Cursor.Hide();
         }
     }
@@ -31,9 +33,9 @@ public partial class Stupid : Form
     {
         InitializeComponent();
 
-        BackColor       = Color.LimeGreen;
+        BackColor = Color.LimeGreen;
         TransparencyKey = BackColor;
-        ShowInTaskbar   = false;
+        ShowInTaskbar = false;
         FormBorderStyle = FormBorderStyle.None;
 
         valueSliderPictureBox.Image = GenerateValueSlider();
@@ -55,6 +57,10 @@ public partial class Stupid : Form
             sliderValue = (float)i / 255;
             colorWheelPictureBox.Image = GenerateColorWheel();
         }
+
+        Bitmap bitmap = new(linkButton.Image, 15, 30);
+        linkButton.Image = bitmap;
+        linkButton.BackColor = unlinkedColor;
     }
 
     private Bitmap GenerateValueSlider()
@@ -139,20 +145,28 @@ public partial class Stupid : Form
         e.Graphics.DrawEllipse(new Pen(Brushes.Black, 1.6f), x: point.X + offset / 2, point.Y + offset / 2, cursorDiameter - offset, cursorDiameter - offset);
     }
 
-    private void colorWheelPictureBox_MouseEnter(object sender, EventArgs e)    => Cursor = Cursors.Cross;
-    private void colorWheelPictureBox_MouseLeave(object sender, EventArgs e)    => Cursor = Cursors.Default;
-    private void valueSliderPictureBox_MouseEnter(object sender, EventArgs e)   => Cursor = Cursors.Cross;
-    private void valueSliderPictureBox_MouseLeave(object sender, EventArgs e)   => Cursor = Cursors.Default;
+    private void colorWheelPictureBox_MouseEnter(object sender, EventArgs e) => Cursor = Cursors.Cross;
+    private void colorWheelPictureBox_MouseLeave(object sender, EventArgs e) => Cursor = Cursors.Default;
+    private void valueSliderPictureBox_MouseEnter(object sender, EventArgs e) => Cursor = Cursors.Cross;
+    private void valueSliderPictureBox_MouseLeave(object sender, EventArgs e) => Cursor = Cursors.Default;
     private void valueSliderPictureBox_MouseUp(object sender, MouseEventArgs e) => (sliderMouseDown, CursorVisible) = (false, true);
+
+    private static float ClampToNearestMultiple(float value)
+    {
+        float scaledValue = value * 255;                            // Scale up to range [0, 255]
+        float roundedValue = (float)Math.Round((double)scaledValue); // Round to nearest integer
+        float clampedValue = roundedValue / 255;                     // Scale back down to range [0, 1]
+
+        return clampedValue;
+    }
     private void valueSliderPictureBox_MouseDown(object sender, MouseEventArgs e)
     {
         UpdateSliderCursor(e);
         CursorVisible = false;
     }
-
     private void UpdateSliderCursor(MouseEventArgs e)
     {
-        sliderMouseDown  = true;
+        sliderMouseDown = true;
         valueCursorPoint = new Point(valueCursorPoint.X, Math.Clamp(e.Y, sliderMin, sliderMax));
 
         sliderValue = (1 - valueCursorPoint.Y / (float)(sliderMax));
@@ -161,23 +175,12 @@ public partial class Stupid : Form
         colorWheelPictureBox.Image = GenerateColorWheel();
         SelectColor();
     }
-
-    private static float ClampToNearestMultiple(float value)
-    {
-        float scaledValue  = value * 255;                            // Scale up to range [0, 255]
-        float roundedValue = (float)Math.Round((double)scaledValue); // Round to nearest integer
-        float clampedValue = roundedValue / 255;                     // Scale back down to range [0, 1]
-
-        return clampedValue;
-    }
-
     private void valueSliderPictureBox_MouseMove(object sender, MouseEventArgs e)
     {
         if (!sliderMouseDown)
             return;
         UpdateSliderCursor(e);
     }
-
     private void colorWheelPictureBox_MouseDown(object sender, MouseEventArgs e)
     {
         (wheelMouseDown, CursorVisible) = (true, false);
@@ -187,7 +190,7 @@ public partial class Stupid : Form
 
     private void UpdateWheelCursor(MouseEventArgs e)
     {
-        wheelCursorPoint = new Point (e.Location.X - cursorDiameter / 2, e.Location.Y - cursorDiameter / 2);
+        wheelCursorPoint = new Point(e.Location.X - cursorDiameter / 2, e.Location.Y - cursorDiameter / 2);
 
         int radius = 200 / 2;
         var (centerX, centerY, cursorX, cursorY) = (radius, radius, wheelCursorPoint.X, wheelCursorPoint.Y);
@@ -210,7 +213,7 @@ public partial class Stupid : Form
     {
         const int cursorOffset = 17;
         var colorWheelBitmap = cachedBitmaps[sliderValue];
-        Point adjustedPoint  = new (wheelCursorPoint.X + Location.X + cursorOffset, wheelCursorPoint.Y + Location.Y + cursorOffset);
+        Point adjustedPoint = new(wheelCursorPoint.X + Location.X + cursorOffset, wheelCursorPoint.Y + Location.Y + cursorOffset);
         Point cursorPosition = colorWheelPictureBox.PointToClient(adjustedPoint);
 
         if (cursorPosition.X >= 0 && cursorPosition.X < colorWheelPictureBox.Width &&
@@ -221,12 +224,11 @@ public partial class Stupid : Form
             if (currentColor == Color.FromArgb(0, 0, 0, 0))
                 return;
             colorPreviewPictureBox.BackColor = currentColor;
-     
+
             ActiveShape.ShapeColor = currentColor;
         }
     }
 
-    private void colorWheelPictureBox_MouseUp(object sender, MouseEventArgs e) => (wheelMouseDown, CursorVisible) = (false, true);
     private void colorWheelPictureBox_MouseMove(object sender, MouseEventArgs e)
     {
         if (!wheelMouseDown)
@@ -235,12 +237,23 @@ public partial class Stupid : Form
         SelectColor();
         UpdateWheelCursor(e);
     }
-
     private void colorPreviewPictureBox_Paint(object sender, PaintEventArgs e)
     {
         var (width, height) = (colorPreviewPictureBox.Width, colorPreviewPictureBox.Height);
-        
+
         e.Graphics.DrawRectangle(new Pen(Brushes.White, 8), 0, 0, width, height);
         e.Graphics.DrawRectangle(new Pen(Brushes.Black, 4), 0, 0, width, height);
+    }
+    private void colorWheelPictureBox_MouseUp(object sender, MouseEventArgs e) => (wheelMouseDown, CursorVisible) = (false, true);
+
+    private void linkButton_MouseClick(object sender, MouseEventArgs e)
+    {
+        linkedEnabled = !linkedEnabled;
+        linkButton.BackColor = linkedEnabled ? Color.FromArgb(255, 45, 45, 45) : unlinkedColor;
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+
     }
 }
