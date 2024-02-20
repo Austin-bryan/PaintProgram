@@ -1,20 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿namespace PaintProgram;
 
-namespace PaintProgram
+public partial class ColorWheel : Form
 {
-    public partial class ColorWheel : Form
-    {
-        public ColorWheel()
-        {
-            InitializeComponent();
-        }
-    }
+    public ColorWheel() => InitializeComponent();
 }

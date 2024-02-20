@@ -29,6 +29,7 @@ partial class Shape
     private void InitializeComponent()
     {
         components = new System.ComponentModel.Container();
+        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Shape));
         contextMenuStrip1 = new ContextMenuStrip(components);
         sendToBackToolStripMenuItem = new ToolStripMenuItem();
         sendBackwardsToolStripMenuItem = new ToolStripMenuItem();
@@ -42,14 +43,15 @@ partial class Shape
         // 
         contextMenuStrip1.Items.AddRange(new ToolStripItem[] { sendToBackToolStripMenuItem, sendBackwardsToolStripMenuItem, bringForwardsToolStripMenuItem, bringToFrontToolStripMenuItem });
         contextMenuStrip1.Name = "contextMenuStrip1";
-        contextMenuStrip1.Size = new Size(160, 92);
+        contextMenuStrip1.Size = new Size(181, 114);
         // 
         // sendToBackToolStripMenuItem
         // 
         sendToBackToolStripMenuItem.BackColor = SystemColors.Control;
         sendToBackToolStripMenuItem.ForeColor = SystemColors.ActiveCaptionText;
+        sendToBackToolStripMenuItem.Image = (Image)resources.GetObject("sendToBackToolStripMenuItem.Image");
         sendToBackToolStripMenuItem.Name = "sendToBackToolStripMenuItem";
-        sendToBackToolStripMenuItem.Size = new Size(159, 22);
+        sendToBackToolStripMenuItem.Size = new Size(180, 22);
         sendToBackToolStripMenuItem.Text = "Send to Back";
         sendToBackToolStripMenuItem.Click += sendToBackToolStripMenuItem_Click;
         // 
@@ -57,8 +59,9 @@ partial class Shape
         // 
         sendBackwardsToolStripMenuItem.BackColor = SystemColors.Control;
         sendBackwardsToolStripMenuItem.ForeColor = SystemColors.ActiveCaptionText;
+        sendBackwardsToolStripMenuItem.Image = (Image)resources.GetObject("sendBackwardsToolStripMenuItem.Image");
         sendBackwardsToolStripMenuItem.Name = "sendBackwardsToolStripMenuItem";
-        sendBackwardsToolStripMenuItem.Size = new Size(159, 22);
+        sendBackwardsToolStripMenuItem.Size = new Size(180, 22);
         sendBackwardsToolStripMenuItem.Text = "Send Backwards";
         sendBackwardsToolStripMenuItem.Click += sendBackwardsToolStripMenuItem_Click;
         // 
@@ -66,8 +69,9 @@ partial class Shape
         // 
         bringForwardsToolStripMenuItem.BackColor = SystemColors.Control;
         bringForwardsToolStripMenuItem.ForeColor = SystemColors.ActiveCaptionText;
+        bringForwardsToolStripMenuItem.Image = (Image)resources.GetObject("bringForwardsToolStripMenuItem.Image");
         bringForwardsToolStripMenuItem.Name = "bringForwardsToolStripMenuItem";
-        bringForwardsToolStripMenuItem.Size = new Size(159, 22);
+        bringForwardsToolStripMenuItem.Size = new Size(180, 22);
         bringForwardsToolStripMenuItem.Text = "Bring Forwards";
         bringForwardsToolStripMenuItem.Click += bringForwardsToolStripMenuItem_Click;
         // 
@@ -75,8 +79,9 @@ partial class Shape
         // 
         bringToFrontToolStripMenuItem.BackColor = SystemColors.Control;
         bringToFrontToolStripMenuItem.ForeColor = SystemColors.ActiveCaptionText;
+        bringToFrontToolStripMenuItem.Image = (Image)resources.GetObject("bringToFrontToolStripMenuItem.Image");
         bringToFrontToolStripMenuItem.Name = "bringToFrontToolStripMenuItem";
-        bringToFrontToolStripMenuItem.Size = new Size(159, 22);
+        bringToFrontToolStripMenuItem.Size = new Size(180, 22);
         bringToFrontToolStripMenuItem.Text = "Bring to Front";
         bringToFrontToolStripMenuItem.Click += bringToFrontToolStripMenuItem_Click;
         // 

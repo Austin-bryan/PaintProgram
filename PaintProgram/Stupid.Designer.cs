@@ -91,6 +91,7 @@
             sendBackwardsBtn.Size = new Size(30, 30);
             sendBackwardsBtn.TabIndex = 29;
             sendBackwardsBtn.UseVisualStyleBackColor = false;
+            sendBackwardsBtn.Click += sendBackwardsBtn_Click;
             // 
             // colorWheelPictureBox
             // 
@@ -262,6 +263,9 @@
             widthTextBox.Name = "widthTextBox";
             widthTextBox.Size = new Size(50, 16);
             widthTextBox.TabIndex = 17;
+            widthTextBox.KeyDown += widthTextBox_KeyDown;
+            widthTextBox.KeyPress += widthTextBox_KeyPress;
+            widthTextBox.Leave += widthTextBox_Leave;
             // 
             // linkButton
             // 
@@ -309,6 +313,9 @@
             heightTextBox.Name = "heightTextBox";
             heightTextBox.Size = new Size(50, 16);
             heightTextBox.TabIndex = 18;
+            heightTextBox.KeyDown += heightTextBox_KeyDown;
+            heightTextBox.KeyPress += heightTextBox_KeyPress;
+            heightTextBox.Leave += heightTextBox_Leave;
             // 
             // yLabel
             // 
@@ -331,6 +338,9 @@
             yTextBox.Name = "yTextBox";
             yTextBox.Size = new Size(50, 16);
             yTextBox.TabIndex = 20;
+            yTextBox.KeyDown += yTextBox_KeyDown;
+            yTextBox.KeyPress += yTextBox_KeyPress;
+            yTextBox.Leave += yTextBox_Leave;
             // 
             // xLabel
             // 
@@ -353,6 +363,9 @@
             xTextBox.Name = "xTextBox";
             xTextBox.Size = new Size(50, 16);
             xTextBox.TabIndex = 19;
+            xTextBox.KeyDown += xTextBox_KeyDown;
+            xTextBox.KeyPress += xTextBox_KeyPress;
+            xTextBox.Leave += xTextBox_Leave;
             // 
             // layeringLabel
             // 
@@ -377,6 +390,7 @@
             bringToFrontBtn.Size = new Size(30, 30);
             bringToFrontBtn.TabIndex = 27;
             bringToFrontBtn.UseVisualStyleBackColor = false;
+            bringToFrontBtn.Click += bringToFrontBtn_Click;
             // 
             // bringForwardBtn
             // 
@@ -389,6 +403,7 @@
             bringForwardBtn.Size = new Size(30, 30);
             bringForwardBtn.TabIndex = 28;
             bringForwardBtn.UseVisualStyleBackColor = false;
+            bringForwardBtn.Click += bringForwardBtn_Click;
             // 
             // sendToBackBtn
             // 
@@ -401,6 +416,7 @@
             sendToBackBtn.Size = new Size(30, 30);
             sendToBackBtn.TabIndex = 30;
             sendToBackBtn.UseVisualStyleBackColor = false;
+            sendToBackBtn.Click += sendToBackBtn_Click;
             // 
             // borederLabel
             // 
@@ -444,6 +460,9 @@
             thicknessTextBox.Name = "thicknessTextBox";
             thicknessTextBox.Size = new Size(50, 16);
             thicknessTextBox.TabIndex = 33;
+            thicknessTextBox.KeyDown += thicknessTextBox_KeyDown;
+            thicknessTextBox.KeyPress += ThicknessTextBox_KeyPress;
+            thicknessTextBox.Leave += thicknessTextBox_Leave;
             // 
             // colorLabel
             // 

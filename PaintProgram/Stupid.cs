@@ -251,4 +251,85 @@ public partial class Stupid : Form
         linkedEnabled = !linkedEnabled;
         linkButton.BackColor = linkedEnabled ? Color.FromArgb(255, 45, 45, 45) : unlinkedColor;
     }
+
+    private void bringToFrontBtn_Click(object sender, EventArgs e) => ActiveShape.MoveToFront();
+    private void bringForwardBtn_Click(object sender, EventArgs e) => ActiveShape.MoveForwards();
+    private void sendBackwardsBtn_Click(object sender, EventArgs e) => ActiveShape.MoveBackwards();
+    private void sendToBackBtn_Click(object sender, EventArgs e) => ActiveShape.MoveToBack();
+
+    private void widthTextBox_KeyPress(object sender, KeyPressEventArgs e) => NumbersOnly(e);
+    private void heightTextBox_KeyPress(object sender, KeyPressEventArgs e) => NumbersOnly(e);
+    private void xTextBox_KeyPress(object sender, KeyPressEventArgs e) => NumbersOnly(e);
+    private void yTextBox_KeyPress(object sender, KeyPressEventArgs e) => NumbersOnly(e);
+    private void ThicknessTextBox_KeyPress(object sender, KeyPressEventArgs e) => NumbersOnly(e);
+
+    private void NumbersOnly(KeyPressEventArgs e)
+    {
+        if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            e.Handled = true;
+    }
+
+    private void widthTextBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        HandleEnterKey(widthTextBox, e);
+    }
+
+    private void xTextBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        HandleEnterKey(xTextBox, e);
+
+    }
+
+    private void heightTextBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        HandleEnterKey(heightTextBox, e);
+
+    }
+
+    private void yTextBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        HandleEnterKey(yTextBox, e);
+
+    }
+
+    private void thicknessTextBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        HandleEnterKey(thicknessTextBox, e);
+
+    }
+    private int? HandleEnterKey(TextBox tb, KeyEventArgs e)
+    {
+        if (e.KeyCode != Keys.Enter)
+            return null;
+
+        int value = int.Parse(tb.Text);
+        tb.Text += " px";
+
+        return value;
+    }
+
+    private void widthTextBox_Leave(object sender, EventArgs e)
+    {
+
+    }
+
+    private void heightTextBox_Leave(object sender, EventArgs e)
+    {
+
+    }
+
+    private void xTextBox_Leave(object sender, EventArgs e)
+    {
+
+    }
+
+    private void yTextBox_Leave(object sender, EventArgs e)
+    {
+
+    }
+
+    private void thicknessTextBox_Leave(object sender, EventArgs e)
+    {
+
+    }
 }

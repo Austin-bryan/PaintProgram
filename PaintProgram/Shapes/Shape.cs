@@ -22,7 +22,6 @@ public partial class Shape : Form
         }
     }
 
-
     // - Protected - //
     protected const int Gap = 10;
     protected bool shouldShowHandles = false;
@@ -293,7 +292,12 @@ public partial class Shape : Form
 
         contextMenuStrip1.Show(this, e.Location);
     }
-    private void sendToBackToolStripMenuItem_Click(object sender, EventArgs e)
+    private void sendToBackToolStripMenuItem_Click   (object sender, EventArgs e) => SendToBack();
+    private void bringToFrontToolStripMenuItem_Click (object sender, EventArgs e) => MoveToFront();
+    private void sendBackwardsToolStripMenuItem_Click(object sender, EventArgs e) => MoveBackwards();
+    private void bringForwardsToolStripMenuItem_Click(object sender, EventArgs e) => MoveForwards();
+
+    public void MoveToBack()
     {
         if (ZOrder == 0)
             return;
@@ -308,25 +312,22 @@ public partial class Shape : Form
             }
         });
         foreach (var shape in shapes)
-        ZOrder = 0;
+            ZOrder = 0;
     }
-    private void bringToFrontToolStripMenuItem_Click(object sender, EventArgs e)
+    public void MoveToFront()
     {
         BringToFront();
         ((Form1)Owner).BringTitleBarToFront();
 
-        var above = shapes.Where(s =>  s.ZOrder > ZOrder).ToList();
+        var above = shapes.Where(s => s.ZOrder > ZOrder).ToList();
         above.ForEach(s => zOrderMap.Remove(s.ZOrder));
 
         zOrderMap.Remove(ZOrder);
         ZOrder = shapes.Count - 1;
         above.ForEach(s => s.ZOrder--);
     }
-    private void sendBackwardsToolStripMenuItem_Click(object sender, EventArgs e) => SendBackwards();
-    private void bringForwardsToolStripMenuItem_Click(object sender, EventArgs e) => BringForwards();
-
-    private void BringForwards() => zOrderMap[ZOrder + 1].SendBackwards();
-    private void SendBackwards()
+    public void MoveForwards() => zOrderMap[ZOrder + 1].MoveBackwards();
+    public void MoveBackwards()
     {
         if (ZOrder == 0)
             return;
