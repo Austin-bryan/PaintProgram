@@ -4,8 +4,11 @@ namespace PaintProgram;
 
 public partial class Form1 : Form
 {
-    private readonly List<Shape> shapes = new();
-    private readonly TitleBar titleBar = new();
+    private readonly List<Shape> shapes     = new();
+    private readonly TitleBar    titleBar   = new();
+    private readonly ColorWheel  colorWheel = new();
+    private readonly Stupid stupid = new();
+
     public Form1()
     {
         InitializeComponent();
@@ -14,14 +17,17 @@ public partial class Form1 : Form
         titleBar.Show();
         titleBar.Owner = this;
 
-        CreateShape<RectangleShape>();
-        CreateShape<TriangleShape>();
-        CreateShape<RightTriangleShape>();
-        CreateShape<CrossShape>();
-        CreateShape<Star4Points>();
-        CreateShape<Star5Points>();
-        CreateShape<Star6Points>();
-        CreateShape<TrapazoidShape>();
+        stupid.Show();
+        stupid.Owner = this;
+
+        //CreateShape<RectangleShape>();
+        //CreateShape<TriangleShape>();
+        //CreateShape<RightTriangleShape>();
+        //CreateShape<CrossShape>();
+        //CreateShape<Star4Points>();
+        //CreateShape<Star5Points>();
+        //CreateShape<Star6Points>();
+        //CreateShape<TrapazoidShape>();
 
         InitializeCustomTitleBar();
     }
@@ -34,7 +40,11 @@ public partial class Form1 : Form
         BringTitleBarToFront();
     }
 
-    public void BringTitleBarToFront() => titleBar.BringToFront();
+    public void BringTitleBarToFront()
+    {
+        colorWheel.BringToFront();
+        titleBar.BringToFront();
+    }
 
     private void InitializeCustomTitleBar()
     {

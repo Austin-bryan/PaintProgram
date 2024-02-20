@@ -1,36 +1,20 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Drawing;
-using System.Runtime.InteropServices;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
-namespace PaintProgram;
-
-public partial class ColorWheel : UserControl
+namespace PaintProgram
 {
-
-    public ColorWheel()
+    public partial class ColorWheel : Form
     {
-        InitializeComponent();
-    }
-
-    private void pictureBox3_MouseMove(object sender, MouseEventArgs e)
-    {
-
-        Point cursor = Cursor.Position;
-
-        // Create a bitmap of the screen
-        Bitmap screen = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-
-        // Create a graphics object from the bitmap
-        using (Graphics g = Graphics.FromImage(screen))
+        public ColorWheel()
         {
-            // Copy the screen to the bitmap
-            g.CopyFromScreen(0, 0, 0, 0, screen.Size);
+            InitializeComponent();
         }
-
-        // Get the color of the pixel at the cursor location
-        Color pixelColor = screen.GetPixel(cursor.X, cursor.Y);
-
-        pictureBox1.BackColor = pixelColor;
     }
 }
-
