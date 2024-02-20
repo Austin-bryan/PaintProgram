@@ -251,9 +251,4 @@ public partial class Stupid : Form
         linkedEnabled = !linkedEnabled;
         linkButton.BackColor = linkedEnabled ? Color.FromArgb(255, 45, 45, 45) : unlinkedColor;
     }
-
-    private void button1_Click(object sender, EventArgs e)
-    {
-
-    }
 }
