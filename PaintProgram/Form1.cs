@@ -1,4 +1,5 @@
 using PaintProgram.Shapes;
+using PaintProgram.Shapes.NGons;
 
 namespace PaintProgram;
 
@@ -24,10 +25,15 @@ public partial class Form1 : Form
         InitializeComponent();
         WindowState = FormWindowState.Maximized;
 
-        CreateShape<RectangleShape>();
-        CreateShape<TriangleShape>();
-        CreateShape<RightTriangleShape>();
-        CreateShape<CrossShape>();
+        CreateShape<Pentagon>();
+        CreateShape<Hexagon>();
+        CreateShape<Septagon>();
+        CreateShape<Octagon>();
+        CreateShape<Decagon>();
+        //CreateShape<RectangleShape>();
+        //CreateShape<TriangleShape>();
+        //CreateShape<RightTriangleShape>();
+        //CreateShape<CrossShape>();
         //CreateShape<Star4Points>();
         //CreateShape<Star5Points>();
         //CreateShape<Star6Points>();

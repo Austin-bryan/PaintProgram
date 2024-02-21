@@ -115,5 +115,5 @@ partial class Shape
     private ToolStripMenuItem sendBackwardsToolStripMenuItem;
     private ToolStripMenuItem bringForwardsToolStripMenuItem;
     private ToolStripMenuItem bringToFrontToolStripMenuItem;
-    private Label zOrderLabel;
+    protected Label zOrderLabel;
 }
