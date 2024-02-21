@@ -25,6 +25,7 @@ public partial class Stupid : Form
     private readonly int diameter = 200;
     private int Radius => diameter / 2;
     private bool linkedEnabled = false;
+    private bool shouldUpdate = true;
     private readonly Color unlinkedColor = Color.FromArgb(255, 110, 110, 110);
 
 
@@ -168,11 +169,6 @@ public partial class Stupid : Form
 
         return clampedValue;
     }
-    private void valueSliderPictureBox_MouseDown(object sender, MouseEventArgs e)
-    {
-        UpdateSliderCursor(e);
-        CursorVisible = false;
-    }
     private void UpdateSliderCursor(MouseEventArgs e)
     {
         sliderMouseDown = true;
@@ -183,6 +179,11 @@ public partial class Stupid : Form
         valueSliderPictureBox.Refresh();
         colorWheelPictureBox.Image = GenerateColorWheel();
         SelectColor();
+    }
+    private void valueSliderPictureBox_MouseDown(object sender, MouseEventArgs e)
+    {
+        UpdateSliderCursor(e);
+        CursorVisible = false;
     }
     private void valueSliderPictureBox_MouseMove(object sender, MouseEventArgs e)
     {
@@ -261,16 +262,47 @@ public partial class Stupid : Form
         linkButton.BackColor = linkedEnabled ? Color.FromArgb(255, 45, 45, 45) : unlinkedColor;
     }
 
-    private void bringToFrontBtn_Click  (object sender, EventArgs e) => ActiveShape.MoveToFront();
-    private void bringForwardBtn_Click  (object sender, EventArgs e) => ActiveShape.MoveForwards();
-    private void sendBackwardsBtn_Click (object sender, EventArgs e) => ActiveShape.MoveBackwards();
-    private void sendToBackBtn_Click    (object sender, EventArgs e) => ActiveShape.MoveToBack();
+    private void bringToFrontBtn_Click(object sender, EventArgs e) => ActiveShape.MoveToFront();
+    private void bringForwardBtn_Click(object sender, EventArgs e) => ActiveShape.MoveForwards();
+    private void sendBackwardsBtn_Click(object sender, EventArgs e) => ActiveShape.MoveBackwards();
+    private void sendToBackBtn_Click(object sender, EventArgs e) => ActiveShape.MoveToBack();
 
-    private void widthPixelBox_InputSubmit     (int parsedValue) => ActiveShape.Width    = parsedValue;
-    private void heightPixelBox_InputSubmit    (int parsedValue) => ActiveShape.Height   = parsedValue;
-    private void xPixelBox_InputSubmit         (int parsedValue) => ActiveShape.Location = new (parsedValue, ActiveShape.Location.Y);
-    private void yPixelBox_InputSubmit         (int parsedValue) => ActiveShape.Location = new (ActiveShape.Location.X, parsedValue);
-    private void thicknessPixelBox_InputSubmit (int parsedValue) => ActiveShape.BorderThickness = parsedValue;
+    private void widthPixelBox_InputSubmit(int parsedValue)
+    {
+        if (!linkedEnabled)
+            ActiveShape.Width = parsedValue;
+        else if (shouldUpdate)
+        {
+            shouldUpdate = false;
+            double ratio = ActiveShape.Height / (double)ActiveShape.Width;
+
+            ActiveShape.Width = parsedValue;
+            ActiveShape.Height = (int)(ActiveShape.Width * ratio);
+
+            heightPixelBox.TextBoxText = ActiveShape.Height.ToString();
+        }
+        else shouldUpdate = true;
+    }
+    private void heightPixelBox_InputSubmit(int parsedValue)
+    {
+        if (!linkedEnabled)
+            ActiveShape.Height = parsedValue;
+        else if (shouldUpdate)
+        {
+            shouldUpdate = false;
+            double ratio = ActiveShape.Width / (double)ActiveShape.Height;
+
+            ActiveShape.Height = parsedValue;
+            ActiveShape.Width = (int)(ActiveShape.Height * ratio);
+
+            widthPixelBox.TextBoxText = ActiveShape.Width.ToString();
+        }
+        else shouldUpdate = true;
+    }
+
+    private void xPixelBox_InputSubmit(int parsedValue) => ActiveShape.Location = new(parsedValue, ActiveShape.Location.Y);
+    private void yPixelBox_InputSubmit(int parsedValue) => ActiveShape.Location = new(ActiveShape.Location.X, parsedValue);
+    private void thicknessPixelBox_InputSubmit(int parsedValue) => ActiveShape.BorderThickness = parsedValue;
 
     protected override void OnShown(EventArgs e)
     {
@@ -285,5 +317,15 @@ public partial class Stupid : Form
         xPixelBox.TextBoxText         = ActiveShape.Location.X.ToString();
         yPixelBox.TextBoxText         = ActiveShape.Location.Y.ToString();
         thicknessPixelBox.TextBoxText = ActiveShape.BorderThickness.ToString();
+
+        borderColorBtn.BackColor = ActiveShape.BorderColor;
+    }
+
+    private void borderColorBtn_Click(object sender, EventArgs e)
+    {
+        ColorDialog colorDialog = new() { Color = borderColorBtn.BackColor };
+
+        if (colorDialog.ShowDialog() == DialogResult.OK)
+            borderColorBtn.BackColor = ActiveShape.BorderColor = colorDialog.Color;
     }
 }

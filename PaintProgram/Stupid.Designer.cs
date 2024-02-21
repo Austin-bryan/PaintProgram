@@ -356,6 +356,7 @@
             borderColorBtn.Size = new Size(30, 30);
             borderColorBtn.TabIndex = 36;
             borderColorBtn.UseVisualStyleBackColor = false;
+            borderColorBtn.Click += borderColorBtn_Click;
             // 
             // widthPixelBox
             // 
@@ -365,6 +366,7 @@
             widthPixelBox.Name = "widthPixelBox";
             widthPixelBox.Size = new Size(120, 23);
             widthPixelBox.TabIndex = 37;
+            widthPixelBox.TextBoxText = "";
             widthPixelBox.InputSubmit += widthPixelBox_InputSubmit;
             // 
             // heightPixelBox
@@ -375,6 +377,7 @@
             heightPixelBox.Name = "heightPixelBox";
             heightPixelBox.Size = new Size(120, 23);
             heightPixelBox.TabIndex = 38;
+            heightPixelBox.TextBoxText = "";
             heightPixelBox.InputSubmit += heightPixelBox_InputSubmit;
             // 
             // yPixelBox
@@ -385,6 +388,7 @@
             yPixelBox.Name = "yPixelBox";
             yPixelBox.Size = new Size(120, 23);
             yPixelBox.TabIndex = 40;
+            yPixelBox.TextBoxText = "";
             yPixelBox.InputSubmit += yPixelBox_InputSubmit;
             // 
             // xPixelBox
@@ -395,6 +399,7 @@
             xPixelBox.Name = "xPixelBox";
             xPixelBox.Size = new Size(120, 23);
             xPixelBox.TabIndex = 39;
+            xPixelBox.TextBoxText = "";
             xPixelBox.InputSubmit += xPixelBox_InputSubmit;
             // 
             // thicknessPixelBox
@@ -405,6 +410,7 @@
             thicknessPixelBox.Name = "thicknessPixelBox";
             thicknessPixelBox.Size = new Size(119, 23);
             thicknessPixelBox.TabIndex = 41;
+            thicknessPixelBox.TextBoxText = "";
             thicknessPixelBox.InputSubmit += thicknessPixelBox_InputSubmit;
             // 
             // Stupid

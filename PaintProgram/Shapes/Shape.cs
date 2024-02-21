@@ -41,21 +41,32 @@ public partial class Shape : Form
     protected State State;
     public Color ShapeColor
     {
-        get => color;
+        get => shapeColor;
         set
         {
-            color = value;
+            shapeColor = value;
             Refresh();
+        }
+    }
+    public Color BorderColor
+    {
+        get => borderColor;
+        set
+        {
+            borderColor = value;
+            Refresh();  
         }
     }
 
     // - Private - //
-    private Color color = Color.FromArgb(255, 90, 90, 150);
     private const int HandleSize = 8;
-    private Rectangle[] resizeHandles;
-    private Handle activeHandle;
     private static readonly List<Shape> shapes = new();
     private static readonly Dictionary<int, Shape> zOrderMap = new();
+
+    private Color shapeColor = Color.FromArgb(255, 90, 90, 150);
+    private Color borderColor = Color.Black;
+    private Rectangle[] resizeHandles;
+    private Handle activeHandle;
 
     // ---- Methods ---- //
     // - Public - //
@@ -92,7 +103,7 @@ public partial class Shape : Form
     protected virtual void DrawShape(PaintEventArgs e)
     {
         e.Graphics.FillPolygon(new SolidBrush(ShapeColor), points);
-        e.Graphics.DrawPolygon(new Pen(Color.Black, BorderThickness), points);
+        e.Graphics.DrawPolygon(new Pen(BorderColor, BorderThickness), points);
     }
     protected virtual void AdjustAlpha(MouseEventArgs e) { }
     protected virtual void UpdateCursor(MouseEventArgs e)
