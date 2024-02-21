@@ -9,6 +9,16 @@ public partial class Form1 : Form
     private readonly ColorWheel  colorWheel = new();
     private readonly Stupid      stupid = new();
 
+    public void DeleteMe(Dictionary<int, Shape> zOrderMap)
+    {
+        label2.Text = "";
+        foreach (var (zOrder, Shape) in zOrderMap)
+        {
+            string s = Shape.GetType().Name;
+            label2.Text += (zOrder, Shape.GetType().Name).ToString() + "\n";
+        }
+    }
+
     public Form1()
     {
         InitializeComponent();
@@ -18,11 +28,11 @@ public partial class Form1 : Form
         CreateShape<TriangleShape>();
         CreateShape<RightTriangleShape>();
         CreateShape<CrossShape>();
-        CreateShape<Star4Points>();
-        CreateShape<Star5Points>();
-        CreateShape<Star6Points>();
-        CreateShape<TrapazoidShape>();
-        CreateShape<EllipseShape>();
+        //CreateShape<Star4Points>();
+        //CreateShape<Star5Points>();
+        //CreateShape<Star6Points>();
+        //CreateShape<TrapazoidShape>();
+        //CreateShape<EllipseShape>();
 
         InitializeCustomTitleBar();
         titleBar.Show();

@@ -18,6 +18,9 @@ public partial class Shape : Form
         get => _zOrder;
         set
         {
+            if (!zOrderMap.ContainsKey(value))
+                zOrderMap.Add(value, this);
+
             _zOrder = value;
             zOrderLabel.Text = value.ToString();
         }
@@ -89,7 +92,7 @@ public partial class Shape : Form
 
         shapes.Add(this);
         ZOrder = shapes.Count - 1;
-        zOrderMap.Add(ZOrder, this);
+        //zOrderMap.Add(ZOrder, this);
     }
     public void HideHandles()
     {
@@ -193,36 +196,36 @@ public partial class Shape : Form
         switch (State)
         {
             case State.Resizing:
+            {
+                var (deltaX, deltaY) = GetDelta(resizeStart);
+                switch (activeHandle)
                 {
-                    var (deltaX, deltaY) = GetDelta(resizeStart);
-                    switch (activeHandle)
-                    {
-                        case TopLeft:   ResizeControl(sizeDelta: (-deltaX, -deltaY), positionDelta: (deltaX, deltaY)); break;
-                        case TopMiddle: ResizeControl(sizeDelta: (0, -deltaY), positionDelta: (0, deltaY)); break;
-                        case TopRight:  ResizeControl(sizeDelta: (deltaX, -deltaY), positionDelta: (0, deltaY), new(e.X, resizeStart.Y)); break;
-                        case CenterLeft:  ResizeControl(sizeDelta: (-deltaX, 0), positionDelta: (deltaX, 0)); break;
-                        case CenterRight: ResizeControl(sizeDelta: (deltaX, 0), positionDelta: (0, 0), e.Location); break;
-                        case BottomLeft:  ResizeControl(sizeDelta: (-deltaX, deltaY), positionDelta: (deltaX, 0), new(resizeStart.X, e.Y)); break;
-                        case BottomMiddle: ResizeControl(sizeDelta: (0, deltaY), positionDelta: (0, 0), e.Location); break;
-                        case BottomRight:  ResizeControl(sizeDelta: (deltaX, deltaY), positionDelta: (0, 0), e.Location); break;
-                    }
-                    
-                    ((Form1)Owner).RefreshShapeEditor();
-                    break;
+                    case TopLeft:   ResizeControl(sizeDelta: (-deltaX, -deltaY), positionDelta: (deltaX, deltaY)); break;
+                    case TopMiddle: ResizeControl(sizeDelta: (0, -deltaY), positionDelta: (0, deltaY)); break;
+                    case TopRight:  ResizeControl(sizeDelta: (deltaX, -deltaY), positionDelta: (0, deltaY), new(e.X, resizeStart.Y)); break;
+                    case CenterLeft:  ResizeControl(sizeDelta: (-deltaX, 0), positionDelta: (deltaX, 0)); break;
+                    case CenterRight: ResizeControl(sizeDelta: (deltaX, 0), positionDelta: (0, 0), e.Location); break;
+                    case BottomLeft:  ResizeControl(sizeDelta: (-deltaX, deltaY), positionDelta: (deltaX, 0), new(resizeStart.X, e.Y)); break;
+                    case BottomMiddle: ResizeControl(sizeDelta: (0, deltaY), positionDelta: (0, 0), e.Location); break;
+                    case BottomRight:  ResizeControl(sizeDelta: (deltaX, deltaY), positionDelta: (0, 0), e.Location); break;
                 }
+                    
+                ((Form1)Owner).RefreshShapeEditor();
+                break;
+            }
             case State.ChangingAlpha:
                 AdjustAlpha(e);
 
                 ((Form1)Owner).RefreshShapeEditor();
                 break;
             case State.Moving:
-                {
-                    var (deltaX, deltaY) = GetDelta(moveStart);
-                    Location = new Point(Location.X + deltaX, Location.Y + deltaY);
+            {
+                var (deltaX, deltaY) = GetDelta(moveStart);
+                Location = new Point(Location.X + deltaX, Location.Y + deltaY);
 
-                    ((Form1)Owner).RefreshShapeEditor();
-                    break;
-                }
+                ((Form1)Owner).RefreshShapeEditor();
+                break;
+            }
             default:
                 UpdateCursor(e);
                 break;
@@ -321,7 +324,7 @@ public partial class Shape : Form
 
         contextMenuStrip1.Show(this, e.Location);
     }
-    private void sendToBackToolStripMenuItem_Click   (object sender, EventArgs e) => SendToBack();
+    private void sendToBackToolStripMenuItem_Click   (object sender, EventArgs e) => MoveToBack();
     private void bringToFrontToolStripMenuItem_Click (object sender, EventArgs e) => MoveToFront();
     private void sendBackwardsToolStripMenuItem_Click(object sender, EventArgs e) => MoveBackwards();
     private void bringForwardsToolStripMenuItem_Click(object sender, EventArgs e) => MoveForwards();
@@ -342,6 +345,8 @@ public partial class Shape : Form
         });
         foreach (var shape in shapes)
             ZOrder = 0;
+
+        ((Form1)Owner).DeleteMe(zOrderMap);
     }
     public void MoveToFront()
     {
@@ -354,8 +359,14 @@ public partial class Shape : Form
         zOrderMap.Remove(ZOrder);
         ZOrder = shapes.Count - 1;
         above.ForEach(s => s.ZOrder--);
+        ((Form1)Owner).DeleteMe(zOrderMap);
     }
-    public void MoveForwards() => zOrderMap[ZOrder + 1].MoveBackwards();
+    public void MoveForwards()
+    {
+        zOrderMap[ZOrder + 1].MoveBackwards();
+        ((Form1)Owner).DeleteMe(zOrderMap);
+    }
+
     public void MoveBackwards()
     {
         if (ZOrder == 0)
@@ -374,9 +385,10 @@ public partial class Shape : Form
         other.ZOrder++;
         ZOrder--;
 
-        zOrderMap.Add(ZOrder, this);
-        zOrderMap.Add(other.ZOrder, other);
+        //zOrderMap.Add(ZOrder, this);
+        //zOrderMap.Add(other.ZOrder, other);
 
         shapes.Where(s => s._zOrder > _zOrder).ToList().ForEach(shape => shape.BringToFront());
+        ((Form1)Owner).DeleteMe(zOrderMap);
     }
 }

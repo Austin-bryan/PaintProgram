@@ -29,7 +29,19 @@ partial class Form1
     /// </summary>
     private void InitializeComponent()
     {
+        label2 = new Label();
         SuspendLayout();
+        // 
+        // label2
+        // 
+        label2.AutoSize = true;
+        label2.Font = new Font("Segoe UI", 25F, FontStyle.Regular, GraphicsUnit.Point);
+        label2.ForeColor = SystemColors.ButtonFace;
+        label2.Location = new Point(29, 498);
+        label2.Name = "label2";
+        label2.Size = new Size(109, 46);
+        label2.TabIndex = 0;
+        label2.Text = "label2";
         // 
         // Form1
         // 
@@ -37,10 +49,12 @@ partial class Form1
         AutoScaleMode = AutoScaleMode.Font;
         BackColor = Color.FromArgb(50, 50, 50);
         ClientSize = new Size(1089, 566);
+        Controls.Add(label2);
         Name = "Form1";
         Text = "Form1";
         Click += Form1_Click;
         ResumeLayout(false);
+        PerformLayout();
     }
 
     #endregion
@@ -50,4 +64,5 @@ partial class Form1
     private EllipseShape ellipseShape1;
     private CrossShape crossShape1;
     private Label label1;
+    private Label label2;
 }
