@@ -60,6 +60,7 @@
             xPixelBox = new PixelTextBox();
             thicknessPixelBox = new PixelTextBox();
             alphaPixelBox = new PixelTextBox();
+            borderCheckBox = new CheckBox();
             sendBackwardsBtn = new Button();
             ((System.ComponentModel.ISupportInitialize)colorWheelPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)valueSliderPictureBox).BeginInit();
@@ -195,7 +196,7 @@
             pictureBox4.BorderStyle = BorderStyle.FixedSingle;
             pictureBox4.Location = new Point(0, 327);
             pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(342, 256);
+            pictureBox4.Size = new Size(342, 281);
             pictureBox4.TabIndex = 10;
             pictureBox4.TabStop = false;
             // 
@@ -432,11 +433,25 @@
             alphaPixelBox.Visible = false;
             alphaPixelBox.InputSubmit += alphaPixelBox_InputSubmit;
             // 
+            // borderCheckBox
+            // 
+            borderCheckBox.AutoSize = true;
+            borderCheckBox.BackColor = Color.FromArgb(80, 80, 80);
+            borderCheckBox.ForeColor = SystemColors.ButtonHighlight;
+            borderCheckBox.Location = new Point(46, 568);
+            borderCheckBox.Name = "borderCheckBox";
+            borderCheckBox.Size = new Size(83, 19);
+            borderCheckBox.TabIndex = 43;
+            borderCheckBox.Text = "Use Border";
+            borderCheckBox.UseVisualStyleBackColor = false;
+            borderCheckBox.CheckedChanged += borderCheckBox_CheckedChanged;
+            // 
             // Stupid
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(343, 588);
+            ClientSize = new Size(343, 633);
+            Controls.Add(borderCheckBox);
             Controls.Add(linkButton);
             Controls.Add(heightPixelBox);
             Controls.Add(widthPixelBox);
@@ -519,5 +534,6 @@
         private PixelTextBox xPixelBox;
         private PixelTextBox thicknessPixelBox;
         private PixelTextBox alphaPixelBox;
+        private CheckBox borderCheckBox;
     }
 }

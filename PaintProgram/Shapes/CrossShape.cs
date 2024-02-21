@@ -1,6 +1,6 @@
 ﻿namespace PaintProgram.Shapes;
 
-public partial class CrossShape : ParametetricShape
+public partial class CrossShape : ParametricShape
 {
     protected override int AlphaPointIndex => 0;
     public override float MaxAlpha => 0.4999f;

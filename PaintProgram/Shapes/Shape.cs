@@ -26,6 +26,17 @@ public partial class Shape : Form
         }
     }
 
+    private bool _useBorder = true;
+    public bool UseBorder
+    {
+        get => _useBorder;
+        set
+        {
+            _useBorder = value;
+            Refresh();
+        }
+    }
+
     private int _borderThickness = 2;
     public int BorderThickness
     {
@@ -92,7 +103,6 @@ public partial class Shape : Form
 
         shapes.Add(this);
         ZOrder = shapes.Count - 1;
-        //zOrderMap.Add(ZOrder, this);
     }
     public void HideHandles()
     {
@@ -107,7 +117,9 @@ public partial class Shape : Form
     protected virtual void DrawShape(PaintEventArgs e)
     {
         e.Graphics.FillPolygon(new SolidBrush(ShapeColor), points);
-        e.Graphics.DrawPolygon(new Pen(BorderColor, BorderThickness), points);
+
+        if (UseBorder)
+            e.Graphics.DrawPolygon(new Pen(BorderColor, BorderThickness), points);
     }
     protected virtual void AdjustAlpha(MouseEventArgs e) { }
     protected virtual void UpdateCursor(MouseEventArgs e)

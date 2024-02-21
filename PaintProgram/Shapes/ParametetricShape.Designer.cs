@@ -1,6 +1,6 @@
 ﻿namespace PaintProgram.Shapes
 {
-    partial class ParametetricShape
+    partial class ParametricShape
     {
         /// <summary> 
         /// Required designer variable.

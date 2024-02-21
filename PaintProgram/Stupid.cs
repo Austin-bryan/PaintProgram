@@ -11,13 +11,13 @@ public partial class Stupid : Form
         set
         {
             _activeShape = value;
-            RefreshPixelBoxes();
+            RefreshShapeEditor();
             ShowAlphaBox(value.ShowAlphaBox);
         }
     }
 
     private const int cursorDiameter = 12;
-    
+
     private Point wheelCursorPoint, valueCursorPoint;
     private bool sliderMouseDown, wheelMouseDown;
     private bool linkedEnabled = false;
@@ -27,7 +27,7 @@ public partial class Stupid : Form
     private readonly int sliderMin, sliderMax;
     private readonly int diameter = 200;
     private readonly Color unlinkedColor = Color.FromArgb(255, 110, 110, 110);
-    
+
     private int Radius => diameter / 2;
 
     private static bool CursorVisible
@@ -307,10 +307,10 @@ public partial class Stupid : Form
     protected override void OnShown(EventArgs e)
     {
         base.OnShown(e);
-        RefreshPixelBoxes();
+        RefreshShapeEditor();
     }
 
-    public void RefreshPixelBoxes()
+    public void RefreshShapeEditor()
     {
         widthPixelBox.TextBoxText     = ActiveShape.Width.ToString();
         heightPixelBox.TextBoxText    = ActiveShape.Height.ToString();
@@ -318,13 +318,14 @@ public partial class Stupid : Form
         yPixelBox.TextBoxText         = ActiveShape.Location.Y.ToString();
         thicknessPixelBox.TextBoxText = ActiveShape.BorderThickness.ToString();
 
-        if (ActiveShape is ParametetricShape parametetricShape)
+        if (ActiveShape is ParametricShape parametetricShape)
         {
             alphaPixelBox.TextBoxText = parametetricShape.Alpha.ToString();
             alphaPixelBox.UpdateAlphaBounds(parametetricShape);
         }
 
         borderColorBtn.BackColor = ActiveShape.BorderColor;
+        borderCheckBox.Checked = ActiveShape.UseBorder;
     }
 
     private void borderColorBtn_Click(object sender, EventArgs e)
@@ -339,12 +340,17 @@ public partial class Stupid : Form
         alphaPixelBox.Visible = isVisible;
 
         if (isVisible)
-            alphaPixelBox.TextBoxText = ((ParametetricShape)ActiveShape).Alpha.ToString();
+            alphaPixelBox.TextBoxText = ((ParametricShape)ActiveShape).Alpha.ToString();
     }
 
     private void alphaPixelBox_InputSubmit(double parsedValue)
     {
-        ((ParametetricShape)ActiveShape).Alpha = (float)parsedValue;
-        ActiveShape.Refresh();
+        if (ActiveShape is ParametricShape ps)
+        {
+            ps.Alpha = (float)parsedValue;
+            ActiveShape.Refresh();
+        }
     }
+
+    private void borderCheckBox_CheckedChanged(object sender, EventArgs e) => ActiveShape.UseBorder = borderCheckBox.Checked;
 }

@@ -1,6 +1,6 @@
 ﻿namespace PaintProgram.Shapes;
 
-public partial class ParametetricShape : Shape
+public partial class ParametricShape : Shape
 {
     public override bool ShowAlphaBox => true;
     public virtual float MinAlpha => 5.0f / Width;
@@ -11,7 +11,7 @@ public partial class ParametetricShape : Shape
     protected virtual int AlphaPointIndex { get; } = 0;
     private Rectangle[] alphaHandles;
 
-    public ParametetricShape() => InitializeComponent();
+    public ParametricShape() => InitializeComponent();
 
     protected void DrawAlphaHandle(PaintEventArgs e, int pointIndex)
     {

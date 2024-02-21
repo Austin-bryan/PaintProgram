@@ -1,6 +1,6 @@
 ﻿namespace PaintProgram.Shapes;
 
-public partial class StarShape : ParametetricShape
+public partial class StarShape : ParametricShape
 {
     protected virtual int NumSides        { get; } = 8;
     protected virtual double Offset       { get; } = 3 * Math.PI / 4f + Math.PI;

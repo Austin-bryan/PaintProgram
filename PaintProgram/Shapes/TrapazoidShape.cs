@@ -1,6 +1,6 @@
 ﻿namespace PaintProgram.Shapes;
 
-public partial class TrapazoidShape : ParametetricShape
+public partial class TrapazoidShape : ParametricShape
 {
     protected override int AlphaPointIndex => 0;
     protected override float WidthAdjustment => -3f;
