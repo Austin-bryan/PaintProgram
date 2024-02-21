@@ -17,13 +17,10 @@ public partial class StarShape : ParametricShape
     {
         Point[] points = new Point[NumSides];
 
-        // Calculate the coordinates of each vertex
         for (int i = 0; i < NumSides; i++)
         {
-            // Calculate the angle for each vertex
             double angle = 2 * Math.PI * i / NumSides;
 
-            // Calculate the coordinates of the vertex
             int x = (int)(Width  / 2 + ((Width  / 2 - Gap + 5) * Math.Cos(angle + Offset))); 
             int y = (int)(Height / 2 + ((Height / 2 - Gap + 5) * Math.Sin(angle + Offset)));
 
@@ -33,7 +30,6 @@ public partial class StarShape : ParametricShape
                 y = (int)Lerp(y, Height / 2, Alpha);
             }
 
-            // Store the vertex coordinates in the points array
             points[i] = new Point(x, y);
         }
 
