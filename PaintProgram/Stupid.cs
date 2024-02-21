@@ -269,34 +269,6 @@ public partial class Stupid : Form
             e.Handled = true;
     }
 
-    private void widthTextBox_KeyDown(object sender, KeyEventArgs e)
-    {
-        HandleEnterKey(widthTextBox, e);
-    }
-
-    private void xTextBox_KeyDown(object sender, KeyEventArgs e)
-    {
-        HandleEnterKey(xTextBox, e);
-
-    }
-
-    private void heightTextBox_KeyDown(object sender, KeyEventArgs e)
-    {
-        HandleEnterKey(heightTextBox, e);
-
-    }
-
-    private void yTextBox_KeyDown(object sender, KeyEventArgs e)
-    {
-        HandleEnterKey(yTextBox, e);
-
-    }
-
-    private void thicknessTextBox_KeyDown(object sender, KeyEventArgs e)
-    {
-        HandleEnterKey(thicknessTextBox, e);
-
-    }
     private int? HandleEnterKey(TextBox tb, KeyEventArgs e)
     {
         if (e.KeyCode != Keys.Enter)

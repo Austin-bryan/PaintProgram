@@ -45,25 +45,20 @@
             pictureBox2 = new PictureBox();
             transformLabel = new Label();
             pictureBox5 = new PictureBox();
-            widthTextBox = new TextBox();
             linkButton = new Button();
-            wLabel = new Label();
-            hLabel = new Label();
-            heightTextBox = new TextBox();
-            yLabel = new Label();
-            yTextBox = new TextBox();
-            xLabel = new Label();
-            xTextBox = new TextBox();
             layeringLabel = new Label();
             bringToFrontBtn = new Button();
             bringForwardBtn = new Button();
             sendToBackBtn = new Button();
             borederLabel = new Label();
             pictureBox6 = new PictureBox();
-            thicknessLabel = new Label();
-            thicknessTextBox = new TextBox();
             colorLabel = new Label();
             borderColorBtn = new Button();
+            pixelTextBox1 = new PixelTextBox();
+            pixelTextBox2 = new PixelTextBox();
+            pixelTextBox3 = new PixelTextBox();
+            pixelTextBox4 = new PixelTextBox();
+            pixelTextBox5 = new PixelTextBox();
             sendBackwardsBtn = new Button();
             ((System.ComponentModel.ISupportInitialize)colorWheelPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)valueSliderPictureBox).BeginInit();
@@ -86,7 +81,7 @@
             sendBackwardsBtn.FlatAppearance.BorderSize = 0;
             sendBackwardsBtn.FlatStyle = FlatStyle.Flat;
             sendBackwardsBtn.Image = (Image)resources.GetObject("sendBackwardsBtn.Image");
-            sendBackwardsBtn.Location = new Point(154, 460);
+            sendBackwardsBtn.Location = new Point(149, 460);
             sendBackwardsBtn.Name = "sendBackwardsBtn";
             sendBackwardsBtn.Size = new Size(30, 30);
             sendBackwardsBtn.TabIndex = 29;
@@ -199,7 +194,7 @@
             pictureBox4.BorderStyle = BorderStyle.FixedSingle;
             pictureBox4.Location = new Point(0, 327);
             pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(342, 273);
+            pictureBox4.Size = new Size(342, 256);
             pictureBox4.TabIndex = 10;
             pictureBox4.TabStop = false;
             // 
@@ -254,118 +249,18 @@
             pictureBox5.TabIndex = 16;
             pictureBox5.TabStop = false;
             // 
-            // widthTextBox
-            // 
-            widthTextBox.BackColor = Color.FromArgb(45, 45, 45);
-            widthTextBox.BorderStyle = BorderStyle.None;
-            widthTextBox.ForeColor = Color.White;
-            widthTextBox.Location = new Point(78, 368);
-            widthTextBox.Name = "widthTextBox";
-            widthTextBox.Size = new Size(50, 16);
-            widthTextBox.TabIndex = 17;
-            widthTextBox.KeyDown += widthTextBox_KeyDown;
-            widthTextBox.KeyPress += widthTextBox_KeyPress;
-            widthTextBox.Leave += widthTextBox_Leave;
-            // 
             // linkButton
             // 
             linkButton.BackColor = SystemColors.ControlDarkDark;
             linkButton.FlatAppearance.BorderSize = 0;
             linkButton.FlatStyle = FlatStyle.Flat;
             linkButton.Image = (Image)resources.GetObject("linkButton.Image");
-            linkButton.Location = new Point(12, 367);
+            linkButton.Location = new Point(12, 366);
             linkButton.Name = "linkButton";
             linkButton.Size = new Size(27, 37);
             linkButton.TabIndex = 18;
             linkButton.UseVisualStyleBackColor = false;
             linkButton.MouseClick += linkButton_MouseClick;
-            // 
-            // wLabel
-            // 
-            wLabel.AutoSize = true;
-            wLabel.BackColor = Color.FromArgb(80, 80, 80);
-            wLabel.ForeColor = Color.Snow;
-            wLabel.Location = new Point(54, 368);
-            wLabel.Name = "wLabel";
-            wLabel.Size = new Size(18, 15);
-            wLabel.TabIndex = 19;
-            wLabel.Text = "W";
-            wLabel.TextAlign = ContentAlignment.TopRight;
-            // 
-            // hLabel
-            // 
-            hLabel.AutoSize = true;
-            hLabel.BackColor = Color.FromArgb(80, 80, 80);
-            hLabel.ForeColor = Color.Snow;
-            hLabel.Location = new Point(54, 390);
-            hLabel.Name = "hLabel";
-            hLabel.Size = new Size(16, 15);
-            hLabel.TabIndex = 21;
-            hLabel.Text = "H";
-            hLabel.TextAlign = ContentAlignment.TopRight;
-            // 
-            // heightTextBox
-            // 
-            heightTextBox.BackColor = Color.FromArgb(45, 45, 45);
-            heightTextBox.BorderStyle = BorderStyle.None;
-            heightTextBox.ForeColor = Color.White;
-            heightTextBox.Location = new Point(78, 390);
-            heightTextBox.Name = "heightTextBox";
-            heightTextBox.Size = new Size(50, 16);
-            heightTextBox.TabIndex = 18;
-            heightTextBox.KeyDown += heightTextBox_KeyDown;
-            heightTextBox.KeyPress += heightTextBox_KeyPress;
-            heightTextBox.Leave += heightTextBox_Leave;
-            // 
-            // yLabel
-            // 
-            yLabel.AutoSize = true;
-            yLabel.BackColor = Color.FromArgb(80, 80, 80);
-            yLabel.ForeColor = Color.Snow;
-            yLabel.Location = new Point(157, 390);
-            yLabel.Name = "yLabel";
-            yLabel.Size = new Size(14, 15);
-            yLabel.TabIndex = 25;
-            yLabel.Text = "Y";
-            yLabel.TextAlign = ContentAlignment.TopRight;
-            // 
-            // yTextBox
-            // 
-            yTextBox.BackColor = Color.FromArgb(45, 45, 45);
-            yTextBox.BorderStyle = BorderStyle.None;
-            yTextBox.ForeColor = Color.White;
-            yTextBox.Location = new Point(181, 390);
-            yTextBox.Name = "yTextBox";
-            yTextBox.Size = new Size(50, 16);
-            yTextBox.TabIndex = 20;
-            yTextBox.KeyDown += yTextBox_KeyDown;
-            yTextBox.KeyPress += yTextBox_KeyPress;
-            yTextBox.Leave += yTextBox_Leave;
-            // 
-            // xLabel
-            // 
-            xLabel.AutoSize = true;
-            xLabel.BackColor = Color.FromArgb(80, 80, 80);
-            xLabel.ForeColor = Color.Snow;
-            xLabel.Location = new Point(157, 368);
-            xLabel.Name = "xLabel";
-            xLabel.Size = new Size(14, 15);
-            xLabel.TabIndex = 23;
-            xLabel.Text = "X";
-            xLabel.TextAlign = ContentAlignment.TopRight;
-            // 
-            // xTextBox
-            // 
-            xTextBox.BackColor = Color.FromArgb(45, 45, 45);
-            xTextBox.BorderStyle = BorderStyle.None;
-            xTextBox.ForeColor = Color.White;
-            xTextBox.Location = new Point(181, 368);
-            xTextBox.Name = "xTextBox";
-            xTextBox.Size = new Size(50, 16);
-            xTextBox.TabIndex = 19;
-            xTextBox.KeyDown += xTextBox_KeyDown;
-            xTextBox.KeyPress += xTextBox_KeyPress;
-            xTextBox.Leave += xTextBox_Leave;
             // 
             // layeringLabel
             // 
@@ -385,7 +280,7 @@
             bringToFrontBtn.FlatAppearance.BorderSize = 0;
             bringToFrontBtn.FlatStyle = FlatStyle.Flat;
             bringToFrontBtn.Image = (Image)resources.GetObject("bringToFrontBtn.Image");
-            bringToFrontBtn.Location = new Point(54, 460);
+            bringToFrontBtn.Location = new Point(49, 460);
             bringToFrontBtn.Name = "bringToFrontBtn";
             bringToFrontBtn.Size = new Size(30, 30);
             bringToFrontBtn.TabIndex = 27;
@@ -398,7 +293,7 @@
             bringForwardBtn.FlatAppearance.BorderSize = 0;
             bringForwardBtn.FlatStyle = FlatStyle.Flat;
             bringForwardBtn.Image = (Image)resources.GetObject("bringForwardBtn.Image");
-            bringForwardBtn.Location = new Point(104, 460);
+            bringForwardBtn.Location = new Point(99, 460);
             bringForwardBtn.Name = "bringForwardBtn";
             bringForwardBtn.Size = new Size(30, 30);
             bringForwardBtn.TabIndex = 28;
@@ -411,7 +306,7 @@
             sendToBackBtn.FlatAppearance.BorderSize = 0;
             sendToBackBtn.FlatStyle = FlatStyle.Flat;
             sendToBackBtn.Image = (Image)resources.GetObject("sendToBackBtn.Image");
-            sendToBackBtn.Location = new Point(204, 460);
+            sendToBackBtn.Location = new Point(199, 460);
             sendToBackBtn.Name = "sendToBackBtn";
             sendToBackBtn.Size = new Size(30, 30);
             sendToBackBtn.TabIndex = 30;
@@ -439,37 +334,12 @@
             pictureBox6.TabIndex = 31;
             pictureBox6.TabStop = false;
             // 
-            // thicknessLabel
-            // 
-            thicknessLabel.AutoSize = true;
-            thicknessLabel.BackColor = Color.FromArgb(80, 80, 80);
-            thicknessLabel.ForeColor = Color.Snow;
-            thicknessLabel.Location = new Point(53, 545);
-            thicknessLabel.Name = "thicknessLabel";
-            thicknessLabel.Size = new Size(58, 15);
-            thicknessLabel.TabIndex = 34;
-            thicknessLabel.Text = "Thickness";
-            thicknessLabel.TextAlign = ContentAlignment.TopRight;
-            // 
-            // thicknessTextBox
-            // 
-            thicknessTextBox.BackColor = Color.FromArgb(45, 45, 45);
-            thicknessTextBox.BorderStyle = BorderStyle.None;
-            thicknessTextBox.ForeColor = Color.White;
-            thicknessTextBox.Location = new Point(118, 544);
-            thicknessTextBox.Name = "thicknessTextBox";
-            thicknessTextBox.Size = new Size(50, 16);
-            thicknessTextBox.TabIndex = 33;
-            thicknessTextBox.KeyDown += thicknessTextBox_KeyDown;
-            thicknessTextBox.KeyPress += ThicknessTextBox_KeyPress;
-            thicknessTextBox.Leave += thicknessTextBox_Leave;
-            // 
             // colorLabel
             // 
             colorLabel.AutoSize = true;
             colorLabel.BackColor = Color.FromArgb(80, 80, 80);
             colorLabel.ForeColor = Color.Snow;
-            colorLabel.Location = new Point(193, 545);
+            colorLabel.Location = new Point(165, 545);
             colorLabel.Name = "colorLabel";
             colorLabel.Size = new Size(36, 15);
             colorLabel.TabIndex = 35;
@@ -481,21 +351,70 @@
             borderColorBtn.BackColor = Color.DarkViolet;
             borderColorBtn.FlatAppearance.BorderSize = 0;
             borderColorBtn.FlatStyle = FlatStyle.Flat;
-            borderColorBtn.Location = new Point(237, 537);
+            borderColorBtn.Location = new Point(209, 537);
             borderColorBtn.Name = "borderColorBtn";
             borderColorBtn.Size = new Size(30, 30);
             borderColorBtn.TabIndex = 36;
             borderColorBtn.UseVisualStyleBackColor = false;
             // 
+            // pixelTextBox1
+            // 
+            pixelTextBox1.BackColor = Color.FromArgb(80, 80, 80);
+            pixelTextBox1.LabelText = "W";
+            pixelTextBox1.Location = new Point(-5, 363);
+            pixelTextBox1.Name = "pixelTextBox1";
+            pixelTextBox1.Size = new Size(120, 23);
+            pixelTextBox1.TabIndex = 37;
+            // 
+            // pixelTextBox2
+            // 
+            pixelTextBox2.BackColor = Color.FromArgb(80, 80, 80);
+            pixelTextBox2.LabelText = "H";
+            pixelTextBox2.Location = new Point(-5, 383);
+            pixelTextBox2.Name = "pixelTextBox2";
+            pixelTextBox2.Size = new Size(120, 23);
+            pixelTextBox2.TabIndex = 38;
+            // 
+            // pixelTextBox3
+            // 
+            pixelTextBox3.BackColor = Color.FromArgb(80, 80, 80);
+            pixelTextBox3.LabelText = "Y";
+            pixelTextBox3.Location = new Point(94, 383);
+            pixelTextBox3.Name = "pixelTextBox3";
+            pixelTextBox3.Size = new Size(120, 23);
+            pixelTextBox3.TabIndex = 40;
+            // 
+            // pixelTextBox4
+            // 
+            pixelTextBox4.BackColor = Color.FromArgb(80, 80, 80);
+            pixelTextBox4.LabelText = "X";
+            pixelTextBox4.Location = new Point(94, 363);
+            pixelTextBox4.Name = "pixelTextBox4";
+            pixelTextBox4.Size = new Size(120, 23);
+            pixelTextBox4.TabIndex = 39;
+            // 
+            // pixelTextBox5
+            // 
+            pixelTextBox5.BackColor = Color.FromArgb(80, 80, 80);
+            pixelTextBox5.LabelText = "Thickness";
+            pixelTextBox5.Location = new Point(26, 539);
+            pixelTextBox5.Name = "pixelTextBox5";
+            pixelTextBox5.Size = new Size(119, 23);
+            pixelTextBox5.TabIndex = 41;
+            // 
             // Stupid
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(343, 620);
+            ClientSize = new Size(343, 588);
+            Controls.Add(pixelTextBox5);
+            Controls.Add(linkButton);
+            Controls.Add(pixelTextBox2);
+            Controls.Add(pixelTextBox1);
+            Controls.Add(pixelTextBox3);
+            Controls.Add(pixelTextBox4);
             Controls.Add(borderColorBtn);
             Controls.Add(colorLabel);
-            Controls.Add(thicknessLabel);
-            Controls.Add(thicknessTextBox);
             Controls.Add(borederLabel);
             Controls.Add(pictureBox6);
             Controls.Add(sendToBackBtn);
@@ -503,15 +422,6 @@
             Controls.Add(bringForwardBtn);
             Controls.Add(bringToFrontBtn);
             Controls.Add(layeringLabel);
-            Controls.Add(yLabel);
-            Controls.Add(yTextBox);
-            Controls.Add(xLabel);
-            Controls.Add(xTextBox);
-            Controls.Add(hLabel);
-            Controls.Add(heightTextBox);
-            Controls.Add(wLabel);
-            Controls.Add(linkButton);
-            Controls.Add(widthTextBox);
             Controls.Add(pictureBox5);
             Controls.Add(transformLabel);
             Controls.Add(pictureBox1);
@@ -562,15 +472,7 @@
         private PictureBox pictureBox2;
         private Label transformLabel;
         private PictureBox pictureBox5;
-        private TextBox widthTextBox;
         private Button linkButton;
-        private Label wLabel;
-        private Label hLabel;
-        private TextBox heightTextBox;
-        private Label yLabel;
-        private TextBox yTextBox;
-        private Label xLabel;
-        private TextBox xTextBox;
         private Label layeringLabel;
         private Button bringToFrontBtn;
         private Button bringForwardBtn;
@@ -578,9 +480,12 @@
         private Button sendToBackBtn;
         private Label borederLabel;
         private PictureBox pictureBox6;
-        private Label thicknessLabel;
-        private TextBox thicknessTextBox;
         private Label colorLabel;
         private Button borderColorBtn;
+        private PixelTextBox pixelTextBox1;
+        private PixelTextBox pixelTextBox2;
+        private PixelTextBox pixelTextBox3;
+        private PixelTextBox pixelTextBox4;
+        private PixelTextBox pixelTextBox5;
     }
 }
