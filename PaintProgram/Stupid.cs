@@ -4,7 +4,16 @@ namespace PaintProgram;
 
 public partial class Stupid : Form
 {
-    public Shape ActiveShape { get; set; }
+    private Shape _activeShape;
+    public Shape ActiveShape
+    {
+        get => _activeShape;
+        set
+        {
+            _activeShape = value;
+            RefreshPixelBoxes();
+        }
+    }
 
     private Point wheelCursorPoint, valueCursorPoint;
     private bool sliderMouseDown;
@@ -262,4 +271,19 @@ public partial class Stupid : Form
     private void xPixelBox_InputSubmit         (int parsedValue) => ActiveShape.Location = new (parsedValue, ActiveShape.Location.Y);
     private void yPixelBox_InputSubmit         (int parsedValue) => ActiveShape.Location = new (ActiveShape.Location.X, parsedValue);
     private void thicknessPixelBox_InputSubmit (int parsedValue) => ActiveShape.BorderThickness = parsedValue;
+
+    protected override void OnShown(EventArgs e)
+    {
+        base.OnShown(e);
+        RefreshPixelBoxes();
+    }
+
+    public void RefreshPixelBoxes()
+    {
+        widthPixelBox.TextBoxText     = ActiveShape.Width.ToString();
+        heightPixelBox.TextBoxText    = ActiveShape.Height.ToString();
+        xPixelBox.TextBoxText         = ActiveShape.Location.X.ToString();
+        yPixelBox.TextBoxText         = ActiveShape.Location.Y.ToString();
+        thicknessPixelBox.TextBoxText = ActiveShape.BorderThickness.ToString();
+    }
 }

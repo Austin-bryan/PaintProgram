@@ -39,6 +39,7 @@ public partial class Form1 : Form
 
         stupid.ActiveShape = shape;
     }
+    public void RefreshShapeEditor() => stupid?.RefreshPixelBoxes();
     private void CreateShape<T>() where T : Shape, new()
     {
         var shape = new T { Owner = this };

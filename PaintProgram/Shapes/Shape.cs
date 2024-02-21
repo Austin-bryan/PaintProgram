@@ -194,6 +194,8 @@ public partial class Shape : Form
                         case BottomMiddle: ResizeControl(sizeDelta: (0, deltaY), positionDelta: (0, 0), e.Location); break;
                         case BottomRight:  ResizeControl(sizeDelta: (deltaX, deltaY), positionDelta: (0, 0), e.Location); break;
                     }
+                    
+                    ((Form1)Owner).RefreshShapeEditor();
                     break;
                 }
             case State.ChangingAlpha:
@@ -203,6 +205,8 @@ public partial class Shape : Form
                 {
                     var (deltaX, deltaY) = GetDelta(moveStart);
                     Location = new Point(Location.X + deltaX, Location.Y + deltaY);
+
+                    ((Form1)Owner).RefreshShapeEditor();
                     break;
                 }
             default:
