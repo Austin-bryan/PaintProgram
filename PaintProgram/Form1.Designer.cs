@@ -42,6 +42,7 @@ partial class Form1
         label2.Size = new Size(109, 46);
         label2.TabIndex = 0;
         label2.Text = "label2";
+        label2.Visible = false;
         // 
         // Form1
         // 

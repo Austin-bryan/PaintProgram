@@ -345,8 +345,6 @@ public partial class Shape : Form
         });
         foreach (var shape in shapes)
             ZOrder = 0;
-
-        ((Form1)Owner).DeleteMe(zOrderMap);
     }
     public void MoveToFront()
     {
@@ -359,22 +357,28 @@ public partial class Shape : Form
         zOrderMap.Remove(ZOrder);
         ZOrder = shapes.Count - 1;
         above.ForEach(s => s.ZOrder--);
-        ((Form1)Owner).DeleteMe(zOrderMap);
     }
     public void MoveForwards()
     {
-        zOrderMap[ZOrder + 1].MoveBackwards();
-        ((Form1)Owner).DeleteMe(zOrderMap);
+        if (!zOrderMap.ContainsKey(ZOrder + 1))
+            return;
+
+        Shape other = zOrderMap[ZOrder + 1];
+
+        zOrderMap.Remove(ZOrder);
+        zOrderMap.Remove(ZOrder + 1);
+
+        BringToFront();
+        other.ZOrder--;
+        ZOrder++;
+
+        shapes.Where(s => s._zOrder > _zOrder).ToList().ForEach(shape => shape.BringToFront());
     }
 
     public void MoveBackwards()
     {
         if (ZOrder == 0)
             return;
-
-        string str = "";
-
-        zOrderMap.Keys.ToList().ForEach(Keys => str += ", " + Keys.ToString());
 
         Shape other = zOrderMap[ZOrder - 1];
 
@@ -385,10 +389,6 @@ public partial class Shape : Form
         other.ZOrder++;
         ZOrder--;
 
-        //zOrderMap.Add(ZOrder, this);
-        //zOrderMap.Add(other.ZOrder, other);
-
         shapes.Where(s => s._zOrder > _zOrder).ToList().ForEach(shape => shape.BringToFront());
-        ((Form1)Owner).DeleteMe(zOrderMap);
     }
 }
