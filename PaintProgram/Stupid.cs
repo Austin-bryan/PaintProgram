@@ -319,7 +319,11 @@ public partial class Stupid : Form
         thicknessPixelBox.TextBoxText = ActiveShape.BorderThickness.ToString();
 
         if (ActiveShape is ParametetricShape parametetricShape)
+        {
             alphaPixelBox.TextBoxText = parametetricShape.Alpha.ToString();
+            alphaPixelBox.UpdateAlphaBounds(parametetricShape);
+        }
+
         borderColorBtn.BackColor = ActiveShape.BorderColor;
     }
 

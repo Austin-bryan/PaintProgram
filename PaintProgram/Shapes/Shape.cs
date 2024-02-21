@@ -212,6 +212,8 @@ public partial class Shape : Form
                 }
             case State.ChangingAlpha:
                 AdjustAlpha(e);
+
+                ((Form1)Owner).RefreshShapeEditor();
                 break;
             case State.Moving:
                 {

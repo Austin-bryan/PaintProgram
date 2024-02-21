@@ -2,7 +2,11 @@
 
 public partial class RectangleShape : Shape
 {
-    public RectangleShape() => InitializeComponent();
+    public RectangleShape()
+    {
+        InitializeComponent();
+        Width = Height = 300;
+    }
 
     protected override Point[] GetPoints() => new Point[]
     {

@@ -3,7 +3,7 @@
 public partial class CrossShape : ParametetricShape
 {
     protected override int AlphaPointIndex => 0;
-    protected override float MaxAlpha => 0.4999f;
+    public override float MaxAlpha => 0.4999f;
 
     public CrossShape()
     {
