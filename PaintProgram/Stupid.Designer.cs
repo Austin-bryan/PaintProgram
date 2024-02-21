@@ -59,6 +59,7 @@
             yPixelBox = new PixelTextBox();
             xPixelBox = new PixelTextBox();
             thicknessPixelBox = new PixelTextBox();
+            alphaPixelBox = new PixelTextBox();
             sendBackwardsBtn = new Button();
             ((System.ComponentModel.ISupportInitialize)colorWheelPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)valueSliderPictureBox).BeginInit();
@@ -339,7 +340,7 @@
             colorLabel.AutoSize = true;
             colorLabel.BackColor = Color.FromArgb(80, 80, 80);
             colorLabel.ForeColor = Color.Snow;
-            colorLabel.Location = new Point(165, 545);
+            colorLabel.Location = new Point(168, 543);
             colorLabel.Name = "colorLabel";
             colorLabel.Size = new Size(36, 15);
             colorLabel.TabIndex = 35;
@@ -351,7 +352,7 @@
             borderColorBtn.BackColor = Color.DarkViolet;
             borderColorBtn.FlatAppearance.BorderSize = 0;
             borderColorBtn.FlatStyle = FlatStyle.Flat;
-            borderColorBtn.Location = new Point(209, 537);
+            borderColorBtn.Location = new Point(209, 536);
             borderColorBtn.Name = "borderColorBtn";
             borderColorBtn.Size = new Size(30, 30);
             borderColorBtn.TabIndex = 36;
@@ -360,70 +361,89 @@
             // 
             // widthPixelBox
             // 
+            widthPixelBox.AllowDecimals = false;
             widthPixelBox.BackColor = Color.FromArgb(80, 80, 80);
             widthPixelBox.LabelText = "W";
             widthPixelBox.Location = new Point(-5, 363);
             widthPixelBox.Name = "widthPixelBox";
             widthPixelBox.Size = new Size(120, 23);
             widthPixelBox.TabIndex = 37;
-            widthPixelBox.TextBoxText = "";
+            widthPixelBox.TextBoxText = "0 px";
             widthPixelBox.InputSubmit += widthPixelBox_InputSubmit;
             // 
             // heightPixelBox
             // 
+            heightPixelBox.AllowDecimals = false;
             heightPixelBox.BackColor = Color.FromArgb(80, 80, 80);
             heightPixelBox.LabelText = "H";
             heightPixelBox.Location = new Point(-5, 383);
             heightPixelBox.Name = "heightPixelBox";
             heightPixelBox.Size = new Size(120, 23);
             heightPixelBox.TabIndex = 38;
-            heightPixelBox.TextBoxText = "";
+            heightPixelBox.TextBoxText = "0 px";
             heightPixelBox.InputSubmit += heightPixelBox_InputSubmit;
             // 
             // yPixelBox
             // 
+            yPixelBox.AllowDecimals = false;
             yPixelBox.BackColor = Color.FromArgb(80, 80, 80);
             yPixelBox.LabelText = "Y";
-            yPixelBox.Location = new Point(94, 383);
+            yPixelBox.Location = new Point(75, 383);
             yPixelBox.Name = "yPixelBox";
             yPixelBox.Size = new Size(120, 23);
             yPixelBox.TabIndex = 40;
-            yPixelBox.TextBoxText = "";
+            yPixelBox.TextBoxText = "0 px";
             yPixelBox.InputSubmit += yPixelBox_InputSubmit;
             // 
             // xPixelBox
             // 
+            xPixelBox.AllowDecimals = false;
             xPixelBox.BackColor = Color.FromArgb(80, 80, 80);
             xPixelBox.LabelText = "X";
-            xPixelBox.Location = new Point(94, 363);
+            xPixelBox.Location = new Point(75, 363);
             xPixelBox.Name = "xPixelBox";
             xPixelBox.Size = new Size(120, 23);
             xPixelBox.TabIndex = 39;
-            xPixelBox.TextBoxText = "";
+            xPixelBox.TextBoxText = "0 px";
             xPixelBox.InputSubmit += xPixelBox_InputSubmit;
             // 
             // thicknessPixelBox
             // 
+            thicknessPixelBox.AllowDecimals = false;
             thicknessPixelBox.BackColor = Color.FromArgb(80, 80, 80);
             thicknessPixelBox.LabelText = "Thickness";
             thicknessPixelBox.Location = new Point(26, 539);
             thicknessPixelBox.Name = "thicknessPixelBox";
             thicknessPixelBox.Size = new Size(119, 23);
             thicknessPixelBox.TabIndex = 41;
-            thicknessPixelBox.TextBoxText = "";
+            thicknessPixelBox.TextBoxText = "0 px";
             thicknessPixelBox.InputSubmit += thicknessPixelBox_InputSubmit;
+            // 
+            // alphaPixelBox
+            // 
+            alphaPixelBox.AllowDecimals = true;
+            alphaPixelBox.BackColor = Color.FromArgb(80, 80, 80);
+            alphaPixelBox.LabelText = "Alpha";
+            alphaPixelBox.Location = new Point(179, 363);
+            alphaPixelBox.Name = "alphaPixelBox";
+            alphaPixelBox.Size = new Size(120, 23);
+            alphaPixelBox.TabIndex = 42;
+            alphaPixelBox.TextBoxText = "0 px";
+            alphaPixelBox.Visible = false;
+            alphaPixelBox.InputSubmit += alphaPixelBox_InputSubmit;
             // 
             // Stupid
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(343, 588);
-            Controls.Add(thicknessPixelBox);
             Controls.Add(linkButton);
             Controls.Add(heightPixelBox);
             Controls.Add(widthPixelBox);
             Controls.Add(yPixelBox);
             Controls.Add(xPixelBox);
+            Controls.Add(alphaPixelBox);
+            Controls.Add(thicknessPixelBox);
             Controls.Add(borderColorBtn);
             Controls.Add(colorLabel);
             Controls.Add(borederLabel);
@@ -498,5 +518,6 @@
         private PixelTextBox yPixelBox;
         private PixelTextBox xPixelBox;
         private PixelTextBox thicknessPixelBox;
+        private PixelTextBox alphaPixelBox;
     }
 }

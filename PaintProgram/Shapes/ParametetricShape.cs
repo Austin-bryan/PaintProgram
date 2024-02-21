@@ -2,7 +2,9 @@
 
 public partial class ParametetricShape : Shape
 {
-    protected float Alpha = 0.25f;
+    public override bool ShowAlphaBox => true;
+
+    public float Alpha { get; set; } = 0.25f;
     protected virtual float WidthAdjustment { get; }
     protected virtual int AlphaPointIndex { get; } = 0;
     protected virtual float MinAlpha => 5.0f / Width;

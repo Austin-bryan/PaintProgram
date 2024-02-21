@@ -10,6 +10,7 @@ public partial class Shape : Form
     // ---- Properties ---- //
     // - Public - //
     public bool IsFocused => this == ActiveForm;
+    public virtual bool ShowAlphaBox => false;
 
     private int _zOrder;
     public int ZOrder
