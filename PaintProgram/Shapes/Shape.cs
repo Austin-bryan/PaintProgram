@@ -22,6 +22,17 @@ public partial class Shape : Form
         }
     }
 
+    private int _borderThickness = 2;
+    public int BorderThickness
+    {
+        get => _borderThickness;
+        set
+        {
+            _borderThickness = value;
+            Refresh();
+        }
+    }
+
     // - Protected - //
     protected const int Gap = 10;
     protected bool shouldShowHandles = false;
@@ -81,7 +92,7 @@ public partial class Shape : Form
     protected virtual void DrawShape(PaintEventArgs e)
     {
         e.Graphics.FillPolygon(new SolidBrush(ShapeColor), points);
-        e.Graphics.DrawPolygon(new Pen(Color.Black, 4), points);
+        e.Graphics.DrawPolygon(new Pen(Color.Black, BorderThickness), points);
     }
     protected virtual void AdjustAlpha(MouseEventArgs e) { }
     protected virtual void UpdateCursor(MouseEventArgs e)

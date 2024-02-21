@@ -54,11 +54,11 @@
             pictureBox6 = new PictureBox();
             colorLabel = new Label();
             borderColorBtn = new Button();
-            pixelTextBox1 = new PixelTextBox();
-            pixelTextBox2 = new PixelTextBox();
-            pixelTextBox3 = new PixelTextBox();
-            pixelTextBox4 = new PixelTextBox();
-            pixelTextBox5 = new PixelTextBox();
+            widthPixelBox = new PixelTextBox();
+            heightPixelBox = new PixelTextBox();
+            yPixelBox = new PixelTextBox();
+            xPixelBox = new PixelTextBox();
+            thicknessPixelBox = new PixelTextBox();
             sendBackwardsBtn = new Button();
             ((System.ComponentModel.ISupportInitialize)colorWheelPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)valueSliderPictureBox).BeginInit();
@@ -357,62 +357,67 @@
             borderColorBtn.TabIndex = 36;
             borderColorBtn.UseVisualStyleBackColor = false;
             // 
-            // pixelTextBox1
+            // widthPixelBox
             // 
-            pixelTextBox1.BackColor = Color.FromArgb(80, 80, 80);
-            pixelTextBox1.LabelText = "W";
-            pixelTextBox1.Location = new Point(-5, 363);
-            pixelTextBox1.Name = "pixelTextBox1";
-            pixelTextBox1.Size = new Size(120, 23);
-            pixelTextBox1.TabIndex = 37;
+            widthPixelBox.BackColor = Color.FromArgb(80, 80, 80);
+            widthPixelBox.LabelText = "W";
+            widthPixelBox.Location = new Point(-5, 363);
+            widthPixelBox.Name = "widthPixelBox";
+            widthPixelBox.Size = new Size(120, 23);
+            widthPixelBox.TabIndex = 37;
+            widthPixelBox.InputSubmit += widthPixelBox_InputSubmit;
             // 
-            // pixelTextBox2
+            // heightPixelBox
             // 
-            pixelTextBox2.BackColor = Color.FromArgb(80, 80, 80);
-            pixelTextBox2.LabelText = "H";
-            pixelTextBox2.Location = new Point(-5, 383);
-            pixelTextBox2.Name = "pixelTextBox2";
-            pixelTextBox2.Size = new Size(120, 23);
-            pixelTextBox2.TabIndex = 38;
+            heightPixelBox.BackColor = Color.FromArgb(80, 80, 80);
+            heightPixelBox.LabelText = "H";
+            heightPixelBox.Location = new Point(-5, 383);
+            heightPixelBox.Name = "heightPixelBox";
+            heightPixelBox.Size = new Size(120, 23);
+            heightPixelBox.TabIndex = 38;
+            heightPixelBox.InputSubmit += heightPixelBox_InputSubmit;
             // 
-            // pixelTextBox3
+            // yPixelBox
             // 
-            pixelTextBox3.BackColor = Color.FromArgb(80, 80, 80);
-            pixelTextBox3.LabelText = "Y";
-            pixelTextBox3.Location = new Point(94, 383);
-            pixelTextBox3.Name = "pixelTextBox3";
-            pixelTextBox3.Size = new Size(120, 23);
-            pixelTextBox3.TabIndex = 40;
+            yPixelBox.BackColor = Color.FromArgb(80, 80, 80);
+            yPixelBox.LabelText = "Y";
+            yPixelBox.Location = new Point(94, 383);
+            yPixelBox.Name = "yPixelBox";
+            yPixelBox.Size = new Size(120, 23);
+            yPixelBox.TabIndex = 40;
+            yPixelBox.InputSubmit += yPixelBox_InputSubmit;
             // 
-            // pixelTextBox4
+            // xPixelBox
             // 
-            pixelTextBox4.BackColor = Color.FromArgb(80, 80, 80);
-            pixelTextBox4.LabelText = "X";
-            pixelTextBox4.Location = new Point(94, 363);
-            pixelTextBox4.Name = "pixelTextBox4";
-            pixelTextBox4.Size = new Size(120, 23);
-            pixelTextBox4.TabIndex = 39;
+            xPixelBox.BackColor = Color.FromArgb(80, 80, 80);
+            xPixelBox.LabelText = "X";
+            xPixelBox.Location = new Point(94, 363);
+            xPixelBox.Name = "xPixelBox";
+            xPixelBox.Size = new Size(120, 23);
+            xPixelBox.TabIndex = 39;
+            xPixelBox.InputSubmit += xPixelBox_InputSubmit;
             // 
-            // pixelTextBox5
+            // thicknessPixelBox
             // 
-            pixelTextBox5.BackColor = Color.FromArgb(80, 80, 80);
-            pixelTextBox5.LabelText = "Thickness";
-            pixelTextBox5.Location = new Point(26, 539);
-            pixelTextBox5.Name = "pixelTextBox5";
-            pixelTextBox5.Size = new Size(119, 23);
-            pixelTextBox5.TabIndex = 41;
+            thicknessPixelBox.BackColor = Color.FromArgb(80, 80, 80);
+            thicknessPixelBox.LabelText = "Thickness";
+            thicknessPixelBox.Location = new Point(26, 539);
+            thicknessPixelBox.Name = "thicknessPixelBox";
+            thicknessPixelBox.Size = new Size(119, 23);
+            thicknessPixelBox.TabIndex = 41;
+            thicknessPixelBox.InputSubmit += thicknessPixelBox_InputSubmit;
             // 
             // Stupid
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(343, 588);
-            Controls.Add(pixelTextBox5);
+            Controls.Add(thicknessPixelBox);
             Controls.Add(linkButton);
-            Controls.Add(pixelTextBox2);
-            Controls.Add(pixelTextBox1);
-            Controls.Add(pixelTextBox3);
-            Controls.Add(pixelTextBox4);
+            Controls.Add(heightPixelBox);
+            Controls.Add(widthPixelBox);
+            Controls.Add(yPixelBox);
+            Controls.Add(xPixelBox);
             Controls.Add(borderColorBtn);
             Controls.Add(colorLabel);
             Controls.Add(borederLabel);
@@ -482,10 +487,10 @@
         private PictureBox pictureBox6;
         private Label colorLabel;
         private Button borderColorBtn;
-        private PixelTextBox pixelTextBox1;
-        private PixelTextBox pixelTextBox2;
-        private PixelTextBox pixelTextBox3;
-        private PixelTextBox pixelTextBox4;
-        private PixelTextBox pixelTextBox5;
+        private PixelTextBox widthPixelBox;
+        private PixelTextBox heightPixelBox;
+        private PixelTextBox yPixelBox;
+        private PixelTextBox xPixelBox;
+        private PixelTextBox thicknessPixelBox;
     }
 }

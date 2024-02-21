@@ -252,56 +252,14 @@ public partial class Stupid : Form
         linkButton.BackColor = linkedEnabled ? Color.FromArgb(255, 45, 45, 45) : unlinkedColor;
     }
 
-    private void bringToFrontBtn_Click(object sender, EventArgs e) => ActiveShape.MoveToFront();
-    private void bringForwardBtn_Click(object sender, EventArgs e) => ActiveShape.MoveForwards();
-    private void sendBackwardsBtn_Click(object sender, EventArgs e) => ActiveShape.MoveBackwards();
-    private void sendToBackBtn_Click(object sender, EventArgs e) => ActiveShape.MoveToBack();
+    private void bringToFrontBtn_Click  (object sender, EventArgs e) => ActiveShape.MoveToFront();
+    private void bringForwardBtn_Click  (object sender, EventArgs e) => ActiveShape.MoveForwards();
+    private void sendBackwardsBtn_Click (object sender, EventArgs e) => ActiveShape.MoveBackwards();
+    private void sendToBackBtn_Click    (object sender, EventArgs e) => ActiveShape.MoveToBack();
 
-    private void widthTextBox_KeyPress(object sender, KeyPressEventArgs e) => NumbersOnly(e);
-    private void heightTextBox_KeyPress(object sender, KeyPressEventArgs e) => NumbersOnly(e);
-    private void xTextBox_KeyPress(object sender, KeyPressEventArgs e) => NumbersOnly(e);
-    private void yTextBox_KeyPress(object sender, KeyPressEventArgs e) => NumbersOnly(e);
-    private void ThicknessTextBox_KeyPress(object sender, KeyPressEventArgs e) => NumbersOnly(e);
-
-    private void NumbersOnly(KeyPressEventArgs e)
-    {
-        if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            e.Handled = true;
-    }
-
-    private int? HandleEnterKey(TextBox tb, KeyEventArgs e)
-    {
-        if (e.KeyCode != Keys.Enter)
-            return null;
-
-        int value = int.Parse(tb.Text);
-        tb.Text += " px";
-
-        return value;
-    }
-
-    private void widthTextBox_Leave(object sender, EventArgs e)
-    {
-
-    }
-
-    private void heightTextBox_Leave(object sender, EventArgs e)
-    {
-
-    }
-
-    private void xTextBox_Leave(object sender, EventArgs e)
-    {
-
-    }
-
-    private void yTextBox_Leave(object sender, EventArgs e)
-    {
-
-    }
-
-    private void thicknessTextBox_Leave(object sender, EventArgs e)
-    {
-
-    }
+    private void widthPixelBox_InputSubmit     (int parsedValue) => ActiveShape.Width    = parsedValue;
+    private void heightPixelBox_InputSubmit    (int parsedValue) => ActiveShape.Height   = parsedValue;
+    private void xPixelBox_InputSubmit         (int parsedValue) => ActiveShape.Location = new (parsedValue, ActiveShape.Location.Y);
+    private void yPixelBox_InputSubmit         (int parsedValue) => ActiveShape.Location = new (ActiveShape.Location.X, parsedValue);
+    private void thicknessPixelBox_InputSubmit (int parsedValue) => ActiveShape.BorderThickness = parsedValue;
 }
