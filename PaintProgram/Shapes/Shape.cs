@@ -131,6 +131,7 @@ public partial class Shape : Form
             if (!resizeHandles[i].Contains(e.Location))
                 continue;
 
+            // Resize start
             State        = State.Resizing;
             resizeStart  = e.Location;
             Cursor       = GetCursorForHandle(i);
@@ -156,17 +157,19 @@ public partial class Shape : Form
             case State.Resizing:
                 {
                     var (deltaX, deltaY) = GetDelta(resizeStart);
+
                     switch (activeHandle)
                     {
-                        case TopLeft: ResizeControl(sizeDelta: (-deltaX, -deltaY), positionDelta: (deltaX, deltaY)); break;
-                        case TopMiddle: ResizeControl(sizeDelta: (0, -deltaY), positionDelta: (0, deltaY)); break;
-                        case TopRight: ResizeControl(sizeDelta: (deltaX, -deltaY), positionDelta: (0, deltaY), new(e.X, resizeStart.Y)); break;
-                        case CenterLeft: ResizeControl(sizeDelta: (-deltaX, 0), positionDelta: (deltaX, 0)); break;
-                        case CenterRight: ResizeControl(sizeDelta: (deltaX, 0), positionDelta: (0, 0), e.Location); break;
-                        case BottomLeft: ResizeControl(sizeDelta: (-deltaX, deltaY), positionDelta: (deltaX, 0), new(resizeStart.X, e.Y)); break;
+                        case TopLeft:      ResizeControl(sizeDelta: (-deltaX, -deltaY), positionDelta: (deltaX, deltaY)); break;
+                        case TopMiddle:    ResizeControl(sizeDelta: (0, -deltaY), positionDelta: (0, deltaY)); break;
+                        case TopRight:     ResizeControl(sizeDelta: (deltaX, -deltaY), positionDelta: (0, deltaY), new(e.X, resizeStart.Y)); break;
+                        case CenterLeft:   ResizeControl(sizeDelta: (-deltaX, 0), positionDelta: (deltaX, 0)); break;
+                        case CenterRight:  ResizeControl(sizeDelta: (deltaX, 0), positionDelta: (0, 0), e.Location); break;
+                        case BottomLeft:   ResizeControl(sizeDelta: (-deltaX, deltaY), positionDelta: (deltaX, 0), new(resizeStart.X, e.Y)); break;
                         case BottomMiddle: ResizeControl(sizeDelta: (0, deltaY), positionDelta: (0, 0), e.Location); break;
-                        case BottomRight: ResizeControl(sizeDelta: (deltaX, deltaY), positionDelta: (0, 0), e.Location); break;
+                        case BottomRight:  ResizeControl(sizeDelta: (deltaX, deltaY), positionDelta: (0, 0), e.Location); break;
                     }
+
                     break;
                 }
             case State.ChangingAlpha:
