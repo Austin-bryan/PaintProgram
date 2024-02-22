@@ -6,33 +6,13 @@ public partial class StarShape : ParametricShape
     protected virtual double Offset       { get; } = 3 * Math.PI / 4f + Math.PI;
     protected virtual float StartAlpha    { get; } = 0.25f;
     protected override int AlphaPointIndex => 6;
+    protected NGonGenerator nGonGenerator;
     
     public StarShape()
     {
         InitializeComponent();
         Alpha = StartAlpha;
+        nGonGenerator = new(NumSides, Offset, Gap);
     }
-
-    protected override Point[] GetPoints()
-    {
-        Point[] points = new Point[NumSides];
-
-        for (int i = 0; i < NumSides; i++)
-        {
-            double angle = 2 * Math.PI * i / NumSides;
-
-            int x = (int)(Width  / 2 + ((Width  / 2 - Gap + 5) * Math.Cos(angle + Offset))); 
-            int y = (int)(Height / 2 + ((Height / 2 - Gap + 5) * Math.Sin(angle + Offset)));
-
-            if (i % 2 == 0)
-            {
-                x = (int)Lerp(x, Width  / 2, Alpha);
-                y = (int)Lerp(y, Height / 2, Alpha);
-            }
-
-            points[i] = new Point(x, y);
-        }
-
-        return points;
-    }
+    protected override Point[] GetPoints() => nGonGenerator.GetPoints(Width, Height, Alpha);
 }
