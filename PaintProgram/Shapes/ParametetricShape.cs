@@ -52,9 +52,7 @@ public partial class ParametricShape : Shape
     }
     protected override void AdjustAlpha(MouseEventArgs e)
     {
-        Alpha = GetAlpha(e);
-        Alpha = Math.Min(Alpha, MaxAlpha);
-        Alpha = Math.Max(Alpha, MinAlpha);
+        Alpha = Math.Clamp(GetAlpha(e), MinAlpha, MaxAlpha);
         Refresh();
     }
     protected override void OnMouseDown(MouseEventArgs e)
