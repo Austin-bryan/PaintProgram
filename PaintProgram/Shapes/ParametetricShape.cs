@@ -11,10 +11,7 @@ public partial class ParametricShape : Shape
     protected virtual int AlphaPointIndex { get; } = 0;
     protected readonly List<AlphaHandle> alphaHandles = new();
 
-    public ParametricShape()
-    {
-        InitializeComponent();
-    }
+    public ParametricShape() => InitializeComponent();
 
     protected override void OnPaint(PaintEventArgs e)
     {
