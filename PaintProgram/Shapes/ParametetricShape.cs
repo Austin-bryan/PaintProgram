@@ -14,7 +14,6 @@ public partial class ParametricShape : Shape
     public ParametricShape()
     {
         InitializeComponent();
-        //alphaHandles.Add(new AlphaHandle(this, AlphaPointIndex, Alpha, MinAlpha, MaxAlpha, e => 1 - (e.X - (Width / 2)) / (float)Width * WidthAdjustment));
     }
 
     protected override void OnPaint(PaintEventArgs e)
@@ -24,29 +23,42 @@ public partial class ParametricShape : Shape
     }
     protected override void UpdateCursor(MouseEventArgs e)
     {
-        if (!IsAlphaHandleHover(e, () => Cursor = Cursors.Cross))
+        if (!IsAlphaHandleHover(e, a => Cursor = Cursors.Cross))
             base.UpdateCursor(e);
     }
     protected override void AdjustAlpha(MouseEventArgs e)
     {
-        alphaHandles.ToList().ForEach(a => a.AdjustAlpha(e));
+        alphaHandles.Where(a => a.IsPressed).ToList().ForEach(a => a.AdjustAlpha(e));
         Refresh();
     }
     protected override void OnMouseDown(MouseEventArgs e)
     {
-        if (!IsAlphaHandleHover(e, () => (State, moveStart) = (State.ChangingAlpha, e.Location)))
+        if (!IsAlphaHandleHover(e, a =>
+        {
+            a.IsPressed = true;
+            (State, moveStart) = (State.ChangingAlpha, e.Location);
+
+        }))
             base.OnMouseDown(e);
     }
+    protected override void OnMouseUp(MouseEventArgs e)
+    {
+        base.OnMouseUp(e);
+        alphaHandles.ForEach(a => a.IsPressed = false);
+    }
 
-    protected int ShortLength(int n) => (int)(n * alphaHandles[0].Alpha);
-    protected int LongLength(int n)  => (int)(n * (1 - alphaHandles[0].Alpha));
+    protected int ShortLength(int n) => ShortLength(n, alphaHandles[0]);
+    protected int LongLength(int n)  => LongLength(n, alphaHandles[0]);
 
-    private bool IsAlphaHandleHover(MouseEventArgs e, Action action)
+    protected int ShortLength(int n, AlphaHandle alphaHandle) => (int)(n * alphaHandle.Alpha);
+    protected int LongLength(int n, AlphaHandle alphaHandle)  => (int)(n * (1 - alphaHandle.Alpha));
+
+    private bool IsAlphaHandleHover(MouseEventArgs e, Action<AlphaHandle> action)
     {
         foreach (var alphaHandle in alphaHandles)
             if (alphaHandle.IsHovered(e))
             {
-                action();
+                action(alphaHandle);
                 return true;
             }
         return false;
