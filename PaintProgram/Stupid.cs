@@ -1,5 +1,4 @@
-﻿using Accessibility;
-using PaintProgram.Shapes;
+﻿using PaintProgram.Shapes;
 
 namespace PaintProgram;
 

@@ -2,11 +2,6 @@
 
 public partial class TrapazoidShape : ParametricShape
 {
-    protected override int AlphaPointIndex => 0;
-    protected override float WidthAdjustment => -3f;
-    public override float MaxAlpha => 0.4999f;
-    public override float MinAlpha => 0.04f;
-
     public TrapazoidShape()
     {
         InitializeComponent();

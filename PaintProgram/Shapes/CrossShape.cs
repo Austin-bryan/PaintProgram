@@ -2,10 +2,6 @@
 
 public partial class CrossShape : ParametricShape
 {
-    protected override int AlphaPointIndex => 0;
-    public override float MaxAlpha => 0.4999f;
-    public override float MinAlpha => 0.04f;
-
     public CrossShape()
     {
         InitializeComponent();
@@ -13,7 +9,6 @@ public partial class CrossShape : ParametricShape
 
         alphaHandles.Add(new AlphaHandle(this, alphaPointIndex: 0, alpha: 0.35f, minAlpha: 0.04f, maxAlpha: 0.4999f,
             getAlpha: (e, @this) => Lerp(@this.MinAlpha, @this.MaxAlpha, e.X / (float)Width * 2)));
-        //alphaHandles.Add(new AlphaHandle(this, AlphaPointIndex, Alpha, MinAlpha, MaxAlpha, e => Lerp(MinAlpha, MaxAlpha, e.X / (float)Width * 2)));
     }
 
     protected override Point[] GetPoints() => new Point[]
