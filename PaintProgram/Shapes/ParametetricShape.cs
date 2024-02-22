@@ -9,20 +9,19 @@ public partial class ParametricShape : Shape
     public float Alpha { get; set; } = 0.25f;
     protected virtual float WidthAdjustment { get; }
     protected virtual int AlphaPointIndex { get; } = 0;
-    private readonly AlphaHandle[] alphaHandles;
+    protected readonly AlphaHandle[] alphaHandles;
 
     public ParametricShape()
     {
         InitializeComponent();
         alphaHandles = new AlphaHandle[1];
-        alphaHandles[0] = new AlphaHandle(this);
+        alphaHandles[0] = new AlphaHandle(this, Alpha, MinAlpha, MaxAlpha);
     }
 
     protected virtual float GetAlpha(MouseEventArgs e) => 1 - (e.X - (Width / 2)) / (float)Width * WidthAdjustment;
     
     protected override void OnPaint(PaintEventArgs e)
     {
-        Alpha = Math.Max(Alpha, MinAlpha);
         base.OnPaint(e);
         alphaHandles.ToList().ForEach(a => a.Draw(e));
     }
@@ -33,7 +32,7 @@ public partial class ParametricShape : Shape
     }
     protected override void AdjustAlpha(MouseEventArgs e)
     {
-        Alpha = Math.Clamp(GetAlpha(e), MinAlpha, MaxAlpha);
+        alphaHandles.ToList().ForEach(a => a.AdjustAlpha(e));
         Refresh();
     }
     protected override void OnMouseDown(MouseEventArgs e)
@@ -42,8 +41,8 @@ public partial class ParametricShape : Shape
             base.OnMouseDown(e);
     }
 
-    protected int ShortLength(int n) => (int)(n * Alpha);
-    protected int LongLength(int n)  => (int)(n * (1 - Alpha));
+    protected int ShortLength(int n) => (int)(n * alphaHandles[0].Alpha);
+    protected int LongLength(int n)  => (int)(n * (1 - alphaHandles[0].Alpha));
 
     private bool IsAlphaHandleHover(MouseEventArgs e, Action action)
     {

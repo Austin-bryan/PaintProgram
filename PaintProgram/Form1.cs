@@ -35,10 +35,10 @@ public partial class Form1 : Form
         //CreateShape<TriangleShape>();
         //CreateShape<RightTriangleShape>();
         CreateShape<CrossShape>();
-        //CreateShape<Star4Points>();
-        //CreateShape<Star5Points>();
-        //CreateShape<Star6Points>();
-        //CreateShape<TrapazoidShape>();
+        CreateShape<Star4Points>();
+        CreateShape<Star5Points>();
+        CreateShape<Star6Points>();
+        CreateShape<TrapazoidShape>();
         //CreateShape<EllipseShape>();
 
         InitializeCustomTitleBar();

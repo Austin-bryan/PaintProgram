@@ -5,6 +5,7 @@ public partial class TrapazoidShape : ParametricShape
     protected override int AlphaPointIndex => 0;
     protected override float WidthAdjustment => -3f;
     public override float MaxAlpha => 0.4999f;
+    public override float MinAlpha => 0.04f;
 
     public TrapazoidShape() => InitializeComponent();
 
@@ -15,7 +16,5 @@ public partial class TrapazoidShape : ParametricShape
         new(Width - Gap, Height - Gap),
         new(Gap, Height - Gap)
     };
-    protected override float GetAlpha(MouseEventArgs e) => Lerp(0, 0.49f, e.X / (float)Width * 2f);
-    //protected override float GetAlpha(MouseEventArgs e) => (float)Math.Max(Math.Min(Lerp(0, 0.49f, e.X / (float)Width * 2f), 0.4999), 0.02f);
-
+    protected override float GetAlpha(MouseEventArgs e) => Lerp(MinAlpha, MaxAlpha, e.X / (float)Width * 2f);
 }
