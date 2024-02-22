@@ -29,8 +29,8 @@ public partial class Form1 : Form
         CreateShape<MapShape>();
         //CreateShape<Pentagon>();
         //CreateShape<Hexagon>();
-        //CreateShape<Septagon>();
-        //CreateShape<Octagon>();
+        CreateShape<Septagon>();
+        CreateShape<Octagon>();
         //CreateShape<Decagon>();
         //CreateShape<RectangleShape>();
         //CreateShape<TriangleShape>();

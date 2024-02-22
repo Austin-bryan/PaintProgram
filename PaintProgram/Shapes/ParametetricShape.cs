@@ -5,6 +5,7 @@ public partial class ParametricShape : Shape
     public override bool ShowAlphaBox => true;
     public virtual float MinAlpha => 5.0f / Width;
     public virtual float MaxAlpha { get; } = 1f;
+    public List<AlphaHandle> AlphaHandles => alphaHandles.ToList(); // Returns a copy of the original to prevent public mutataion of the list
 
     public float Alpha { get; set; } = 0.25f;
     protected virtual float WidthAdjustment { get; }
@@ -13,6 +14,7 @@ public partial class ParametricShape : Shape
 
     public ParametricShape() => InitializeComponent();
 
+    public void SetAlpha(int index, float alpha) => alphaHandles[index].Alpha = alpha;
     protected override void OnPaint(PaintEventArgs e)
     {
         base.OnPaint(e);

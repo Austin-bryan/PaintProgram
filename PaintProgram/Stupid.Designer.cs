@@ -59,8 +59,9 @@
             yPixelBox = new PixelTextBox();
             xPixelBox = new PixelTextBox();
             thicknessPixelBox = new PixelTextBox();
-            alphaPixelBox = new PixelTextBox();
+            alpha1_PixelBox = new PixelTextBox();
             borderCheckBox = new CheckBox();
+            alpha2_PixelBox = new PixelTextBox();
             sendBackwardsBtn = new Button();
             ((System.ComponentModel.ISupportInitialize)colorWheelPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)valueSliderPictureBox).BeginInit();
@@ -420,18 +421,18 @@
             thicknessPixelBox.TextBoxText = "0 px";
             thicknessPixelBox.InputSubmit += thicknessPixelBox_InputSubmit;
             // 
-            // alphaPixelBox
+            // alpha1_PixelBox
             // 
-            alphaPixelBox.AllowDecimals = true;
-            alphaPixelBox.BackColor = Color.FromArgb(80, 80, 80);
-            alphaPixelBox.LabelText = "Alpha";
-            alphaPixelBox.Location = new Point(179, 363);
-            alphaPixelBox.Name = "alphaPixelBox";
-            alphaPixelBox.Size = new Size(120, 23);
-            alphaPixelBox.TabIndex = 42;
-            alphaPixelBox.TextBoxText = "0 px";
-            alphaPixelBox.Visible = false;
-            alphaPixelBox.InputSubmit += alphaPixelBox_InputSubmit;
+            alpha1_PixelBox.AllowDecimals = true;
+            alpha1_PixelBox.BackColor = Color.FromArgb(80, 80, 80);
+            alpha1_PixelBox.LabelText = "Alpha 1";
+            alpha1_PixelBox.Location = new Point(179, 363);
+            alpha1_PixelBox.Name = "alpha1_PixelBox";
+            alpha1_PixelBox.Size = new Size(120, 23);
+            alpha1_PixelBox.TabIndex = 42;
+            alpha1_PixelBox.TextBoxText = "0 px";
+            alpha1_PixelBox.Visible = false;
+            alpha1_PixelBox.InputSubmit += alpha1_PixelBox_InputSubmit;
             // 
             // borderCheckBox
             // 
@@ -446,18 +447,32 @@
             borderCheckBox.UseVisualStyleBackColor = false;
             borderCheckBox.CheckedChanged += borderCheckBox_CheckedChanged;
             // 
+            // alpha2_PixelBox
+            // 
+            alpha2_PixelBox.AllowDecimals = true;
+            alpha2_PixelBox.BackColor = Color.FromArgb(80, 80, 80);
+            alpha2_PixelBox.LabelText = "Alpha 2";
+            alpha2_PixelBox.Location = new Point(179, 383);
+            alpha2_PixelBox.Name = "alpha2_PixelBox";
+            alpha2_PixelBox.Size = new Size(120, 23);
+            alpha2_PixelBox.TabIndex = 44;
+            alpha2_PixelBox.TextBoxText = "0 px";
+            alpha2_PixelBox.Visible = false;
+            alpha2_PixelBox.InputSubmit += alpha2_PixelBox_InputSubmit;
+            // 
             // Stupid
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(343, 633);
-            Controls.Add(borderCheckBox);
             Controls.Add(linkButton);
             Controls.Add(heightPixelBox);
-            Controls.Add(widthPixelBox);
             Controls.Add(yPixelBox);
+            Controls.Add(alpha2_PixelBox);
+            Controls.Add(borderCheckBox);
+            Controls.Add(widthPixelBox);
             Controls.Add(xPixelBox);
-            Controls.Add(alphaPixelBox);
+            Controls.Add(alpha1_PixelBox);
             Controls.Add(thicknessPixelBox);
             Controls.Add(borderColorBtn);
             Controls.Add(colorLabel);
@@ -533,7 +548,8 @@
         private PixelTextBox yPixelBox;
         private PixelTextBox xPixelBox;
         private PixelTextBox thicknessPixelBox;
-        private PixelTextBox alphaPixelBox;
+        private PixelTextBox alpha1_PixelBox;
         private CheckBox borderCheckBox;
+        private PixelTextBox alpha2_PixelBox;
     }
 }

@@ -1,4 +1,5 @@
-﻿using PaintProgram.Shapes;
+﻿using Accessibility;
+using PaintProgram.Shapes;
 
 namespace PaintProgram;
 
@@ -27,6 +28,7 @@ public partial class Stupid : Form
     private readonly int sliderMin, sliderMax;
     private readonly int diameter = 200;
     private readonly Color unlinkedColor = Color.FromArgb(255, 110, 110, 110);
+    private readonly List<PixelTextBox> alphaBoxes = new();
 
     private int Radius => diameter / 2;
 
@@ -72,6 +74,9 @@ public partial class Stupid : Form
         Bitmap bitmap = new(linkButton.Image, 15, 30);
         linkButton.Image = bitmap;
         linkButton.BackColor = unlinkedColor;
+
+        alphaBoxes.Add(alpha1_PixelBox);
+        alphaBoxes.Add(alpha2_PixelBox);
     }
 
     private Bitmap GenerateValueSlider()
@@ -156,11 +161,11 @@ public partial class Stupid : Form
         e.Graphics.DrawEllipse(new Pen(Brushes.Black, 1.6f), x: point.X + offset / 2, point.Y + offset / 2, cursorDiameter - offset, cursorDiameter - offset);
     }
 
-    private void colorWheelPictureBox_MouseEnter  (object sender, EventArgs e) => Cursor = Cursors.Cross;
-    private void colorWheelPictureBox_MouseLeave  (object sender, EventArgs e) => Cursor = Cursors.Default;
-    private void valueSliderPictureBox_MouseEnter (object sender, EventArgs e) => Cursor = Cursors.Cross;
-    private void valueSliderPictureBox_MouseLeave (object sender, EventArgs e) => Cursor = Cursors.Default;
-    private void valueSliderPictureBox_MouseUp    (object sender, MouseEventArgs e) => (sliderMouseDown, CursorVisible) = (false, true);
+    private void colorWheelPictureBox_MouseEnter(object sender, EventArgs e) => Cursor = Cursors.Cross;
+    private void colorWheelPictureBox_MouseLeave(object sender, EventArgs e) => Cursor = Cursors.Default;
+    private void valueSliderPictureBox_MouseEnter(object sender, EventArgs e) => Cursor = Cursors.Cross;
+    private void valueSliderPictureBox_MouseLeave(object sender, EventArgs e) => Cursor = Cursors.Default;
+    private void valueSliderPictureBox_MouseUp(object sender, MouseEventArgs e) => (sliderMouseDown, CursorVisible) = (false, true);
 
     private static float ClampToNearestMultiple(float value)
     {
@@ -263,10 +268,10 @@ public partial class Stupid : Form
         linkButton.BackColor = linkedEnabled ? Color.FromArgb(255, 45, 45, 45) : unlinkedColor;
     }
 
-    private void bringToFrontBtn_Click  (object sender, EventArgs e) => ActiveShape.MoveToFront();
-    private void bringForwardBtn_Click  (object sender, EventArgs e) => ActiveShape.MoveForwards();
-    private void sendBackwardsBtn_Click (object sender, EventArgs e) => ActiveShape.MoveBackwards();
-    private void sendToBackBtn_Click    (object sender, EventArgs e) => ActiveShape.MoveToBack();
+    private void bringToFrontBtn_Click(object sender, EventArgs e) => ActiveShape.MoveToFront();
+    private void bringForwardBtn_Click(object sender, EventArgs e) => ActiveShape.MoveForwards();
+    private void sendBackwardsBtn_Click(object sender, EventArgs e) => ActiveShape.MoveBackwards();
+    private void sendToBackBtn_Click(object sender, EventArgs e) => ActiveShape.MoveToBack();
 
     private void widthPixelBox_InputSubmit(double parsedValue)
     {
@@ -312,16 +317,18 @@ public partial class Stupid : Form
 
     public void RefreshShapeEditor()
     {
-        widthPixelBox.TextBoxText     = ActiveShape.Width.ToString();
-        heightPixelBox.TextBoxText    = ActiveShape.Height.ToString();
-        xPixelBox.TextBoxText         = ActiveShape.Location.X.ToString();
-        yPixelBox.TextBoxText         = ActiveShape.Location.Y.ToString();
+        widthPixelBox.TextBoxText = ActiveShape.Width.ToString();
+        heightPixelBox.TextBoxText = ActiveShape.Height.ToString();
+        xPixelBox.TextBoxText = ActiveShape.Location.X.ToString();
+        yPixelBox.TextBoxText = ActiveShape.Location.Y.ToString();
         thicknessPixelBox.TextBoxText = ActiveShape.BorderThickness.ToString();
 
-        if (ActiveShape is ParametricShape parametetricShape)
+        if (ActiveShape is ParametricShape parametricShape)
         {
-            alphaPixelBox.TextBoxText = parametetricShape.Alpha.ToString();
-            alphaPixelBox.UpdateAlphaBounds(parametetricShape);
+            UpdateAlphaBoxes();
+
+            for (int i = 0; i < parametricShape.AlphaHandles.Count; i++)
+                alphaBoxes[i].UpdateAlphaBounds(parametricShape.AlphaHandles[i]);
         }
 
         borderColorBtn.BackColor = ActiveShape.BorderColor;
@@ -337,20 +344,42 @@ public partial class Stupid : Form
     }
     public void ShowAlphaBox(bool isVisible)
     {
-        alphaPixelBox.Visible = isVisible;
+        alpha1_PixelBox.Visible = isVisible;
 
-        if (isVisible)
-            alphaPixelBox.TextBoxText = ((ParametricShape)ActiveShape).Alpha.ToString();
+        if (ActiveShape is ParametricShape parametricShape)
+        {
+            alpha2_PixelBox.Visible = parametricShape.AlphaHandles.Count > 1 && isVisible;
+
+            if (isVisible)
+                UpdateAlphaBoxes();
+        }
+        else alpha2_PixelBox.Visible = false;
+
+
+    }
+    private void UpdateAlphaBoxes()
+    {
+        if (ActiveShape is ParametricShape parametricShape)
+            for (int i = 0; i < parametricShape.AlphaHandles.Count; i++)
+                UpdateAlphaBox(alphaBoxes[i], parametricShape, i);
+        return;
+
+        // ---- Local Functions ---- //
+        void UpdateAlphaBox(PixelTextBox ptb, ParametricShape ps, int i) => ptb.TextBoxText = ps.AlphaHandles[i].Alpha.ToString();
     }
 
-    private void alphaPixelBox_InputSubmit(double parsedValue)
+    private void alpha1_PixelBox_InputSubmit(double parsedValue) => UpdateAlpha(0, parsedValue);
+    private void alpha2_PixelBox_InputSubmit(double parsedValue) => UpdateAlpha(1, parsedValue);
+    
+    private void UpdateAlpha(int index, double parsedValue)
     {
         if (ActiveShape is ParametricShape ps)
         {
-            ps.Alpha = (float)parsedValue;
+            ps.SetAlpha(index, (float)parsedValue);
             ActiveShape.Refresh();
         }
     }
 
     private void borderCheckBox_CheckedChanged(object sender, EventArgs e) => ActiveShape.UseBorder = borderCheckBox.Checked;
+
 }
