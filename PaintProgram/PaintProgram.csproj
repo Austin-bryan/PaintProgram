@@ -26,6 +26,7 @@
     <Compile Update="Shapes\NGons\Hexagon.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Shapes\MapShape.cs" />
   </ItemGroup>
 
   <ItemGroup>

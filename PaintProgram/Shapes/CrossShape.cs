@@ -4,6 +4,7 @@ public partial class CrossShape : ParametricShape
 {
     protected override int AlphaPointIndex => 0;
     public override float MaxAlpha => 0.4999f;
+    public override float MinAlpha => 0.04f;
 
     public CrossShape()
     {
@@ -26,5 +27,5 @@ public partial class CrossShape : ParametricShape
         new(Gap,                ShortLength(Height)),
         new(ShortLength(Width), ShortLength(Height))
     };
-    protected override float GetAlpha(MouseEventArgs e) => Lerp(0, 0.49f, e.X / (float)Width * 2f);
+    protected override float GetAlpha(MouseEventArgs e) => Lerp(MinAlpha, MaxAlpha, e.X / (float)Width * 2f);
 }

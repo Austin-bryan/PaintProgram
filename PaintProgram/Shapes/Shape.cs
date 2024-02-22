@@ -92,7 +92,7 @@ public partial class Shape : Form
         InitializeComponent();
         InitializeHandles();
 
-        Width = Height = 350;
+        Width = Height = 300;
 
         OnResize(default);
 
