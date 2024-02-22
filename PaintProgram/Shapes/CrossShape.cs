@@ -10,6 +10,7 @@ public partial class CrossShape : ParametricShape
     {
         InitializeComponent();
         Alpha = 0.35f;
+        alphaHandles.Add(new AlphaHandle(this, AlphaPointIndex, Alpha, MinAlpha, MaxAlpha, e => Lerp(MinAlpha, MaxAlpha, e.X / (float)Width * 2)));
     }
 
     protected override Point[] GetPoints() => new Point[]
@@ -27,5 +28,4 @@ public partial class CrossShape : ParametricShape
         new(Gap,                ShortLength(Height)),
         new(ShortLength(Width), ShortLength(Height))
     };
-    protected override float GetAlpha(MouseEventArgs e) => Lerp(MinAlpha, MaxAlpha, e.X / (float)Width * 2f);
 }

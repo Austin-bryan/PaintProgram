@@ -14,11 +14,9 @@ public partial class ParametricShape : Shape
     public ParametricShape()
     {
         InitializeComponent();
-        alphaHandles.Add(new AlphaHandle(this, AlphaPointIndex, Alpha, MinAlpha, MaxAlpha));
+        //alphaHandles.Add(new AlphaHandle(this, AlphaPointIndex, Alpha, MinAlpha, MaxAlpha, e => 1 - (e.X - (Width / 2)) / (float)Width * WidthAdjustment));
     }
 
-    protected virtual float GetAlpha(MouseEventArgs e) => 1 - (e.X - (Width / 2)) / (float)Width * WidthAdjustment;
-    
     protected override void OnPaint(PaintEventArgs e)
     {
         base.OnPaint(e);

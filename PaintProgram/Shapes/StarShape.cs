@@ -13,6 +13,7 @@ public partial class StarShape : ParametricShape
         InitializeComponent();
         Alpha = StartAlpha;
         nGonGenerator = new(NumSides, Offset, Gap);
+        alphaHandles.Add(new AlphaHandle(this, AlphaPointIndex, Alpha, MinAlpha, MaxAlpha, e => 1 - (e.X - (Width / 2)) / (float)Width * WidthAdjustment));
     }
     protected override Point[] GetPoints() => nGonGenerator.GetPoints(Width, Height, alphaHandles[0].Alpha);
 }
