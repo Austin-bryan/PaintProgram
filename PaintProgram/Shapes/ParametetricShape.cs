@@ -9,13 +9,12 @@ public partial class ParametricShape : Shape
     public float Alpha { get; set; } = 0.25f;
     protected virtual float WidthAdjustment { get; }
     protected virtual int AlphaPointIndex { get; } = 0;
-    protected readonly AlphaHandle[] alphaHandles;
+    protected readonly List<AlphaHandle> alphaHandles = new();
 
     public ParametricShape()
     {
         InitializeComponent();
-        alphaHandles = new AlphaHandle[1];
-        alphaHandles[0] = new AlphaHandle(this, Alpha, MinAlpha, MaxAlpha);
+        alphaHandles.Add(new AlphaHandle(this, AlphaPointIndex, Alpha, MinAlpha, MaxAlpha));
     }
 
     protected virtual float GetAlpha(MouseEventArgs e) => 1 - (e.X - (Width / 2)) / (float)Width * WidthAdjustment;
