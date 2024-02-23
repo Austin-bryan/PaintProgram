@@ -365,8 +365,6 @@ public partial class ShapeEditor : Form
                 UpdateAlphaBoxes();
         }
         else alpha2_PixelBox.Visible = false;
-
-
     }
     private void UpdateAlphaBoxes()
     {

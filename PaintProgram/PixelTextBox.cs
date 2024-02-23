@@ -21,6 +21,7 @@ public partial class PixelTextBox : UserControl
 
     public delegate void InputSubmitHandler(double parsedTexxt);
     public event InputSubmitHandler InputSubmit;
+    private AlphaHandle alphaHandle;
 
     private string lastValidString;
 
@@ -32,7 +33,10 @@ public partial class PixelTextBox : UserControl
 
     public void UpdateAlphaBounds(AlphaHandle alphaHandle)
     {
-        double parsedValue = double.Parse(TextBoxText);
+        this.alphaHandle = alphaHandle;
+        //double parsedValue = double.Parse(TextBoxText);
+        //double clampedValue = Math.Clamp(parsedValue, alphaHandle.MinAlpha, alphaHandle.MaxAlpha);
+        //TextBoxText = clampedValue.ToString();
     }
 
     private void entryBox_Leave(object sender, EventArgs e)
@@ -42,15 +46,21 @@ public partial class PixelTextBox : UserControl
             MessageBox.Show("Invalid numeric entry. A valid entry must be entirely numeric. Restoring last valid entry.", "Paint Program", MessageBoxButtons.OK, MessageBoxIcon.Error);
             entryBox.Text = lastValidString;
         }
-        AddSuffix();
 
-        string text = TextBoxText;
+        //string text = TextBoxText;
 
-        if (Suffix.Length > 0)
-            text = text.Replace(Suffix, "");
-        double parsedValue = double.Parse(text);
+        //if (Suffix.Length > 0)
+            //text = text.Replace(Suffix, "");
+        double parsedValue = double.Parse(TextBoxText);
+
+        if (alphaHandle != null)
+        {
+            parsedValue = Math.Clamp(parsedValue, alphaHandle.MinAlpha, alphaHandle.MaxAlpha);
+            TextBoxText = parsedValue.ToString();
+        }
         
-        lastValidString = text;
+        AddSuffix();
+        lastValidString = TextBoxText;
 
         InputSubmit(parsedValue);
     }

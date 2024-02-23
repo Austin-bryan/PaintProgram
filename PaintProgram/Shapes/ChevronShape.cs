@@ -13,6 +13,8 @@ public partial class ChevronShape : ParametricShape
             getAlpha: (e, @this) => Lerp(@this.MinAlpha, @this.MaxAlpha, e.X / (float)Width / @this.MaxAlpha)));
         alphaHandles.Add(new AlphaHandle(this, alphaPointIndex: 3, alpha: 0.35f, minAlpha: 0.04f, maxAlpha: 0.499f,
             getAlpha: (e, @this) => Lerp(@this.MinAlpha, @this.MaxAlpha, @this.MaxAlpha - (e.X - Width / 2) / (float)Width / @this.MaxAlpha)));
+
+        OnAlphaChange();
     }
 
     protected override void OnAlphaChange()

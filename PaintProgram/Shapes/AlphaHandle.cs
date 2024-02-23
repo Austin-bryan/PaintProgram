@@ -22,7 +22,6 @@ public partial class ParametricShape
 
         public void Draw(PaintEventArgs e)
         {
-
             const int diamondRadius = 5;
             Point[] diamondPoints = new Point[]
             {
