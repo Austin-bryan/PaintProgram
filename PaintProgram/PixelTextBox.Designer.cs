@@ -28,10 +28,49 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            label = new Label();
+            entryBox = new TextBox();
+            SuspendLayout();
+            // 
+            // label
+            // 
+            label.ForeColor = SystemColors.ButtonHighlight;
+            label.Location = new Point(0, 6);
+            label.Name = "label";
+            label.Size = new Size(63, 15);
+            label.TabIndex = 0;
+            label.Text = "Label Name";
+            label.TextAlign = ContentAlignment.TopRight;
+            // 
+            // entryBox
+            // 
+            entryBox.BackColor = Color.FromArgb(45, 45, 45);
+            entryBox.BorderStyle = BorderStyle.FixedSingle;
+            entryBox.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            entryBox.ForeColor = SystemColors.Menu;
+            entryBox.Location = new Point(65, 3);
+            entryBox.Name = "entryBox";
+            entryBox.Size = new Size(44, 23);
+            entryBox.TabIndex = 1;
+            entryBox.Text = "Swag";
+            entryBox.TextAlign = HorizontalAlignment.Center;
+            // 
+            // PixelTextBox
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(80, 80, 80);
+            Controls.Add(entryBox);
+            Controls.Add(label);
+            Name = "PixelTextBox";
+            Size = new Size(112, 28);
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private Label label;
+        private TextBox entryBox;
     }
 }

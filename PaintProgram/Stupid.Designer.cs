@@ -80,7 +80,7 @@
             // 
             // sendBackwardsBtn
             // 
-            sendBackwardsBtn.BackColor = Color.FromArgb(110, 110, 110);
+            sendBackwardsBtn.BackColor = Color.FromArgb(120, 120, 120);
             sendBackwardsBtn.FlatAppearance.BorderSize = 0;
             sendBackwardsBtn.FlatStyle = FlatStyle.Flat;
             sendBackwardsBtn.Image = (Image)resources.GetObject("sendBackwardsBtn.Image");
@@ -254,7 +254,7 @@
             // 
             // linkButton
             // 
-            linkButton.BackColor = SystemColors.ControlDarkDark;
+            linkButton.BackColor = Color.FromArgb(130, 130, 130);
             linkButton.FlatAppearance.BorderSize = 0;
             linkButton.FlatStyle = FlatStyle.Flat;
             linkButton.Image = (Image)resources.GetObject("linkButton.Image");
@@ -279,7 +279,7 @@
             // 
             // bringToFrontBtn
             // 
-            bringToFrontBtn.BackColor = Color.FromArgb(110, 110, 110);
+            bringToFrontBtn.BackColor = Color.FromArgb(120, 120, 120);
             bringToFrontBtn.FlatAppearance.BorderSize = 0;
             bringToFrontBtn.FlatStyle = FlatStyle.Flat;
             bringToFrontBtn.Image = (Image)resources.GetObject("bringToFrontBtn.Image");
@@ -292,7 +292,7 @@
             // 
             // bringForwardBtn
             // 
-            bringForwardBtn.BackColor = Color.FromArgb(110, 110, 110);
+            bringForwardBtn.BackColor = Color.FromArgb(120, 120, 120);
             bringForwardBtn.FlatAppearance.BorderSize = 0;
             bringForwardBtn.FlatStyle = FlatStyle.Flat;
             bringForwardBtn.Image = (Image)resources.GetObject("bringForwardBtn.Image");
@@ -305,7 +305,7 @@
             // 
             // sendToBackBtn
             // 
-            sendToBackBtn.BackColor = Color.FromArgb(110, 110, 110);
+            sendToBackBtn.BackColor = Color.FromArgb(120, 120, 120);
             sendToBackBtn.FlatAppearance.BorderSize = 0;
             sendToBackBtn.FlatStyle = FlatStyle.Flat;
             sendToBackBtn.Image = (Image)resources.GetObject("sendToBackBtn.Image");
@@ -366,9 +366,9 @@
             widthPixelBox.AllowDecimals = false;
             widthPixelBox.BackColor = Color.FromArgb(80, 80, 80);
             widthPixelBox.LabelText = "W";
-            widthPixelBox.Location = new Point(-5, 363);
+            widthPixelBox.Location = new Point(8, 363);
             widthPixelBox.Name = "widthPixelBox";
-            widthPixelBox.Size = new Size(120, 23);
+            widthPixelBox.Size = new Size(107, 23);
             widthPixelBox.TabIndex = 37;
             widthPixelBox.TextBoxText = "0 px";
             widthPixelBox.InputSubmit += widthPixelBox_InputSubmit;
@@ -378,9 +378,9 @@
             heightPixelBox.AllowDecimals = false;
             heightPixelBox.BackColor = Color.FromArgb(80, 80, 80);
             heightPixelBox.LabelText = "H";
-            heightPixelBox.Location = new Point(-5, 383);
+            heightPixelBox.Location = new Point(8, 383);
             heightPixelBox.Name = "heightPixelBox";
-            heightPixelBox.Size = new Size(120, 23);
+            heightPixelBox.Size = new Size(107, 23);
             heightPixelBox.TabIndex = 38;
             heightPixelBox.TextBoxText = "0 px";
             heightPixelBox.InputSubmit += heightPixelBox_InputSubmit;

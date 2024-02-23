@@ -4,8 +4,14 @@ namespace PaintProgram;
 
 public partial class PixelTextBox : UserControl
 {
-    public string TextBoxText { get; set; }
-    public string LabelText { get; set; }
+    public string LabelText
+    {
+        get => label.Text; set => label.Text = value;
+    }
+    public string TextBoxText
+    {
+        get => entryBox.Text; set => entryBox.Text = value;
+    }
     public bool AllowDecimals { get; set; }
 
     public delegate void InputSubmitHandler(double parsedTexxt);
