@@ -458,7 +458,6 @@ namespace PaintProgram
             background2.Size = new Size(177, 77);
             background2.TabIndex = 62;
             background2.TabStop = false;
-            background2.Click += pictureBox6_Click;
             // 
             // ToolBarForm
             // 

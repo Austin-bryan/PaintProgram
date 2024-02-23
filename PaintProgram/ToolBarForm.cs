@@ -34,11 +34,6 @@ public partial class ToolBarForm : Form
     private void doubleArrowBtn_Click(object sender, EventArgs e) => MainForm.CreateShape<DoubleArrowShape>();
     private void chevronBtn_Click(object sender, EventArgs e) => MainForm.CreateShape<ChevronShape>();
 
-    private void pictureBox6_Click(object sender, EventArgs e)
-    {
-
-    }
-
     private void cursorBtn_Click(object sender, EventArgs e)
     {
         IsBrushActive = false;
