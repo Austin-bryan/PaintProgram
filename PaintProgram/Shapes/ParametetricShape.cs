@@ -43,11 +43,11 @@ public partial class ParametricShape : Shape
         alphaHandles.ForEach(a => a.IsPressed = false);
     }
 
-    protected int ShortLength(int n) => ShortLength(n, alphaHandles[0]);
-    protected int LongLength(int n)  => LongLength(n, alphaHandles[0]);
+    protected int ShortLength(int n) => ShortLength(n, 0);
+    protected int LongLength(int n)  => LongLength(n, 0);
 
-    protected int ShortLength(int n, AlphaHandle alphaHandle) => (int)(n * alphaHandle.Alpha);
-    protected int LongLength(int n, AlphaHandle alphaHandle)  => (int)(n * (1 - alphaHandle.Alpha));
+    protected int ShortLength(int n, int alphaIndex) => (int)(n * alphaHandles[alphaIndex].Alpha);
+    protected int LongLength(int n, int alphaIndex)  => (int)(n * (1 - alphaHandles[alphaIndex].Alpha));
 
     private bool IsAlphaHandleHover(MouseEventArgs e, Action<AlphaHandle> action)
     {

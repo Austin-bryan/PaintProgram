@@ -25,6 +25,7 @@ public partial class Form1 : Form
         InitializeComponent();
         WindowState = FormWindowState.Maximized;
 
+        CreateShape<DoubleArrowShape>();
         CreateShape<ChevronShape>();
         CreateShape<ArrowShape>();
         //CreateShape<MapShape>();
