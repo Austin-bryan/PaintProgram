@@ -5,10 +5,11 @@ namespace PaintProgram;
 
 public partial class Form1 : Form
 {
-    private readonly List<Shape> shapes     = new();
-    private readonly TitleBar    titleBar   = new();
-    private readonly ColorWheel  colorWheel = new();
-    private readonly ShapeEditor      stupid = new();
+    private readonly List<Shape> shapes      = new();
+    private readonly TitleBar    titleBar    = new();
+    private readonly ColorWheel  colorWheel  = new();
+    private readonly ToolBarForm toolBarForm = new();
+    private readonly ShapeEditor shapeEditor = new();
 
     public void DeleteMe(Dictionary<int, Shape> zOrderMap)
     {
@@ -19,7 +20,6 @@ public partial class Form1 : Form
             label2.Text += (zOrder, Shape.GetType().Name).ToString() + "\n";
         }
     }
-
     public Form1()
     {
         InitializeComponent();
@@ -45,18 +45,25 @@ public partial class Form1 : Form
         //CreateShape<EllipseShape>();
 
         InitializeCustomTitleBar();
+        toolBarForm.Show();
+        toolBarForm.Owner = this;
+        toolBarForm.Location = new Point(0, 60);
+        toolBarForm.InitOwner();
+
         titleBar.Show();
-        titleBar.Owner  = this;
-        stupid.Owner    = this;
+        titleBar.Owner = this;
+        shapeEditor.Owner = this;
     }
     
     public void ShowShapeEditor(Shape shape)
     {
-        stupid.Show();
-        stupid.Location = titleBar.ExitButtonLocation.Subtract(new Point(stupid.Width - 20, -50));
-        stupid.ActiveShape = shape;
+        shapeEditor.Show();
+        shapeEditor.Location = titleBar.ExitButtonLocation.Subtract(new Point(shapeEditor.Width - 20, -50));
+        shapeEditor.ActiveShape = shape;
     }
-    public void RefreshShapeEditor() => stupid?.RefreshShapeEditor();
+    public void RefreshShapeEditor() => shapeEditor?.RefreshShapeEditor();
+
+    public void AddShape(Shape shape) => shapes.Add(shape);
     private void CreateShape<T>() where T : Shape, new()
     {
         var shape = new T { Owner = this };
@@ -67,14 +74,24 @@ public partial class Form1 : Form
 
     public void BringTitleBarToFront()
     {
-        stupid.BringToFront();
         titleBar.BringToFront();
+        toolBarForm.BringToFront();
+        shapeEditor.BringToFront();
     }
 
     private void InitializeCustomTitleBar() => (FormBorderStyle, ControlBox) = (FormBorderStyle.None, false);
     private void Form1_Click(object sender, EventArgs e)
     {
         shapes.ForEach(s => s.HideHandles());
-        stupid.Hide();
+        shapeEditor.Hide();
+    }
+
+    private void shapeButton4_Load(object sender, EventArgs e)
+    {
+
+    }
+
+    private void toolBar1_Load(object sender, EventArgs e)
+    {
     }
 }

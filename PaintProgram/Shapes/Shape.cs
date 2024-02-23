@@ -77,6 +77,8 @@ public partial class Shape : Form
     private const int HandleSize = 8;
     private static readonly List<Shape> shapes = new();
     private static readonly Dictionary<int, Shape> zOrderMap = new();
+    private const int shade = 90;
+    protected const int BorderLength = 4;
 
     private Color shapeColor = Color.FromArgb(255, 90, 90, 150);
     private Color borderColor = Color.Black;
@@ -90,15 +92,10 @@ public partial class Shape : Form
         DoubleBuffered = true; // Enable double buffering to reduce flickering during resizing
 
         InitializeComponent();
-
         Width = Height = 300;
 
         OnResize(default);
-
-        BackColor       = Color.LimeGreen;
-        TransparencyKey = BackColor;
-        ShowInTaskbar   = false;
-        FormBorderStyle = FormBorderStyle.None;
+        FormHider.Hide(this);
 
         shapes.Add(this);
         ZOrder = shapes.Count - 1;
@@ -116,9 +113,10 @@ public partial class Shape : Form
     protected virtual void DrawShape(PaintEventArgs e)
     {
         e.Graphics.FillPolygon(new SolidBrush(ShapeColor), points);
-
+     
         if (UseBorder)
             e.Graphics.DrawPolygon(new Pen(BorderColor, BorderThickness), points);
+        e.Graphics.DrawPolygon(new Pen(BorderColor, BorderLength), points); ;
     }
     protected virtual void AdjustAlpha(MouseEventArgs e) { }
     protected virtual void UpdateCursor(MouseEventArgs e)
@@ -181,6 +179,7 @@ public partial class Shape : Form
             if (!resizeHandles[i].Contains(e.Location))
                 continue;
 
+            // Resize start
             State        = State.Resizing;
             resizeStart  = e.Location;
             Cursor       = GetCursorForHandle(i);
@@ -206,41 +205,41 @@ public partial class Shape : Form
         // Resize the control if the left mouse button is pressed and the cursor is over a resize handle
         switch (State)
         {
-            case State.Resizing:
+        case State.Resizing:
+        {
+            var (deltaX, deltaY) = GetDelta(resizeStart);
+            switch (activeHandle)
             {
-                var (deltaX, deltaY) = GetDelta(resizeStart);
-                switch (activeHandle)
-                {
-                    case TopLeft:   ResizeControl(sizeDelta: (-deltaX, -deltaY), positionDelta: (deltaX, deltaY)); break;
-                    case TopMiddle: ResizeControl(sizeDelta: (0, -deltaY), positionDelta: (0, deltaY)); break;
-                    case TopRight:  ResizeControl(sizeDelta: (deltaX, -deltaY), positionDelta: (0, deltaY), new(e.X, resizeStart.Y)); break;
-                    case CenterLeft:  ResizeControl(sizeDelta: (-deltaX, 0), positionDelta: (deltaX, 0)); break;
-                    case CenterRight: ResizeControl(sizeDelta: (deltaX, 0), positionDelta: (0, 0), e.Location); break;
-                    case BottomLeft:  ResizeControl(sizeDelta: (-deltaX, deltaY), positionDelta: (deltaX, 0), new(resizeStart.X, e.Y)); break;
-                    case BottomMiddle: ResizeControl(sizeDelta: (0, deltaY), positionDelta: (0, 0), e.Location); break;
-                    case BottomRight:  ResizeControl(sizeDelta: (deltaX, deltaY), positionDelta: (0, 0), e.Location); break;
-                }
+                case TopLeft:   ResizeControl(sizeDelta: (-deltaX, -deltaY), positionDelta: (deltaX, deltaY)); break;
+                case TopMiddle: ResizeControl(sizeDelta: (0, -deltaY), positionDelta: (0, deltaY)); break;
+                case TopRight:  ResizeControl(sizeDelta: (deltaX, -deltaY), positionDelta: (0, deltaY), new(e.X, resizeStart.Y)); break;
+                case CenterLeft:  ResizeControl(sizeDelta: (-deltaX, 0), positionDelta: (deltaX, 0)); break;
+                case CenterRight: ResizeControl(sizeDelta: (deltaX, 0), positionDelta: (0, 0), e.Location); break;
+                case BottomLeft:  ResizeControl(sizeDelta: (-deltaX, deltaY), positionDelta: (deltaX, 0), new(resizeStart.X, e.Y)); break;
+                case BottomMiddle: ResizeControl(sizeDelta: (0, deltaY), positionDelta: (0, 0), e.Location); break;
+                case BottomRight:  ResizeControl(sizeDelta: (deltaX, deltaY), positionDelta: (0, 0), e.Location); break;
+            }
                     
-                ((Form1)Owner).RefreshShapeEditor();
-                break;
-            }
-            case State.ChangingAlpha:
-                AdjustAlpha(e);
+            ((Form1)Owner).RefreshShapeEditor();
+            break;
+        }
+        case State.ChangingAlpha:
+            AdjustAlpha(e);
 
-                OnAlphaChange();
-                ((Form1)Owner).RefreshShapeEditor();
-                break;
-            case State.Moving:
-            {
-                var (deltaX, deltaY) = GetDelta(moveStart);
-                Location = new Point(Location.X + deltaX, Location.Y + deltaY);
+            OnAlphaChange();
+            ((Form1)Owner).RefreshShapeEditor();
+            break;
+        case State.Moving:
+        {
+            var (deltaX, deltaY) = GetDelta(moveStart);
+            Location = new Point(Location.X + deltaX, Location.Y + deltaY);
 
-                ((Form1)Owner).RefreshShapeEditor();
-                break;
-            }
-            default:
-                UpdateCursor(e);
-                break;
+            ((Form1)Owner).RefreshShapeEditor();
+            break;
+        }
+        default:
+            UpdateCursor(e);
+            break;
 
         }
 

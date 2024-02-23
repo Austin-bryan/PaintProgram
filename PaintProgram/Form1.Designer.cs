@@ -46,11 +46,12 @@ partial class Form1
         // 
         // Form1
         // 
-        AutoScaleDimensions = new SizeF(7F, 15F);
+        AutoScaleDimensions = new SizeF(10F, 25F);
         AutoScaleMode = AutoScaleMode.Font;
         BackColor = Color.FromArgb(50, 50, 50);
         ClientSize = new Size(1089, 566);
         Controls.Add(label2);
+        ClientSize = new Size(1556, 943);
         Name = "Form1";
         Text = "Form1";
         Click += Form1_Click;
