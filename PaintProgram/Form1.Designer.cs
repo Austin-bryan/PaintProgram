@@ -52,6 +52,31 @@ partial class Form1
         ClientSize = new Size(1089, 566);
         Controls.Add(label2);
         ClientSize = new Size(1556, 943);
+        paintPanel = new Panel();
+        SuspendLayout();
+        // 
+        // paintPanel
+        // 
+        paintPanel.BackColor = Color.White;
+        paintPanel.Location = new Point(3, 12);
+        paintPanel.Name = "paintPanel";
+        paintPanel.Size = new Size(1374, 584);
+        paintPanel.TabIndex = 0;
+        paintPanel.MouseDown += paintPanel_MouseDown;
+        paintPanel.MouseEnter += paintPanel_MouseEnter;
+        paintPanel.MouseLeave += paintPanel_MouseLeave;
+        paintPanel.MouseHover += paintPanel_MouseHover;
+        paintPanel.MouseMove += paintPanel_MouseMove;
+        paintPanel.MouseUp += paintPanel_MouseUp;
+        // 
+        // Form1
+        // 
+        AutoScaleDimensions = new SizeF(12F, 30F);
+        AutoScaleMode = AutoScaleMode.Font;
+        BackColor = Color.FromArgb(50, 50, 50);
+        ClientSize = new Size(1867, 1132);
+        Controls.Add(paintPanel);
+        Margin = new Padding(5, 6, 5, 6);
         Name = "Form1";
         Text = "Form1";
         Click += Form1_Click;
@@ -67,4 +92,5 @@ partial class Form1
     private CrossShape crossShape1;
     private Label label1;
     private Label label2;
+    private Panel paintPanel;
 }
