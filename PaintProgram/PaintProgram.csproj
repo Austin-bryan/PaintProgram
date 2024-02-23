@@ -49,6 +49,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Shapes\MapShape.cs" />
+    <Compile Update="Shapes\ParametricShape - Copy.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

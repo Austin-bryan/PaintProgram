@@ -50,7 +50,7 @@ public partial class Shape : Form
 
     // - Protected - //
     protected const int Gap = 10;
-    protected bool shouldShowHandles = false;
+    protected bool ShouldShowHandles { get; private set; } = false;
     protected Point resizeStart, moveStart;
     protected Point[] points;
     protected State State;
@@ -106,7 +106,7 @@ public partial class Shape : Form
     }
     public void HideHandles()
     {
-        shouldShowHandles = false;
+        ShouldShowHandles = false;
         Refresh();
     }
 
@@ -150,7 +150,7 @@ public partial class Shape : Form
         DrawShape(e);
 
         // Draw resize handles
-        if (shouldShowHandles)
+        if (ShouldShowHandles)
         {
             // Define a pen for drawing the border
             var borderPen = new Pen(Color.RebeccaPurple, 2);
@@ -192,7 +192,7 @@ public partial class Shape : Form
         
         shapes.ForEach(s => s.HideHandles());
         State = State.Moving;
-        shouldShowHandles = true;
+        ShouldShowHandles = true;
         Refresh();
 
         moveStart = e.Location;
