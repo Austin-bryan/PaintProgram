@@ -25,13 +25,13 @@ public partial class Form1 : Form
         InitializeComponent();
         WindowState = FormWindowState.Maximized;
 
-        //CreateShape<ArrowShape>();
+        CreateShape<ArrowShape>();
         //CreateShape<MapShape>();
-        CreateShape<PentagonShape>();
-        CreateShape<HexagonShape>();
-        CreateShape<SeptagonShape>();
-        CreateShape<OctagonShape>();
-        CreateShape<DecagonShape>();
+        //CreateShape<PentagonShape>();
+        //CreateShape<HexagonShape>();
+        //CreateShape<SeptagonShape>();
+        //CreateShape<OctagonShape>();
+        //CreateShape<DecagonShape>();
         //CreateShape<RectangleShape>();
         //CreateShape<TriangleShape>();
         //CreateShape<RightTriangleShape>();
