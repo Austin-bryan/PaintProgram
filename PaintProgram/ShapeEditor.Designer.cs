@@ -1,6 +1,6 @@
 ﻿namespace PaintProgram
 {
-    partial class Stupid
+    partial class ShapeEditor
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             Button sendBackwardsBtn;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Stupid));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ShapeEditor));
             colorWheelPictureBox = new PictureBox();
             valueSliderPictureBox = new PictureBox();
             colorPreviewPictureBox = new PictureBox();

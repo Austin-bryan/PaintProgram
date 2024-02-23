@@ -8,7 +8,7 @@ public partial class Form1 : Form
     private readonly List<Shape> shapes     = new();
     private readonly TitleBar    titleBar   = new();
     private readonly ColorWheel  colorWheel = new();
-    private readonly Stupid      stupid = new();
+    private readonly ShapeEditor      stupid = new();
 
     public void DeleteMe(Dictionary<int, Shape> zOrderMap)
     {

@@ -54,6 +54,7 @@
             entryBox.TabIndex = 1;
             entryBox.Text = "Swag";
             entryBox.TextAlign = HorizontalAlignment.Center;
+            entryBox.TextChanged += entryBox_TextChanged;
             entryBox.Enter += entryBox_Enter;
             entryBox.KeyDown += entryBox_KeyDown;
             entryBox.KeyPress += entryBox_KeyPress;

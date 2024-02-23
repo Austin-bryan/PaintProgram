@@ -2,7 +2,7 @@
 
 namespace PaintProgram;
 
-public partial class Stupid : Form
+public partial class ShapeEditor : Form
 {
     private Shape _activeShape;
     public Shape ActiveShape
@@ -52,7 +52,7 @@ public partial class Stupid : Form
         }
     }
 
-    public Stupid()
+    public ShapeEditor()
     {
         DoubleBuffered = true;
         InitializeComponent();

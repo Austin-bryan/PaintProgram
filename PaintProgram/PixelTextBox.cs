@@ -1,4 +1,5 @@
 ﻿using static PaintProgram.Shapes.ParametricShape;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace PaintProgram;
 
@@ -13,12 +14,15 @@ public partial class PixelTextBox : UserControl
         {
             entryBox.Text = value;
             AddSuffix();
+            lastValidString = entryBox.Text;
         }
     }
     public bool AllowDecimals { get; set; }
 
     public delegate void InputSubmitHandler(double parsedTexxt);
     public event InputSubmitHandler InputSubmit;
+
+    private string lastValidString;
 
     public PixelTextBox()
     {
@@ -28,10 +32,16 @@ public partial class PixelTextBox : UserControl
 
     public void UpdateAlphaBounds(AlphaHandle alphaHandle)
     {
+        double parsedValue = double.Parse(TextBoxText);
     }
 
     private void entryBox_Leave(object sender, EventArgs e)
     {
+        if (!string.IsNullOrEmpty(entryBox.Text) && !double.TryParse(entryBox.Text, out _))
+        {
+            MessageBox.Show("Invalid numeric entry. A valid entry must be entirely numeric. Restoring last valid entry.", "Paint Program", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            entryBox.Text = lastValidString;
+        }
         AddSuffix();
 
         string text = TextBoxText;
@@ -39,6 +49,8 @@ public partial class PixelTextBox : UserControl
         if (Suffix.Length > 0)
             text = text.Replace(Suffix, "");
         double parsedValue = double.Parse(text);
+        
+        lastValidString = text;
 
         InputSubmit(parsedValue);
     }
@@ -73,5 +85,32 @@ public partial class PixelTextBox : UserControl
             return;
         if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             e.Handled = true;
+    }
+
+    private bool isHandlingTextChanged = false;
+
+    private void entryBox_TextChanged(object sender, EventArgs e)
+    {
+        if (isHandlingTextChanged)
+            return;
+        
+        isHandlingTextChanged = true;
+
+        //if (!string.IsNullOrEmpty(entryBox.Text) && !IsNumeric(entryBox.Text))
+        //{
+        //    MessageBox.Show("Test");
+        //    entryBox.Text = lastValidString;
+        //}
+
+        lastValidString = TextBoxText;
+
+        //isHandlingTextChanged = false;
+
+        return;
+
+        bool IsNumeric(string text)
+        {
+            return double.TryParse(text, out _);
+        }
     }
 }
