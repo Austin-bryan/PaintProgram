@@ -27,15 +27,14 @@ public partial class Form1 : Form
 
         //CreateShape<ArrowShape>();
         //CreateShape<MapShape>();
-        //CreateShape<Pentagon>();
-        //CreateShape<Hexagon>();
-        //CreateShape<Septagon>();
-        //CreateShape<Octagon>();
-        //CreateShape<Decagon>();
+        CreateShape<PentagonShape>();
+        CreateShape<HexagonShape>();
+        CreateShape<SeptagonShape>();
+        CreateShape<OctagonShape>();
+        CreateShape<DecagonShape>();
         //CreateShape<RectangleShape>();
         //CreateShape<TriangleShape>();
         //CreateShape<RightTriangleShape>();
-        CreateShape<NGonShape>();
         CreateShape<CrossShape>();
         CreateShape<Star4Points>();
         CreateShape<Star5Points>();
