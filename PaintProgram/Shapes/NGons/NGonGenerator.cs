@@ -7,7 +7,7 @@ public class NGonGenerator
 
     public NGonGenerator(int numSides, double offset, int gap) => (this.numSides, this.offset, this.gap) = (numSides, offset, gap);
 
-    public Point[] GetPoints(int width, int height, float? nullableAlpha)
+    public Point[] GetPoints(int width, int height, float? nullableAlpha = null)
     {
         Point[] points = new Point[numSides];
 
