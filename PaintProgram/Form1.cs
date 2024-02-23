@@ -1,14 +1,12 @@
-using Microsoft.VisualBasic.Devices;
 using PaintProgram.Shapes;
-using PaintProgram.Shapes.NGons;
-using System;
-using System.Drawing.Design;
 
 namespace PaintProgram;
 
 public partial class Form1 : Form
 {
     public enum EPaintTool { None, Brush, Spray, Fountain, Eraser }
+    public Dictionary<EPaintTool, int> PaintSizes => paintSizes;
+
     private readonly List<Shape> shapes      = new();
     private readonly TitleBar    titleBar    = new();
     private readonly ColorWheel  colorWheel  = new();
@@ -27,22 +25,21 @@ public partial class Form1 : Form
     public bool mouseIsDown = false;
 
     private EPaintTool paintTool = EPaintTool.None;
-    public EPaintTool PaintTool
+    public EPaintTool ActivePaintTool
     {
         get => paintTool;
         set
         {
             paintTool = value;
-            Cursor = value == EPaintTool.None ? Cursors.Default : GetCircularCursor(paintSizes[PaintTool]);
+            Cursor = value == EPaintTool.None ? Cursors.Default : GetCircularCursor(paintSizes[ActivePaintTool]);
         }
     }
     private Graphics g;
-    private Color absoluteColor = Color.Black;
+    private Color paintColor = Color.Black;
     private int x = -1;
     private int y = -1;
     private Brush brush;
-    private Pen pen;
-    private Bitmap offScreenBuffer;
+    private Pen brushPen;
 
     public void DeleteMe(Dictionary<int, Shape> zOrderMap)
     {
@@ -72,8 +69,6 @@ public partial class Form1 : Form
         titleBar.Show();
         titleBar.Owner = this;
         shapeEditor.Owner = this;
-
-        offScreenBuffer = new Bitmap(Width, Height);
 
         resizerF();
     }
@@ -114,15 +109,15 @@ public partial class Form1 : Form
     {
         g               = paintPanel.CreateGraphics();
         g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-        brush           = new SolidBrush(absoluteColor);
-        pen             = new Pen(absoluteColor, 10);
-        pen.StartCap    = pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
+        brush           = new SolidBrush(paintColor);
+        brushPen        = new Pen(paintColor, paintSizes[EPaintTool.Brush]);
+        brushPen.StartCap = brushPen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
     }
 
-    private (int, int, int) randomPoint(int x, int y, int radius)
+    private static (int, int, int) GetRandomPoint(int x, int y, int radius)
     {
         Random random = new Random();
-        double angle = random.NextDouble() * 2 * Math.PI; // Random angle between 0 and 2*pi
+        double angle = random.NextDouble() * 2 * Math.PI;              // Random angle between 0 and 2*pi
         double randomRadius = Math.Sqrt(random.NextDouble()) * radius; // Random radius between 0 and maxRadius
 
         // Calculate the x and y coordinates using polar to Cartesian conversion
@@ -144,31 +139,34 @@ public partial class Form1 : Form
         return sX < sY ? 10 : 2;
     }
 
-    //the function which draws onto the panel
+    // The function which draws onto the panel
     private int PaintScreen(int x, int y)
     {
-        switch (PaintTool)
+        switch (ActivePaintTool)
         {
             case EPaintTool.Brush:
-                g.DrawLine(pen, new PointF(this.x, this.y), new PointF(x, y));
+                brushPen.Width = paintSizes[EPaintTool.Brush];
+                g.DrawLine(brushPen, new PointF(this.x, this.y), new PointF(x, y));
                 break;
             case EPaintTool.Spray:
                 brush = Brushes.Black;
                 for (int i = 0; i < 100; i++)
                 {
-                    var imposter = randomPoint(x, y, AbsoluteRadius);
+                    var imposter = GetRandomPoint(x, y, paintSizes[EPaintTool.Spray]);
                     g.FillEllipse(brush, imposter.Item1, imposter.Item2, 2, 2);
                 }
                 break;
             case EPaintTool.Fountain:
+                int fountainRadius = paintSizes[EPaintTool.Fountain];
                 brush = Brushes.Black;
                 int width = DetermineFountainThickness(x, y);
-                g.FillRectangle(brush, x, y, width, 3);
+                g.FillRectangle(brush, x, y, (int)(width), fountainRadius);
                 break;
             case EPaintTool.Eraser:
 
+                int eraserRadius = paintSizes[EPaintTool.Eraser];
                 brush = new SolidBrush(paintPanel.BackColor);
-                g.FillEllipse(brush, x - AbsoluteRadius / 2, y - AbsoluteRadius / 2, AbsoluteRadius, AbsoluteRadius);
+                g.FillEllipse(brush, x - eraserRadius / 2, y - eraserRadius / 2, eraserRadius, eraserRadius);
                 break;
             default:
                 break;
@@ -177,23 +175,28 @@ public partial class Form1 : Form
         return 0;
     }
 
-    //this lets the expanded canvas be useable.
+    // This lets the expanded canvas be useable.
     private void panel1_Resize(object sender, EventArgs e) => resizerF();
 
-    //erases the canvas
-    private void eraser() => paintPanel.Invalidate();
-
-    private Cursor GetCircularCursor(int diameter)
+    public void SetBrushSize(int newSize)
     {
-        // Create a circular bitmap image for the cursor
-        Bitmap cursorImage = new Bitmap(diameter + 10, diameter + 10);
+        paintSizes[ActivePaintTool] = newSize;
+        Cursor = GetCircularCursor(newSize);
+    }
+
+
+    private void EraseCanvas() => paintPanel.Invalidate();
+
+    private static Cursor GetCircularCursor(int diameter)
+    {
+        // Creates a circular bitmap image for the cursor
+        Bitmap cursorImage = new (diameter + 10, diameter + 10);
         using (Graphics g = Graphics.FromImage(cursorImage))
         {
             g.Clear(Color.Transparent);
             g.DrawEllipse(new Pen(Brushes.Black, 2), 5, 5, diameter, diameter); // Draw a black circle
         }
 
-        // Create and return the cursor from the bitmap
         return new Cursor(cursorImage.GetHicon());
     }
 
@@ -211,41 +214,7 @@ public partial class Form1 : Form
             PaintScreen(e.X, e.Y);
             (x, y) = (e.X, e.Y);
         }
-        if (PaintTool != EPaintTool.None)
-        {
-            var ellipseCenter = e.Location;
-            int ellipseRadius = 10;
-
-            // Redraw the buffer with the ellipse
-            using (Graphics g = Graphics.FromImage(offScreenBuffer))
-            {
-                g.Clear(Color.Transparent); // Clear buffer
-                g.FillEllipse(Brushes.Blue, ellipseCenter.X - ellipseRadius, ellipseCenter.Y - ellipseRadius, 2 * ellipseRadius, 2 * ellipseRadius);
-            }
-
-            // Redraw the form
-            this.Invalidate();
-            //DrawEllipse(e.X, e.Y, 10);
-            //g.DrawEllipse(new Pen(Brushes.Black, 2), e.X, e.Y, 10, 10);
-        }
     }
-    private void DrawEllipse(int x, int y, int diameter)
-    {
-        using (Graphics g = Graphics.FromImage(offScreenBuffer))
-        {
-            // Clear the off-screen buffer
-            g.Clear(Color.Transparent);
-
-            // Draw other elements here
-
-            // Draw the ellipse
-            g.DrawEllipse(Pens.Black, x, y, diameter, diameter);
-        }
-
-        // Copy the off-screen buffer to the screen
-        paintPanel.CreateGraphics().DrawImage(offScreenBuffer, 0, 0);
-    }
-
     private void paintPanel_MouseUp(object sender, MouseEventArgs e) => mouseIsDown = false;
     private void paintPanel_MouseEnter(object sender, EventArgs e)
     {

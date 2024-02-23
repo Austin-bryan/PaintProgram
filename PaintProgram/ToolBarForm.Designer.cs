@@ -58,9 +58,9 @@ namespace PaintProgram
             brushBtn = new Button();
             label1 = new Label();
             cursorBtn = new Button();
-            sliderBackground = new PictureBox();
             sizePixelBox = new PixelTextBox();
             sizePanel = new Panel();
+            trackBar1 = new TrackBar();
             divider2 = new PictureBox();
             background2 = new PictureBox();
             background1 = new PictureBox();
@@ -69,8 +69,8 @@ namespace PaintProgram
             ((System.ComponentModel.ISupportInitialize)divider0).BeginInit();
             ((System.ComponentModel.ISupportInitialize)headerBackground).BeginInit();
             ((System.ComponentModel.ISupportInitialize)toolBarLabel).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)sliderBackground).BeginInit();
             sizePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)divider2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)background2).BeginInit();
             SuspendLayout();
@@ -407,16 +407,6 @@ namespace PaintProgram
             cursorBtn.UseVisualStyleBackColor = false;
             cursorBtn.Click += cursorBtn_Click;
             // 
-            // sliderBackground
-            // 
-            sliderBackground.BackColor = Color.FromArgb(45, 45, 45);
-            sliderBackground.BorderStyle = BorderStyle.FixedSingle;
-            sliderBackground.Location = new Point(12, 18);
-            sliderBackground.Name = "sliderBackground";
-            sliderBackground.Size = new Size(150, 10);
-            sliderBackground.TabIndex = 59;
-            sliderBackground.TabStop = false;
-            // 
             // sizePixelBox
             // 
             sizePixelBox.AllowDecimals = false;
@@ -431,14 +421,26 @@ namespace PaintProgram
             // 
             // sizePanel
             // 
-            sizePanel.Controls.Add(divider2);
-            sizePanel.Controls.Add(sliderBackground);
             sizePanel.Controls.Add(sizePixelBox);
+            sizePanel.Controls.Add(trackBar1);
+            sizePanel.Controls.Add(divider2);
             sizePanel.Controls.Add(background2);
             sizePanel.Location = new Point(0, 289);
             sizePanel.Name = "sizePanel";
             sizePanel.Size = new Size(200, 100);
             sizePanel.TabIndex = 61;
+            // 
+            // trackBar1
+            // 
+            trackBar1.BackColor = Color.FromArgb(80, 80, 80);
+            trackBar1.Cursor = Cursors.Cross;
+            trackBar1.Location = new Point(12, 16);
+            trackBar1.Maximum = 100;
+            trackBar1.Name = "trackBar1";
+            trackBar1.Size = new Size(150, 45);
+            trackBar1.TabIndex = 64;
+            trackBar1.TickStyle = TickStyle.None;
+            trackBar1.Scroll += trackBar1_Scroll;
             // 
             // divider2
             // 
@@ -500,8 +502,9 @@ namespace PaintProgram
             ((System.ComponentModel.ISupportInitialize)divider0).EndInit();
             ((System.ComponentModel.ISupportInitialize)headerBackground).EndInit();
             ((System.ComponentModel.ISupportInitialize)toolBarLabel).EndInit();
-            ((System.ComponentModel.ISupportInitialize)sliderBackground).EndInit();
             sizePanel.ResumeLayout(false);
+            sizePanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
             ((System.ComponentModel.ISupportInitialize)divider2).EndInit();
             ((System.ComponentModel.ISupportInitialize)background2).EndInit();
             ResumeLayout(false);
@@ -537,10 +540,10 @@ namespace PaintProgram
         private Button brushBtn;
         private Label label1;
         private Button cursorBtn;
-        private PictureBox sliderBackground;
         private PixelTextBox sizePixelBox;
         private Panel sizePanel;
         private PictureBox divider2;
         private PictureBox background2;
+        private TrackBar trackBar1;
     }
 }
