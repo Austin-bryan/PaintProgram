@@ -88,10 +88,10 @@ partial class Shape
         // zOrderLabel
         // 
         zOrderLabel.BackColor = Color.Transparent;
-        zOrderLabel.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point);
-        zOrderLabel.Location = new Point(142, 147);
+        zOrderLabel.Font = new Font("Segoe UI", 20F, FontStyle.Regular, GraphicsUnit.Point);
+        zOrderLabel.Location = new Point(29, 160);
         zOrderLabel.Name = "zOrderLabel";
-        zOrderLabel.Size = new Size(130, 54);
+        zOrderLabel.Size = new Size(243, 54);
         zOrderLabel.TabIndex = 1;
         zOrderLabel.Text = "zOrder";
         // 

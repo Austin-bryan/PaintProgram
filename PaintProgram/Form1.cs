@@ -25,21 +25,22 @@ public partial class Form1 : Form
         InitializeComponent();
         WindowState = FormWindowState.Maximized;
 
+        CreateShape<ChevronShape>();
         CreateShape<ArrowShape>();
-        CreateShape<MapShape>();
-        //CreateShape<Pentagon>();
-        //CreateShape<Hexagon>();
-        CreateShape<Septagon>();
-        CreateShape<Octagon>();
+        //CreateShape<MapShape>();
+        ////CreateShape<Pentagon>();
+        ////CreateShape<Hexagon>();
+        //CreateShape<Septagon>();
+        //CreateShape<Octagon>();
         //CreateShape<Decagon>();
         //CreateShape<RectangleShape>();
         //CreateShape<TriangleShape>();
         //CreateShape<RightTriangleShape>();
-        CreateShape<CrossShape>();
-        CreateShape<Star4Points>();
-        CreateShape<Star5Points>();
-        CreateShape<Star6Points>();
-        CreateShape<TrapazoidShape>();
+        //CreateShape<CrossShape>();
+        //CreateShape<Star4Points>();
+        //CreateShape<Star5Points>();
+        //CreateShape<Star6Points>();
+        //CreateShape<TrapazoidShape>();
         //CreateShape<EllipseShape>();
 
         InitializeCustomTitleBar();
