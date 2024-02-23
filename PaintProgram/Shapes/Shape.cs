@@ -195,7 +195,7 @@ public partial class Shape : Form
 
         moveStart = e.Location;
 
-        ((Form1)Owner).ShowShapeEditor(this);
+        ((Form1)Owner).ShowShapeEditor((color) => ShapeColor = color, this);
         ((Form1)Owner).BringTitleBarToFront();
     }
     protected override void OnMouseMove(MouseEventArgs e)

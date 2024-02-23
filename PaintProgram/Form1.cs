@@ -17,6 +17,18 @@ public partial class Form1 : Form
         }
     }
     
+    private Color paintColor = Color.Black;
+    public Color PaintColor
+    {
+        get => paintColor;
+        set
+        {
+            paintColor = value;
+            pen.Color = value;
+            brush = new SolidBrush(value);
+        }
+    }
+
     public Dictionary<EPaintTool, int> PaintSizes => paintSizes;
 
     private readonly List<Shape> shapes      = new();
@@ -34,7 +46,6 @@ public partial class Form1 : Form
     };
 
     private Graphics g;
-    private Color paintColor = Color.Black;
     private int x = -1;
     private int y = -1;
     private bool mouseIsDown = false;
@@ -62,12 +73,13 @@ public partial class Form1 : Form
 
         ResizerF();
     }
-    
-    public void ShowShapeEditor(Shape shape)
+
+    public void ShowShapeEditor(Action<Color> onSelectColor, Shape shape = null)
     {
         shapeEditor.Show();
-        shapeEditor.Location = titleBar.ExitButtonLocation.Subtract(new Point(shapeEditor.Width - 20, -50));
-        shapeEditor.ActiveShape = shape;
+        shapeEditor.OnSelectColor = onSelectColor;
+        shapeEditor.Location      = titleBar.ExitButtonLocation.Subtract(new Point(shapeEditor.Width - 20, -50));
+        shapeEditor.ActiveShape   = shape;
     }
     public void RefreshShapeEditor() => shapeEditor?.RefreshShapeEditor();
     public void AddShape(Shape shape) => shapes.Add(shape);
@@ -125,8 +137,8 @@ public partial class Form1 : Form
     {
         g                 = paintPanel.CreateGraphics();
         g.SmoothingMode   = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-        brush             = new SolidBrush(paintColor);
-        pen          = new Pen(paintColor, paintSizes[EPaintTool.Brush]);
+        brush             = new SolidBrush(PaintColor);
+        pen          = new Pen(PaintColor, paintSizes[EPaintTool.Brush]);
         pen.StartCap = pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
     }
     private int DetermineFountainThickness(int x3, int y3)

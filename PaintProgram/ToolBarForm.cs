@@ -49,6 +49,7 @@ public partial class ToolBarForm : Form
         IsBrushActive            = true;
         MainForm.ActivePaintTool = paintTool;
         trackBar1.Value          = MainForm.PaintSizes[MainForm.ActivePaintTool];
+        MainForm.ShowShapeEditor((color) => MainForm.PaintColor = color);
     }
 
     private void trackBar1_Scroll(object sender, EventArgs e) => MainForm.SetBrushSize(trackBar1.Value);

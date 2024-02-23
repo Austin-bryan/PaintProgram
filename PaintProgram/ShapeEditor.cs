@@ -11,10 +11,15 @@ public partial class ShapeEditor : Form
         set
         {
             _activeShape = value;
+
+            if (value == null)
+                return;
             RefreshShapeEditor();
             ShowAlphaBox(value.ShowAlphaBox);
         }
     }
+
+    public Action<Color> OnSelectColor { get; set; }
 
     private const int cursorDiameter = 12;
 
@@ -23,6 +28,7 @@ public partial class ShapeEditor : Form
     private bool  linkedEnabled = false;
     private bool  shouldUpdate = true;
     private float sliderValue = 1.0f;
+    private Color currentColor;
     private readonly Dictionary<float, Bitmap> cachedBitmaps = new();
     private readonly int sliderMin, sliderMax;
     private readonly int diameter = 200;
@@ -246,13 +252,15 @@ public partial class ShapeEditor : Form
         if (cursorPosition.X >= 0 && cursorPosition.X < colorWheelPictureBox.Width &&
             cursorPosition.Y >= 0 && cursorPosition.Y < colorWheelPictureBox.Height)
         {
-            Color currentColor = colorWheelBitmap.GetPixel(cursorPosition.X, cursorPosition.Y);
+            currentColor = colorWheelBitmap.GetPixel(cursorPosition.X, cursorPosition.Y);
 
             if (currentColor == Color.FromArgb(0, 0, 0, 0))
                 return;
             colorPreviewPictureBox.BackColor = currentColor;
 
-            ActiveShape.ShapeColor = currentColor;
+            if (ActiveShape != null)
+                OnSelectColor(currentColor);
+            //ActiveShape.ShapeColor = currentColor;
         }
     }
 
@@ -271,7 +279,12 @@ public partial class ShapeEditor : Form
         e.Graphics.DrawRectangle(new Pen(Brushes.White, 8), 0, 0, width, height);
         e.Graphics.DrawRectangle(new Pen(Brushes.Black, 4), 0, 0, width, height);
     }
-    private void colorWheelPictureBox_MouseUp(object sender, MouseEventArgs e) => (wheelMouseDown, CursorVisible) = (false, true);
+    private void colorWheelPictureBox_MouseUp(object sender, MouseEventArgs e)
+    {
+        (wheelMouseDown, CursorVisible) = (false, true);
+        if (ActiveShape == null)
+            OnSelectColor(currentColor);
+    }
 
     private void linkButton_MouseClick(object sender, MouseEventArgs e)
     {
@@ -328,6 +341,8 @@ public partial class ShapeEditor : Form
 
     public void RefreshShapeEditor()
     {
+        if (ActiveShape == null)
+            return;
         widthPixelBox.TextBoxText     = ActiveShape.Width.ToString();
         heightPixelBox.TextBoxText    = ActiveShape.Height.ToString();
         xPixelBox.TextBoxText         = ActiveShape.Location.X.ToString();
