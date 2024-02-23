@@ -1,4 +1,5 @@
-﻿namespace PaintProgram.Shapes;
+﻿using PaintProgram.Shapes.NGons;
+namespace PaintProgram.Shapes;
 
 public partial class StarShape : ParametricShape
 {
