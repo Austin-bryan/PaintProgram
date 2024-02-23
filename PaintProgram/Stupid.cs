@@ -316,22 +316,22 @@ public partial class Stupid : Form
 
     public void RefreshShapeEditor()
     {
-        widthPixelBox.TextBoxText = ActiveShape.Width.ToString();
-        heightPixelBox.TextBoxText = ActiveShape.Height.ToString();
-        xPixelBox.TextBoxText = ActiveShape.Location.X.ToString();
-        yPixelBox.TextBoxText = ActiveShape.Location.Y.ToString();
-        thicknessPixelBox.TextBoxText = ActiveShape.BorderThickness.ToString();
+        //widthPixelBox.TextBoxText     = ActiveShape.Width.ToString();
+        //heightPixelBox.TextBoxText    = ActiveShape.Height.ToString();
+        //xPixelBox.TextBoxText         = ActiveShape.Location.X.ToString();
+        //yPixelBox.TextBoxText         = ActiveShape.Location.Y.ToString();
+        //thicknessPixelBox.TextBoxText = ActiveShape.BorderThickness.ToString();
 
-        if (ActiveShape is ParametricShape parametricShape)
-        {
-            UpdateAlphaBoxes();
+        //if (ActiveShape is ParametricShape parametricShape)
+        //{
+        //    UpdateAlphaBoxes();
 
-            for (int i = 0; i < parametricShape.AlphaHandles.Count; i++)
-                alphaBoxes[i].UpdateAlphaBounds(parametricShape.AlphaHandles[i]);
-        }
+        //    for (int i = 0; i < parametricShape.AlphaHandles.Count; i++)
+        //        alphaBoxes[i].UpdateAlphaBounds(parametricShape.AlphaHandles[i]);
+        //}
 
-        borderColorBtn.BackColor = ActiveShape.BorderColor;
-        borderCheckBox.Checked = ActiveShape.UseBorder;
+        //borderColorBtn.BackColor = ActiveShape.BorderColor;
+        //borderCheckBox.Checked = ActiveShape.UseBorder;
     }
 
     private void borderColorBtn_Click(object sender, EventArgs e)

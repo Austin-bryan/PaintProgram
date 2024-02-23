@@ -25,8 +25,9 @@ public partial class Form1 : Form
         InitializeComponent();
         WindowState = FormWindowState.Maximized;
 
-        CreateShape<DoubleArrowShape>();
-        CreateShape<ArrowShape>();
+        CreateShape<ChevronShape>();
+        //CreateShape<DoubleArrowShape>();
+        //CreateShape<ArrowShape>();
         //CreateShape<MapShape>();
         //CreateShape<PentagonShape>();
         //CreateShape<HexagonShape>();
@@ -36,11 +37,11 @@ public partial class Form1 : Form
         //CreateShape<RectangleShape>();
         //CreateShape<TriangleShape>();
         //CreateShape<RightTriangleShape>();
-        CreateShape<CrossShape>();
-        CreateShape<Star4Points>();
-        CreateShape<Star5Points>();
-        CreateShape<Star6Points>();
-        CreateShape<TrapazoidShape>();
+        //CreateShape<CrossShape>();
+        //CreateShape<Star4Points>();
+        //CreateShape<Star5Points>();
+        //CreateShape<Star6Points>();
+        //CreateShape<TrapazoidShape>();
         //CreateShape<EllipseShape>();
 
         InitializeCustomTitleBar();

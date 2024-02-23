@@ -228,6 +228,7 @@ public partial class Shape : Form
             case State.ChangingAlpha:
                 AdjustAlpha(e);
 
+                OnAlphaChange();
                 ((Form1)Owner).RefreshShapeEditor();
                 break;
             case State.Moving:
@@ -246,6 +247,7 @@ public partial class Shape : Form
 
         (int, int) GetDelta(Point point) => (e.X - point.X, e.Y - point.Y);
     }
+    protected virtual void OnAlphaChange() { }
     protected override void OnMouseUp(MouseEventArgs e)
     {
         base.OnMouseUp(e);
