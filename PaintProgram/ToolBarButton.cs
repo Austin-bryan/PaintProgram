@@ -11,10 +11,6 @@ public partial class ToolBarButton : UserControl
                 return;
 
             button1.Image = value;
-
-            const int size = 40;
-            Bitmap bitmap = new Bitmap(button1.Image, size, size);
-            button1.Image = bitmap;
         }
     }
 

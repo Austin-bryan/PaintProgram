@@ -25,9 +25,9 @@ public partial class Form1 : Form
         InitializeComponent();
         WindowState = FormWindowState.Maximized;
 
-        CreateShape<ChevronShape>();
-        CreateShape<DoubleArrowShape>();
-        CreateShape<ArrowShape>();
+        //CreateShape<ChevronShape>();
+        //CreateShape<DoubleArrowShape>();
+        //CreateShape<ArrowShape>();
         //CreateShape<MapShape>();
         //CreateShape<PentagonShape>();
         //CreateShape<HexagonShape>();
@@ -47,7 +47,7 @@ public partial class Form1 : Form
         InitializeCustomTitleBar();
         toolBarForm.Show();
         toolBarForm.Owner = this;
-        toolBarForm.Location = new Point(0, 60);
+        toolBarForm.Location = new Point(10, 40);
         toolBarForm.InitOwner();
 
         titleBar.Show();
@@ -64,7 +64,7 @@ public partial class Form1 : Form
     public void RefreshShapeEditor() => shapeEditor?.RefreshShapeEditor();
 
     public void AddShape(Shape shape) => shapes.Add(shape);
-    private void CreateShape<T>() where T : Shape, new()
+    public void CreateShape<T>() where T : Shape, new()
     {
         var shape = new T { Owner = this };
         shape.Show();

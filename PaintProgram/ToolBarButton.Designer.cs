@@ -36,7 +36,7 @@ partial class ToolBarButton
         button1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
         button1.BackColor = Color.FromArgb(110, 110, 110);
         button1.FlatStyle = FlatStyle.Flat;
-        button1.Location = new Point(0, 0);
+        button1.Location = new Point(5, 5);
         button1.Margin = new Padding(2);
         button1.Name = "button1";
         button1.Size = new Size(30, 30);
@@ -50,7 +50,7 @@ partial class ToolBarButton
         Controls.Add(button1);
         Margin = new Padding(2);
         Name = "ToolBarButton";
-        Size = new Size(30, 30);
+        Size = new Size(40, 40);
         ResumeLayout(false);
     }
 
