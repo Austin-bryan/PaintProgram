@@ -5,6 +5,18 @@ namespace PaintProgram;
 public partial class Form1 : Form
 {
     public enum EPaintTool { None, Brush, Spray, Fountain, Eraser }
+
+    private EPaintTool paintTool = EPaintTool.None;
+    public EPaintTool ActivePaintTool
+    {
+        get => paintTool;
+        set
+        {
+            paintTool = value;
+            Cursor = value == EPaintTool.None ? Cursors.Default : GetCircularCursor(paintSizes[ActivePaintTool]);
+        }
+    }
+    
     public Dictionary<EPaintTool, int> PaintSizes => paintSizes;
 
     private readonly List<Shape> shapes      = new();
@@ -21,35 +33,14 @@ public partial class Form1 : Form
         { EPaintTool.Fountain, 3 }
     };
 
-    public int AbsoluteRadius = 20;
-    public bool mouseIsDown = false;
-
-    private EPaintTool paintTool = EPaintTool.None;
-    public EPaintTool ActivePaintTool
-    {
-        get => paintTool;
-        set
-        {
-            paintTool = value;
-            Cursor = value == EPaintTool.None ? Cursors.Default : GetCircularCursor(paintSizes[ActivePaintTool]);
-        }
-    }
     private Graphics g;
     private Color paintColor = Color.Black;
     private int x = -1;
     private int y = -1;
+    private bool mouseIsDown = false;
     private Brush brush;
-    private Pen brushPen;
+    private Pen pen;
 
-    public void DeleteMe(Dictionary<int, Shape> zOrderMap)
-    {
-        label2.Text = "";
-        foreach (var (zOrder, Shape) in zOrderMap)
-        {
-            string s = Shape.GetType().Name;
-            label2.Text += (zOrder, Shape.GetType().Name).ToString() + "\n";
-        }
-    }
     public Form1()
     {
         InitializeComponent();
@@ -63,14 +54,13 @@ public partial class Form1 : Form
         toolBarForm.Show();
         toolBarForm.Owner = this;
         toolBarForm.Location = new Point(10, 40);
-        toolBarForm.InitOwner();
 
         // Set the form's cursor to the circular cursor
         titleBar.Show();
         titleBar.Owner = this;
         shapeEditor.Owner = this;
 
-        resizerF();
+        ResizerF();
     }
     
     public void ShowShapeEditor(Shape shape)
@@ -80,9 +70,7 @@ public partial class Form1 : Form
         shapeEditor.ActiveShape = shape;
     }
     public void RefreshShapeEditor() => shapeEditor?.RefreshShapeEditor();
-
     public void AddShape(Shape shape) => shapes.Add(shape);
-
     public void CreateShape<T>() where T : Shape, new()
     {
         var shape = new T { Owner = this };
@@ -90,7 +78,11 @@ public partial class Form1 : Form
         shapes.Add(shape);
         BringTitleBarToFront();
     }
-
+    public void SetBrushSize(int newSize)
+    {
+        paintSizes[ActivePaintTool] = newSize;
+        Cursor = GetCircularCursor(newSize);
+    }
     public void BringTitleBarToFront()
     {
         titleBar.BringToFront();
@@ -98,22 +90,18 @@ public partial class Form1 : Form
         shapeEditor.BringToFront();
     }
 
-    private void InitializeCustomTitleBar() => (FormBorderStyle, ControlBox) = (FormBorderStyle.None, false);
-    private void Form1_Click(object sender, EventArgs e)
+    private static Cursor GetCircularCursor(int diameter)
     {
-        shapes.ForEach(s => s.HideHandles());
-        shapeEditor.Hide();
-    }
+        // Creates a circular bitmap image for the cursor
+        Bitmap cursorImage = new (diameter + 10, diameter + 10);
+        using (Graphics g = Graphics.FromImage(cursorImage))
+        {
+            g.Clear(Color.Transparent);
+            g.DrawEllipse(new Pen(Brushes.Black, 2), 5, 5, diameter, diameter); // Draw a black circle
+        }
 
-    public void resizerF()
-    {
-        g               = paintPanel.CreateGraphics();
-        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-        brush           = new SolidBrush(paintColor);
-        brushPen        = new Pen(paintColor, paintSizes[EPaintTool.Brush]);
-        brushPen.StartCap = brushPen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
+        return new Cursor(cursorImage.GetHicon());
     }
-
     private static (int, int, int) GetRandomPoint(int x, int y, int radius)
     {
         Random random = new Random();
@@ -127,6 +115,20 @@ public partial class Form1 : Form
         return (randomX, randomY, 0);
     }
 
+    private void InitializeCustomTitleBar() => (FormBorderStyle, ControlBox) = (FormBorderStyle.None, false);
+    private void Form1_Click(object sender, EventArgs e)
+    {
+        shapes.ForEach(s => s.HideHandles());
+        shapeEditor.Hide();
+    }
+    private void ResizerF()
+    {
+        g                 = paintPanel.CreateGraphics();
+        g.SmoothingMode   = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+        brush             = new SolidBrush(paintColor);
+        pen          = new Pen(paintColor, paintSizes[EPaintTool.Brush]);
+        pen.StartCap = pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
+    }
     private int DetermineFountainThickness(int x3, int y3)
     {
         double x1 = x3; double y1 = y3;
@@ -145,8 +147,8 @@ public partial class Form1 : Form
         switch (ActivePaintTool)
         {
             case EPaintTool.Brush:
-                brushPen.Width = paintSizes[EPaintTool.Brush];
-                g.DrawLine(brushPen, new PointF(this.x, this.y), new PointF(x, y));
+                pen.Width = paintSizes[EPaintTool.Brush];
+                g.DrawLine(pen, new PointF(this.x, this.y), new PointF(x, y));
                 break;
             case EPaintTool.Spray:
                 brush = Brushes.Black;
@@ -176,30 +178,7 @@ public partial class Form1 : Form
     }
 
     // This lets the expanded canvas be useable.
-    private void panel1_Resize(object sender, EventArgs e) => resizerF();
-
-    public void SetBrushSize(int newSize)
-    {
-        paintSizes[ActivePaintTool] = newSize;
-        Cursor = GetCircularCursor(newSize);
-    }
-
-
-    private void EraseCanvas() => paintPanel.Invalidate();
-
-    private static Cursor GetCircularCursor(int diameter)
-    {
-        // Creates a circular bitmap image for the cursor
-        Bitmap cursorImage = new (diameter + 10, diameter + 10);
-        using (Graphics g = Graphics.FromImage(cursorImage))
-        {
-            g.Clear(Color.Transparent);
-            g.DrawEllipse(new Pen(Brushes.Black, 2), 5, 5, diameter, diameter); // Draw a black circle
-        }
-
-        return new Cursor(cursorImage.GetHicon());
-    }
-
+    private void panel1_Resize(object sender, EventArgs e) => ResizerF();
 
     private void paintPanel_MouseDown(object sender, MouseEventArgs e)
     {
@@ -229,4 +208,3 @@ public partial class Form1 : Form
         //Cursor.Current = Cursors.Default;
     }
 }
-

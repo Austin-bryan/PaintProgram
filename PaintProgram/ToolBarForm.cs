@@ -16,8 +16,6 @@ public partial class ToolBarForm : Form
 
     }
 
-    public void InitOwner() { }
-
     private void squareBtn_Click        (object sender, EventArgs e) => MainForm.CreateShape<RectangleShape>();
     private void triangleBtn_Click      (object sender, EventArgs e) => MainForm.CreateShape<TriangleShape>();
     private void rightTriangleBtn_Click (object sender, EventArgs e) => MainForm.CreateShape<RightTriangleShape>();

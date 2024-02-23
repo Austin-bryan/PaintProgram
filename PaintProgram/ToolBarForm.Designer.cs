@@ -435,7 +435,7 @@ namespace PaintProgram
             trackBar1.BackColor = Color.FromArgb(80, 80, 80);
             trackBar1.Cursor = Cursors.Cross;
             trackBar1.Location = new Point(12, 16);
-            trackBar1.Maximum = 100;
+            trackBar1.Maximum = 300;
             trackBar1.Name = "trackBar1";
             trackBar1.Size = new Size(150, 45);
             trackBar1.TabIndex = 64;
