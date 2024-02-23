@@ -30,6 +30,7 @@ partial class Form1
     private void InitializeComponent()
     {
         label2 = new Label();
+        paintPanel = new Panel();
         SuspendLayout();
         // 
         // label2
@@ -44,23 +45,13 @@ partial class Form1
         label2.Text = "label2";
         label2.Visible = false;
         // 
-        // Form1
-        // 
-        AutoScaleDimensions = new SizeF(10F, 25F);
-        AutoScaleMode = AutoScaleMode.Font;
-        BackColor = Color.FromArgb(50, 50, 50);
-        ClientSize = new Size(1089, 566);
-        Controls.Add(label2);
-        ClientSize = new Size(1556, 943);
-        paintPanel = new Panel();
-        SuspendLayout();
-        // 
         // paintPanel
         // 
         paintPanel.BackColor = Color.White;
-        paintPanel.Location = new Point(3, 12);
+        paintPanel.Location = new Point(11, 11);
+        paintPanel.Margin = new Padding(2);
         paintPanel.Name = "paintPanel";
-        paintPanel.Size = new Size(1374, 584);
+        paintPanel.Size = new Size(802, 292);
         paintPanel.TabIndex = 0;
         paintPanel.MouseDown += paintPanel_MouseDown;
         paintPanel.MouseEnter += paintPanel_MouseEnter;
@@ -71,10 +62,11 @@ partial class Form1
         // 
         // Form1
         // 
-        AutoScaleDimensions = new SizeF(12F, 30F);
+        AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         BackColor = Color.FromArgb(50, 50, 50);
-        ClientSize = new Size(1867, 1132);
+        ClientSize = new Size(1867, 1061);
+        Controls.Add(label2);
         Controls.Add(paintPanel);
         Margin = new Padding(5, 6, 5, 6);
         Name = "Form1";

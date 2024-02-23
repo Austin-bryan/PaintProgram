@@ -37,25 +37,30 @@ public partial class ToolBarForm : Form
     private void cursorBtn_Click(object sender, EventArgs e)
     {
         IsBrushActive = false;
+        MainForm.PaintTool = Form1.EPaintTool.None;
     }
 
     private void brushBtn_Click(object sender, EventArgs e)
     {
         IsBrushActive = true;
+        MainForm.PaintTool = Form1.EPaintTool.Brush;
     }
 
     private void eraserBtn_Click(object sender, EventArgs e)
     {
         IsBrushActive = true;
+        MainForm.PaintTool = Form1.EPaintTool.Eraser;
     }
 
     private void sprayBtn_Click(object sender, EventArgs e)
     {
         IsBrushActive = true;
+        MainForm.PaintTool = Form1.EPaintTool.Spray;
     }
 
     private void inkBtn_Click(object sender, EventArgs e)
     {
         IsBrushActive = true;
+        MainForm.PaintTool = Form1.EPaintTool.Fountain;
     }
 }
