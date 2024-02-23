@@ -47,10 +47,6 @@ public partial class PixelTextBox : UserControl
             entryBox.Text = lastValidString;
         }
 
-        //string text = TextBoxText;
-
-        //if (Suffix.Length > 0)
-            //text = text.Replace(Suffix, "");
         double parsedValue = double.Parse(TextBoxText);
 
         if (alphaHandle != null)

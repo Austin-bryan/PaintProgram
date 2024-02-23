@@ -94,6 +94,7 @@ partial class Shape
         zOrderLabel.Size = new Size(130, 54);
         zOrderLabel.TabIndex = 1;
         zOrderLabel.Text = "zOrder";
+        zOrderLabel.Visible = false;
         // 
         // Shape
         // 

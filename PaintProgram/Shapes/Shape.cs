@@ -149,29 +149,29 @@ public partial class Shape : Form
         points = GetPoints();
         DrawShape(e);
 
+        if (!ShouldShowHandles)
+            return;
+        
         // Draw resize handles
-        if (ShouldShowHandles)
+        // Define a pen for drawing the border
+        var borderPen = new Pen(Color.RebeccaPurple, 2);
+        var linePen = new Pen(Color.RebeccaPurple, 2);
+
+        for (int i = 0; i < resizeHandles.Length; i++)
         {
-            // Define a pen for drawing the border
-            var borderPen = new Pen(Color.RebeccaPurple, 2);
-            var linePen = new Pen(Color.RebeccaPurple, 2);
+            int j = i + 1;
+            if (j >= resizeHandles.Length)
+                j = 0;
 
-            for (int i = 0; i < resizeHandles.Length; i++)
-            {
-                int j = i + 1;
-                if (j >= resizeHandles.Length)
-                    j = 0;
+            e.Graphics.DrawLine(linePen,
+                resizeHandles[i].Location.Add(new(resizeHandles[i].Width / 2, resizeHandles[i].Height / 2)),
+                resizeHandles[j].Location.Add(new(resizeHandles[j].Width / 2, resizeHandles[j].Height / 2)));
+        }
 
-                e.Graphics.DrawLine(linePen,
-                    resizeHandles[i].Location.Add(new(resizeHandles[i].Width / 2, resizeHandles[i].Height / 2)),
-                    resizeHandles[j].Location.Add(new(resizeHandles[j].Width / 2, resizeHandles[j].Height / 2)));
-            }
-
-            foreach (Rectangle handleRectangle in resizeHandles)
-            {
-                e.Graphics.DrawRectangle(borderPen, handleRectangle);
-                e.Graphics.FillRectangle(Brushes.CornflowerBlue, handleRectangle);
-            }
+        foreach (Rectangle handleRectangle in resizeHandles)
+        {
+            e.Graphics.DrawRectangle(borderPen, handleRectangle);
+            e.Graphics.FillRectangle(Brushes.CornflowerBlue, handleRectangle);
         }
     }
     protected override void OnMouseDown(MouseEventArgs e)
