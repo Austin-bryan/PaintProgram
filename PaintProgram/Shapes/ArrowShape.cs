@@ -6,7 +6,8 @@ public partial class ArrowShape : ParametricShape
     public ArrowShape()
     {
         InitializeComponent();
-        Height = Width = 300;
+        Height = 300;
+        Width = 200;
 
         alphaHandles.Add(new AlphaHandle(this, alphaPointIndex: 0, alpha: 0.35f, minAlpha: 0.04f, maxAlpha: 0.965f,
             getAlpha: (e, @this) => Lerp(@this.MinAlpha, @this.MaxAlpha, e.Y / (float)Height / @this.MaxAlpha)));

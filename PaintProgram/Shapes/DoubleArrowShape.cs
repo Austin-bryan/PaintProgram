@@ -6,7 +6,8 @@ public partial class DoubleArrowShape : ParametricShape
     public DoubleArrowShape()
     {
         InitializeComponent();
-        Height = Width = 300;
+        Height = 200;
+        Width = 300;
 
         alphaHandles.Add(new AlphaHandle(this, alphaPointIndex: 1, alpha: 0.35f, minAlpha: 0.04f, maxAlpha: 0.499f,
             getAlpha: (e, @this) => Lerp(@this.MinAlpha, @this.MaxAlpha, e.X / (float)Width / @this.MaxAlpha)));
