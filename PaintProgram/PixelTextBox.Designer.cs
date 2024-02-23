@@ -56,6 +56,7 @@
             entryBox.TextAlign = HorizontalAlignment.Center;
             entryBox.Enter += entryBox_Enter;
             entryBox.KeyDown += entryBox_KeyDown;
+            entryBox.KeyPress += entryBox_KeyPress;
             entryBox.Leave += entryBox_Leave;
             // 
             // PixelTextBox

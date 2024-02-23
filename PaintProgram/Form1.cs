@@ -48,16 +48,12 @@ public partial class Form1 : Form
         titleBar.Show();
         titleBar.Owner  = this;
         stupid.Owner    = this;
-        stupid.Location = titleBar.ExitButtonLocation.Subtract(new Point(stupid.Width, 0));
-        stupid.Location = new (0, 0);
     }
     
     public void ShowShapeEditor(Shape shape)
     {
         stupid.Show();
-        stupid.Location = new(0, 0); 
         stupid.Location = titleBar.ExitButtonLocation.Subtract(new Point(stupid.Width - 20, -50));
-
         stupid.ActiveShape = shape;
     }
     public void RefreshShapeEditor() => stupid?.RefreshShapeEditor();

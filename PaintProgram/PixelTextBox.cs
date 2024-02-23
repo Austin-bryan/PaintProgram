@@ -4,8 +4,8 @@ namespace PaintProgram;
 
 public partial class PixelTextBox : UserControl
 {
-    public string Suffix      { get; set; } = " px";
-    public string LabelText   { get => label.Text; set => label.Text = value; }
+    public string Suffix { get; set; } = " px";
+    public string LabelText { get => label.Text; set => label.Text = value; }
     public string TextBoxText
     {
         get => entryBox.Text;
@@ -20,7 +20,11 @@ public partial class PixelTextBox : UserControl
     public delegate void InputSubmitHandler(double parsedTexxt);
     public event InputSubmitHandler InputSubmit;
 
-    public PixelTextBox() => InitializeComponent();
+    public PixelTextBox()
+    {
+        DoubleBuffered = true;
+        InitializeComponent();
+    }
 
     public void UpdateAlphaBounds(AlphaHandle alphaHandle)
     {
@@ -29,12 +33,22 @@ public partial class PixelTextBox : UserControl
     private void entryBox_Leave(object sender, EventArgs e)
     {
         AddSuffix();
+
+        string text = TextBoxText;
+
+        if (Suffix.Length > 0)
+            text = text.Replace(Suffix, "");
+        double parsedValue = double.Parse(text);
+
+        InputSubmit(parsedValue);
     }
 
     private void AddSuffix()
     {
         if (Suffix.Length > 0 && !TextBoxText.Contains(Suffix))
             TextBoxText += Suffix;
+        if (TextBoxText.Contains('.') && !TextBoxText.Contains("0."))
+            TextBoxText = TextBoxText.Replace(".", "0.");
     }
 
     private void entryBox_Enter(object sender, EventArgs e)
@@ -51,5 +65,13 @@ public partial class PixelTextBox : UserControl
 
         SendKeys.Send("{TAB}");
         e.SuppressKeyPress = true;
+    }
+
+    private void entryBox_KeyPress(object sender, KeyPressEventArgs e)
+    {
+        if (AllowDecimals && e.KeyChar == '.')
+            return;
+        if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            e.Handled = true;
     }
 }

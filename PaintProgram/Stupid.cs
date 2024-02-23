@@ -29,6 +29,17 @@ public partial class Stupid : Form
     private readonly Color unlinkedColor = Color.FromArgb(255, 120, 120, 120);
     private readonly List<PixelTextBox> alphaBoxes = new();
 
+    // Prevents a flicker from occuring when being opened the first time
+    protected override CreateParams CreateParams
+    {
+        get
+        {
+            CreateParams cp = base.CreateParams;
+            cp.ExStyle |= 0x02000000; // WS_EX_COMPOSITED
+            return cp;
+        }
+    }
+
     private int Radius => diameter / 2;
 
     private static bool CursorVisible
@@ -43,6 +54,7 @@ public partial class Stupid : Form
 
     public Stupid()
     {
+        DoubleBuffered = true;
         InitializeComponent();
 
         BackColor       = Color.LimeGreen;
