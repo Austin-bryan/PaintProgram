@@ -48,16 +48,18 @@ public partial class Form1 : Form
 
     enum EPaintTool { None, Brush, Spray, Fountain, Eraser }
 
-    public int AbsoluteRadius = 20;
+    public int AbsoluteRadius = 50;
+    public int PenRadius = 3;
     public bool mouseIsDown = false;
 
-    private EPaintTool paintTool = EPaintTool.Brush;
+    private EPaintTool paintTool = EPaintTool.Eraser;
     private Graphics g;
     private Color absoluteColor = Color.Black;
     private int x = -1;
     private int y = -1;
     private Brush brush;
     private Pen pen;
+    Random random = new();
 
     public void resizerF()
     {
@@ -65,18 +67,8 @@ public partial class Form1 : Form
         g = paintPanel.CreateGraphics();
         g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
         brush = new SolidBrush(absoluteColor);
-        pen = new Pen(absoluteColor, 3);
+        pen = new Pen(absoluteColor, PenRadius);
         pen.StartCap = pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
-    }
-
-
-
-    private (int, int, int) randomPoint(int x, int y, int radius)
-    {
-        Random random = new();
-        x = random.Next(x - radius, x + radius);
-        y = random.Next(y - radius, y + radius);
-        return (x, y, 0);
     }
 
     private int DetermineFountainThickness(int x3, int y3)
@@ -87,8 +79,7 @@ public partial class Form1 : Form
         x2 *= x2; y2 *= y2;
         double sX = Math.Sqrt(x2);
         double sY = Math.Sqrt(y2);
-
-        return sX < sY ? 10 : 2;
+        return sX < sY * 500 ? 10 : 2;
     }
 
 
@@ -104,16 +95,18 @@ public partial class Form1 : Form
             case EPaintTool.Spray:
                 for (int i = 0; i < 100; i++)
                 {
-                    var imposter = randomPoint(x, y, AbsoluteRadius);
-                    g.FillEllipse(brush, imposter.Item1, imposter.Item2, 2, 2);
+                    double a = random.NextDouble() * 2 * Math.PI;
+                    double r = AbsoluteRadius * Math.Sqrt(random.NextDouble());
+                    double x1 = x + r * Math.Cos(a);
+                    double x2 = y + r * Math.Sin(a);
+                    g.FillEllipse(brush, (int)x1, (int)x2, 2, 2);
                 }
                 break;
             case EPaintTool.Fountain:
                 int width = DetermineFountainThickness(x, y);
-                g.FillRectangle(brush, x, y, width, 3);
+                g.FillRectangle(brush, x, y, width, PenRadius);
                 break;
             case EPaintTool.Eraser:
-
                 brush = new SolidBrush(paintPanel.BackColor);
                 g.FillEllipse(brush, x, y, AbsoluteRadius, AbsoluteRadius);
                 break;
