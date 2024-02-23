@@ -369,6 +369,7 @@
             widthPixelBox.Location = new Point(8, 363);
             widthPixelBox.Name = "widthPixelBox";
             widthPixelBox.Size = new Size(107, 23);
+            widthPixelBox.Suffix = " px";
             widthPixelBox.TabIndex = 37;
             widthPixelBox.TextBoxText = "0 px";
             widthPixelBox.InputSubmit += widthPixelBox_InputSubmit;
@@ -381,6 +382,7 @@
             heightPixelBox.Location = new Point(8, 383);
             heightPixelBox.Name = "heightPixelBox";
             heightPixelBox.Size = new Size(107, 23);
+            heightPixelBox.Suffix = " px";
             heightPixelBox.TabIndex = 38;
             heightPixelBox.TextBoxText = "0 px";
             heightPixelBox.InputSubmit += heightPixelBox_InputSubmit;
@@ -393,6 +395,7 @@
             yPixelBox.Location = new Point(75, 383);
             yPixelBox.Name = "yPixelBox";
             yPixelBox.Size = new Size(120, 23);
+            yPixelBox.Suffix = " px";
             yPixelBox.TabIndex = 40;
             yPixelBox.TextBoxText = "0 px";
             yPixelBox.InputSubmit += yPixelBox_InputSubmit;
@@ -405,6 +408,7 @@
             xPixelBox.Location = new Point(75, 363);
             xPixelBox.Name = "xPixelBox";
             xPixelBox.Size = new Size(120, 23);
+            xPixelBox.Suffix = " px";
             xPixelBox.TabIndex = 39;
             xPixelBox.TextBoxText = "0 px";
             xPixelBox.InputSubmit += xPixelBox_InputSubmit;
@@ -417,7 +421,8 @@
             thicknessPixelBox.Location = new Point(26, 539);
             thicknessPixelBox.Name = "thicknessPixelBox";
             thicknessPixelBox.Size = new Size(119, 23);
-            thicknessPixelBox.TabIndex = 41;
+            thicknessPixelBox.Suffix = " px";
+            thicknessPixelBox.TabIndex = 43;
             thicknessPixelBox.TextBoxText = "0 px";
             thicknessPixelBox.InputSubmit += thicknessPixelBox_InputSubmit;
             // 
@@ -429,7 +434,8 @@
             alpha1_PixelBox.Location = new Point(179, 363);
             alpha1_PixelBox.Name = "alpha1_PixelBox";
             alpha1_PixelBox.Size = new Size(120, 23);
-            alpha1_PixelBox.TabIndex = 42;
+            alpha1_PixelBox.Suffix = "";
+            alpha1_PixelBox.TabIndex = 41;
             alpha1_PixelBox.TextBoxText = "0 px";
             alpha1_PixelBox.Visible = false;
             alpha1_PixelBox.InputSubmit += alpha1_PixelBox_InputSubmit;
@@ -442,7 +448,7 @@
             borderCheckBox.Location = new Point(46, 568);
             borderCheckBox.Name = "borderCheckBox";
             borderCheckBox.Size = new Size(83, 19);
-            borderCheckBox.TabIndex = 43;
+            borderCheckBox.TabIndex = 44;
             borderCheckBox.Text = "Use Border";
             borderCheckBox.UseVisualStyleBackColor = false;
             borderCheckBox.CheckedChanged += borderCheckBox_CheckedChanged;
@@ -455,7 +461,8 @@
             alpha2_PixelBox.Location = new Point(179, 383);
             alpha2_PixelBox.Name = "alpha2_PixelBox";
             alpha2_PixelBox.Size = new Size(120, 23);
-            alpha2_PixelBox.TabIndex = 44;
+            alpha2_PixelBox.Suffix = "";
+            alpha2_PixelBox.TabIndex = 42;
             alpha2_PixelBox.TextBoxText = "0 px";
             alpha2_PixelBox.Visible = false;
             alpha2_PixelBox.InputSubmit += alpha2_PixelBox_InputSubmit;

@@ -22,8 +22,8 @@ public partial class ParametricShape
 
         public void Draw(PaintEventArgs e)
         {
-            //if (!shouldShowHandles)
-            //    return;
+            if (!IsPressed)
+                return;
 
             const int diamondRadius = 5;
             Point[] diamondPoints = new Point[]
