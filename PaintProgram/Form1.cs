@@ -31,9 +31,9 @@ public partial class Form1 : Form
 
     public Dictionary<EPaintTool, int> PaintSizes => paintSizes;
 
+    private readonly Brush eraserBrush;
     private readonly List<Shape> shapes      = new();
     private readonly TitleBar    titleBar    = new();
-    private readonly ColorWheel  colorWheel  = new();
     private readonly ToolBarForm toolBarForm = new();
     private readonly ShapeEditor shapeEditor = new();
     private readonly Dictionary<EPaintTool, int> paintSizes = new()
@@ -46,10 +46,9 @@ public partial class Form1 : Form
     };
 
     private Graphics g;
-    private int x = -1;
-    private int y = -1;
+    private int startX = -1, startY = -1;
     private bool mouseIsDown = false;
-    private Brush brush, eraserBrush;
+    private Brush brush;
     private Pen pen;
 
     public Form1()
@@ -138,16 +137,16 @@ public partial class Form1 : Form
     }
     private void ResizerF()
     {
-        g                 = paintPanel.CreateGraphics();
-        g.SmoothingMode   = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-        brush             = new SolidBrush(PaintColor);
-        pen          = new Pen(PaintColor, paintSizes[EPaintTool.Brush]);
-        pen.StartCap = pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
+        g               = paintPanel.CreateGraphics();
+        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+        brush           = new SolidBrush(PaintColor);
+        pen             = new Pen(PaintColor, paintSizes[EPaintTool.Brush]);
+        pen.StartCap    = pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
     }
     private int DetermineFountainThickness(int x3, int y3)
     {
         double x1 = x3; double y1 = y3;
-        double x2 = x; double y2 = y;
+        double x2 = startX; double y2 = startY;
         x2       -= x1; y2 -= y1;
         x2       *= x2; y2 *= y2;
         double sX = Math.Sqrt(x2);
@@ -163,7 +162,7 @@ public partial class Form1 : Form
         {
             case EPaintTool.Brush:
                 pen.Width = paintSizes[EPaintTool.Brush];
-                g.DrawLine(pen, new PointF(this.x, this.y), new PointF(x, y));
+                g.DrawLine(pen, new Point(startX, startY), new Point(x, y));
                 break;
             case EPaintTool.Spray:
                 
@@ -185,7 +184,6 @@ public partial class Form1 : Form
                 break;
             default:
                 break;
-
         }
         return 0;
     }
@@ -202,29 +200,17 @@ public partial class Form1 : Form
         else
             brush = new SolidBrush(paintColor);
 
-        (x, y) = (e.X, e.Y);
+        (startX, startY) = (e.X, e.Y);
         PaintScreen(e.X, e.Y);
         mouseIsDown = true;
     }
     private void paintPanel_MouseMove(object sender, MouseEventArgs e)
     {
-        if (mouseIsDown && x != -1 && y != -1)
+        if (mouseIsDown && startX != -1 && startY != -1)
         {
             PaintScreen(e.X, e.Y);
-            (x, y) = (e.X, e.Y);
+            (startX, startY) = (e.X, e.Y);
         }
     }
     private void paintPanel_MouseUp(object sender, MouseEventArgs e) => mouseIsDown = false;
-    private void paintPanel_MouseEnter(object sender, EventArgs e)
-    {
-        //Cursor.Show();
-    }
-    private void paintPanel_MouseLeave(object sender, EventArgs e)
-    {
-        //Cursor.Show();
-    }
-    private void paintPanel_MouseHover(object sender, EventArgs e)
-    {
-        //Cursor.Current = Cursors.Default;
-    }
 }
