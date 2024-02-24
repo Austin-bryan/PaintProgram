@@ -119,7 +119,7 @@ public partial class Form1 : Form
     }
     private static (int, int, int) GetRandomPoint(int x, int y, int radius)
     {
-        Random random = new Random();
+        Random random = new();
         double angle = random.NextDouble() * 2 * Math.PI;              // Random angle between 0 and 2*pi
         double randomRadius = Math.Sqrt(random.NextDouble()) * radius; // Random radius between 0 and maxRadius
 
@@ -177,7 +177,7 @@ public partial class Form1 : Form
             case EPaintTool.Fountain:
                 int fountainRadius = paintSizes[EPaintTool.Fountain];
                 int width = DetermineFountainThickness(x, y);
-                g.FillRectangle(brush, x, y, (int)(width), fountainRadius);
+                g.FillRectangle(brush, x, y,  width, fountainRadius);
                 break;
             case EPaintTool.Eraser:
 
