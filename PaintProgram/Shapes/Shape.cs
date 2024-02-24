@@ -232,7 +232,7 @@ public partial class Shape : Form
             break;
         case State.Moving:
         {
-            Location = clickDragMover.OnMouseMove(Location, e) ?? Location;
+            Location = clickDragMover.OnMouseMove(Location, e, (Form1)Owner) ?? Location;
             ((Form1)Owner).RefreshShapeEditor();
             break;
         }

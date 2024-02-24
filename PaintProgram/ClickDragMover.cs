@@ -6,6 +6,9 @@ public class ClickDragMover
     private bool isMoving;
     private Point moveStart;
 
+   private int screenHeight = Screen.PrimaryScreen.Bounds.Height;
+
+
     //public void ShowCursorDefault() => Cursor = Cursors.Default;
     //public void ShowCursorDrag() => Cursor = Cursors.SizeAll;
 
@@ -14,7 +17,7 @@ public class ClickDragMover
         isMoving = true;
         moveStart = e.Location;
     }
-    public Point? OnMouseMove(Point Location, MouseEventArgs e, bool shouldClamp = false)
+    public Point? OnMouseMove(Point Location, MouseEventArgs e, Form1 mainform, bool shouldClamp = false)
     {
         if (!isMoving)
             return null;
@@ -25,7 +28,7 @@ public class ClickDragMover
         int newY = Location.Y + deltaY;
 
         if (shouldClamp)
-            newY = Math.Max(newY, 40);
+            newY = Math.Max(newY, mainform.TitleBarHeight);
         
         return new Point(newX, newY);
 

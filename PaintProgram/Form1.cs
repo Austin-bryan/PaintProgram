@@ -5,6 +5,8 @@ public partial class Form1 : Form
 {
     public enum EPaintTool { None, Brush, Spray, Fountain, Eraser }
 
+    public int TitleBarHeight => titleBar.BarHeight;
+
     private EPaintTool paintTool = EPaintTool.None;
     public EPaintTool ActivePaintTool
     {

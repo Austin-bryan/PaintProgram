@@ -79,7 +79,7 @@ public partial class ToolBarForm : Form
     private void headerBackground_MouseUp(object sender, MouseEventArgs e)   => clickDragMover.OnMouseUp(e);
     private void headerBackground_MouseMove(object sender, MouseEventArgs e)
     {
-        Location = clickDragMover.OnMouseMove(Location, e, true) ?? Location;
+        Location = clickDragMover.OnMouseMove(Location, e, (Form1)Owner, true) ?? Location;
         //Point newLoc = clickDragMover.OnMouseMove(Location, e) ?? Location;
         //Location = new(newLoc.X, Math.Max(30, newLoc.Y));
     }

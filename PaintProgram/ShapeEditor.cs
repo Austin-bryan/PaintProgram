@@ -402,7 +402,7 @@ public partial class ShapeEditor : Form
 
     private void colorWheelTabBackground_MouseDown(object sender, MouseEventArgs e) => clickDragMover.OnMouseDown(e);
     private void colorWheelTabBackground_MouseUp(object sender, MouseEventArgs e) => clickDragMover.OnMouseUp(e);
-    private void colorWheelTabBackground_MouseMove(object sender, MouseEventArgs e) => Location = clickDragMover.OnMouseMove(Location, e, true) ?? Location;
+    private void colorWheelTabBackground_MouseMove(object sender, MouseEventArgs e) => Location = clickDragMover.OnMouseMove(Location, e, (Form1)Owner,true) ?? Location;
     private void colorWheelTabBackground_MouseEnter(object sender, EventArgs e) => Cursor = Cursors.SizeAll;
     private void colorWheelTabBackground_MouseLeave(object sender, EventArgs e) => Cursor = Cursors.Default;
 }
