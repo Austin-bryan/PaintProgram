@@ -74,6 +74,7 @@ public partial class Form1 : Form
         ResizerF();
     }
 
+    public void HideShapeEditor() => shapeEditor.Hide();
     public void ShowShapeEditor(Action<Color> onSelectColor, Shape shape = null)
     {
         shapeEditor.Show();
@@ -194,6 +195,11 @@ public partial class Form1 : Form
 
     private void paintPanel_MouseDown(object sender, MouseEventArgs e)
     {
+        shapes.ForEach(s => s.HideHandles());
+        
+        if (ActivePaintTool == EPaintTool.None)
+            HideShapeEditor();
+
         (x, y) = (e.X, e.Y);
         PaintScreen(e.X, e.Y);
         mouseIsDown = true;

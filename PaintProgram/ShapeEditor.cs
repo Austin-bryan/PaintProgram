@@ -1,5 +1,4 @@
 ﻿using PaintProgram.Shapes;
-
 namespace PaintProgram;
 
 public partial class ShapeEditor : Form
@@ -11,6 +10,7 @@ public partial class ShapeEditor : Form
         set
         {
             _activeShape = value;
+            propertiesPanel.Visible = ActiveShape != null;
 
             if (value == null)
                 return;
@@ -34,6 +34,7 @@ public partial class ShapeEditor : Form
     private readonly int diameter = 200;
     private readonly Color unlinkedColor = Color.FromArgb(255, 120, 120, 120);
     private readonly List<PixelTextBox> alphaBoxes = new();
+    private List<Control> shapeControls;
 
     // Prevents a flicker from occuring when being opened the first time
     protected override CreateParams CreateParams
@@ -94,6 +95,7 @@ public partial class ShapeEditor : Form
 
         alphaBoxes.Add(alpha1_PixelBox);
         alphaBoxes.Add(alpha2_PixelBox);
+
     }
 
     private Bitmap GenerateValueSlider()

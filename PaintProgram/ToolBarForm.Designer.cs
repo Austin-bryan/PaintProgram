@@ -415,9 +415,10 @@ namespace PaintProgram
             sizePixelBox.Location = new Point(50, 34);
             sizePixelBox.Name = "sizePixelBox";
             sizePixelBox.Size = new Size(112, 28);
-            sizePixelBox.Suffix = " px";
+            sizePixelBox.Suffix = "";
             sizePixelBox.TabIndex = 60;
-            sizePixelBox.TextBoxText = "Swag px";
+            sizePixelBox.TextBoxText = "0";
+            sizePixelBox.InputSubmit += sizePixelBox_InputSubmit;
             // 
             // sizePanel
             // 
@@ -435,7 +436,7 @@ namespace PaintProgram
             trackBar1.BackColor = Color.FromArgb(80, 80, 80);
             trackBar1.Cursor = Cursors.Cross;
             trackBar1.Location = new Point(12, 16);
-            trackBar1.Maximum = 300;
+            trackBar1.Maximum = 200;
             trackBar1.Name = "trackBar1";
             trackBar1.Size = new Size(150, 45);
             trackBar1.TabIndex = 64;

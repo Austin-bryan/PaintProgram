@@ -38,11 +38,11 @@
             colorWheelTabBackground = new PictureBox();
             colorPickerLabel = new Label();
             colorWheelBoarderHider = new PictureBox();
-            propertiesLabel = new PictureBox();
-            pictureBox4 = new PictureBox();
-            pictureBox1 = new PictureBox();
-            label1 = new Label();
-            pictureBox2 = new PictureBox();
+            propertiesTab = new PictureBox();
+            bottomBackground = new PictureBox();
+            borderHider = new PictureBox();
+            propertiesLabel = new Label();
+            propertiesTabBackground = new PictureBox();
             transformLabel = new Label();
             pictureBox5 = new PictureBox();
             linkButton = new Button();
@@ -62,6 +62,7 @@
             alpha1_PixelBox = new PixelTextBox();
             borderCheckBox = new CheckBox();
             alpha2_PixelBox = new PixelTextBox();
+            propertiesPanel = new Panel();
             sendBackwardsBtn = new Button();
             ((System.ComponentModel.ISupportInitialize)colorWheelPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)valueSliderPictureBox).BeginInit();
@@ -70,12 +71,13 @@
             ((System.ComponentModel.ISupportInitialize)colorWheelTab).BeginInit();
             ((System.ComponentModel.ISupportInitialize)colorWheelTabBackground).BeginInit();
             ((System.ComponentModel.ISupportInitialize)colorWheelBoarderHider).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)propertiesLabel).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)propertiesTab).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)bottomBackground).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)borderHider).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)propertiesTabBackground).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
+            propertiesPanel.SuspendLayout();
             SuspendLayout();
             // 
             // sendBackwardsBtn
@@ -84,7 +86,7 @@
             sendBackwardsBtn.FlatAppearance.BorderSize = 0;
             sendBackwardsBtn.FlatStyle = FlatStyle.Flat;
             sendBackwardsBtn.Image = (Image)resources.GetObject("sendBackwardsBtn.Image");
-            sendBackwardsBtn.Location = new Point(149, 460);
+            sendBackwardsBtn.Location = new Point(150, 160);
             sendBackwardsBtn.Name = "sendBackwardsBtn";
             sendBackwardsBtn.Size = new Size(30, 30);
             sendBackwardsBtn.TabIndex = 29;
@@ -181,55 +183,55 @@
             colorWheelBoarderHider.TabIndex = 9;
             colorWheelBoarderHider.TabStop = false;
             // 
+            // propertiesTab
+            // 
+            propertiesTab.BackColor = Color.FromArgb(80, 80, 80);
+            propertiesTab.BorderStyle = BorderStyle.FixedSingle;
+            propertiesTab.Location = new Point(1, 0);
+            propertiesTab.Name = "propertiesTab";
+            propertiesTab.Size = new Size(100, 31);
+            propertiesTab.TabIndex = 11;
+            propertiesTab.TabStop = false;
+            // 
+            // bottomBackground
+            // 
+            bottomBackground.BackColor = Color.FromArgb(80, 80, 80);
+            bottomBackground.BorderStyle = BorderStyle.FixedSingle;
+            bottomBackground.Location = new Point(1, 27);
+            bottomBackground.Name = "bottomBackground";
+            bottomBackground.Size = new Size(342, 281);
+            bottomBackground.TabIndex = 10;
+            bottomBackground.TabStop = false;
+            // 
+            // borderHider
+            // 
+            borderHider.BackColor = Color.FromArgb(80, 80, 80);
+            borderHider.Location = new Point(2, 27);
+            borderHider.Name = "borderHider";
+            borderHider.Size = new Size(340, 14);
+            borderHider.TabIndex = 14;
+            borderHider.TabStop = false;
+            // 
             // propertiesLabel
             // 
+            propertiesLabel.AutoSize = true;
             propertiesLabel.BackColor = Color.FromArgb(80, 80, 80);
-            propertiesLabel.BorderStyle = BorderStyle.FixedSingle;
-            propertiesLabel.Location = new Point(0, 300);
+            propertiesLabel.ForeColor = Color.Snow;
+            propertiesLabel.Location = new Point(13, 9);
             propertiesLabel.Name = "propertiesLabel";
-            propertiesLabel.Size = new Size(100, 31);
-            propertiesLabel.TabIndex = 11;
-            propertiesLabel.TabStop = false;
+            propertiesLabel.Size = new Size(60, 15);
+            propertiesLabel.TabIndex = 13;
+            propertiesLabel.Text = "Properties";
             // 
-            // pictureBox4
+            // propertiesTabBackground
             // 
-            pictureBox4.BackColor = Color.FromArgb(80, 80, 80);
-            pictureBox4.BorderStyle = BorderStyle.FixedSingle;
-            pictureBox4.Location = new Point(0, 327);
-            pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(342, 281);
-            pictureBox4.TabIndex = 10;
-            pictureBox4.TabStop = false;
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.BackColor = Color.FromArgb(80, 80, 80);
-            pictureBox1.Location = new Point(1, 327);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(340, 14);
-            pictureBox1.TabIndex = 14;
-            pictureBox1.TabStop = false;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.BackColor = Color.FromArgb(80, 80, 80);
-            label1.ForeColor = Color.Snow;
-            label1.Location = new Point(12, 309);
-            label1.Name = "label1";
-            label1.Size = new Size(60, 15);
-            label1.TabIndex = 13;
-            label1.Text = "Properties";
-            // 
-            // pictureBox2
-            // 
-            pictureBox2.BackColor = Color.FromArgb(45, 45, 45);
-            pictureBox2.BorderStyle = BorderStyle.FixedSingle;
-            pictureBox2.Location = new Point(99, 300);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(243, 31);
-            pictureBox2.TabIndex = 12;
-            pictureBox2.TabStop = false;
+            propertiesTabBackground.BackColor = Color.FromArgb(45, 45, 45);
+            propertiesTabBackground.BorderStyle = BorderStyle.FixedSingle;
+            propertiesTabBackground.Location = new Point(100, 0);
+            propertiesTabBackground.Name = "propertiesTabBackground";
+            propertiesTabBackground.Size = new Size(243, 31);
+            propertiesTabBackground.TabIndex = 12;
+            propertiesTabBackground.TabStop = false;
             // 
             // transformLabel
             // 
@@ -237,7 +239,7 @@
             transformLabel.BackColor = Color.FromArgb(80, 80, 80);
             transformLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             transformLabel.ForeColor = Color.White;
-            transformLabel.Location = new Point(8, 344);
+            transformLabel.Location = new Point(9, 44);
             transformLabel.Name = "transformLabel";
             transformLabel.Size = new Size(64, 15);
             transformLabel.TabIndex = 15;
@@ -246,7 +248,7 @@
             // pictureBox5
             // 
             pictureBox5.BackColor = Color.FromArgb(45, 45, 45);
-            pictureBox5.Location = new Point(1, 419);
+            pictureBox5.Location = new Point(2, 119);
             pictureBox5.Name = "pictureBox5";
             pictureBox5.Size = new Size(340, 1);
             pictureBox5.TabIndex = 16;
@@ -258,7 +260,7 @@
             linkButton.FlatAppearance.BorderSize = 0;
             linkButton.FlatStyle = FlatStyle.Flat;
             linkButton.Image = (Image)resources.GetObject("linkButton.Image");
-            linkButton.Location = new Point(12, 366);
+            linkButton.Location = new Point(13, 66);
             linkButton.Name = "linkButton";
             linkButton.Size = new Size(27, 37);
             linkButton.TabIndex = 18;
@@ -271,7 +273,7 @@
             layeringLabel.BackColor = Color.FromArgb(80, 80, 80);
             layeringLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             layeringLabel.ForeColor = Color.White;
-            layeringLabel.Location = new Point(8, 434);
+            layeringLabel.Location = new Point(9, 134);
             layeringLabel.Name = "layeringLabel";
             layeringLabel.Size = new Size(103, 15);
             layeringLabel.TabIndex = 26;
@@ -283,7 +285,7 @@
             bringToFrontBtn.FlatAppearance.BorderSize = 0;
             bringToFrontBtn.FlatStyle = FlatStyle.Flat;
             bringToFrontBtn.Image = (Image)resources.GetObject("bringToFrontBtn.Image");
-            bringToFrontBtn.Location = new Point(49, 460);
+            bringToFrontBtn.Location = new Point(50, 160);
             bringToFrontBtn.Name = "bringToFrontBtn";
             bringToFrontBtn.Size = new Size(30, 30);
             bringToFrontBtn.TabIndex = 27;
@@ -296,7 +298,7 @@
             bringForwardBtn.FlatAppearance.BorderSize = 0;
             bringForwardBtn.FlatStyle = FlatStyle.Flat;
             bringForwardBtn.Image = (Image)resources.GetObject("bringForwardBtn.Image");
-            bringForwardBtn.Location = new Point(99, 460);
+            bringForwardBtn.Location = new Point(100, 160);
             bringForwardBtn.Name = "bringForwardBtn";
             bringForwardBtn.Size = new Size(30, 30);
             bringForwardBtn.TabIndex = 28;
@@ -309,7 +311,7 @@
             sendToBackBtn.FlatAppearance.BorderSize = 0;
             sendToBackBtn.FlatStyle = FlatStyle.Flat;
             sendToBackBtn.Image = (Image)resources.GetObject("sendToBackBtn.Image");
-            sendToBackBtn.Location = new Point(199, 460);
+            sendToBackBtn.Location = new Point(200, 160);
             sendToBackBtn.Name = "sendToBackBtn";
             sendToBackBtn.Size = new Size(30, 30);
             sendToBackBtn.TabIndex = 30;
@@ -322,7 +324,7 @@
             borederLabel.BackColor = Color.FromArgb(80, 80, 80);
             borederLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             borederLabel.ForeColor = Color.White;
-            borederLabel.Location = new Point(8, 518);
+            borederLabel.Location = new Point(9, 218);
             borederLabel.Name = "borederLabel";
             borederLabel.Size = new Size(46, 15);
             borederLabel.TabIndex = 32;
@@ -331,7 +333,7 @@
             // pictureBox6
             // 
             pictureBox6.BackColor = Color.FromArgb(45, 45, 45);
-            pictureBox6.Location = new Point(1, 503);
+            pictureBox6.Location = new Point(2, 203);
             pictureBox6.Name = "pictureBox6";
             pictureBox6.Size = new Size(340, 1);
             pictureBox6.TabIndex = 31;
@@ -342,7 +344,7 @@
             colorLabel.AutoSize = true;
             colorLabel.BackColor = Color.FromArgb(80, 80, 80);
             colorLabel.ForeColor = Color.Snow;
-            colorLabel.Location = new Point(168, 543);
+            colorLabel.Location = new Point(169, 243);
             colorLabel.Name = "colorLabel";
             colorLabel.Size = new Size(36, 15);
             colorLabel.TabIndex = 35;
@@ -354,7 +356,7 @@
             borderColorBtn.BackColor = Color.DarkViolet;
             borderColorBtn.FlatAppearance.BorderSize = 0;
             borderColorBtn.FlatStyle = FlatStyle.Flat;
-            borderColorBtn.Location = new Point(209, 536);
+            borderColorBtn.Location = new Point(210, 236);
             borderColorBtn.Name = "borderColorBtn";
             borderColorBtn.Size = new Size(30, 30);
             borderColorBtn.TabIndex = 36;
@@ -366,7 +368,7 @@
             widthPixelBox.AllowDecimals = false;
             widthPixelBox.BackColor = Color.FromArgb(80, 80, 80);
             widthPixelBox.LabelText = "W";
-            widthPixelBox.Location = new Point(8, 363);
+            widthPixelBox.Location = new Point(9, 63);
             widthPixelBox.Name = "widthPixelBox";
             widthPixelBox.Size = new Size(107, 23);
             widthPixelBox.Suffix = " px";
@@ -379,7 +381,7 @@
             heightPixelBox.AllowDecimals = false;
             heightPixelBox.BackColor = Color.FromArgb(80, 80, 80);
             heightPixelBox.LabelText = "H";
-            heightPixelBox.Location = new Point(8, 383);
+            heightPixelBox.Location = new Point(9, 83);
             heightPixelBox.Name = "heightPixelBox";
             heightPixelBox.Size = new Size(107, 23);
             heightPixelBox.Suffix = " px";
@@ -392,7 +394,7 @@
             yPixelBox.AllowDecimals = false;
             yPixelBox.BackColor = Color.FromArgb(80, 80, 80);
             yPixelBox.LabelText = "Y";
-            yPixelBox.Location = new Point(75, 383);
+            yPixelBox.Location = new Point(76, 83);
             yPixelBox.Name = "yPixelBox";
             yPixelBox.Size = new Size(120, 23);
             yPixelBox.Suffix = " px";
@@ -405,7 +407,7 @@
             xPixelBox.AllowDecimals = false;
             xPixelBox.BackColor = Color.FromArgb(80, 80, 80);
             xPixelBox.LabelText = "X";
-            xPixelBox.Location = new Point(75, 363);
+            xPixelBox.Location = new Point(76, 63);
             xPixelBox.Name = "xPixelBox";
             xPixelBox.Size = new Size(120, 23);
             xPixelBox.Suffix = " px";
@@ -418,7 +420,7 @@
             thicknessPixelBox.AllowDecimals = false;
             thicknessPixelBox.BackColor = Color.FromArgb(80, 80, 80);
             thicknessPixelBox.LabelText = "Thickness";
-            thicknessPixelBox.Location = new Point(26, 539);
+            thicknessPixelBox.Location = new Point(27, 239);
             thicknessPixelBox.Name = "thicknessPixelBox";
             thicknessPixelBox.Size = new Size(119, 23);
             thicknessPixelBox.Suffix = " px";
@@ -431,7 +433,7 @@
             alpha1_PixelBox.AllowDecimals = true;
             alpha1_PixelBox.BackColor = Color.FromArgb(80, 80, 80);
             alpha1_PixelBox.LabelText = "Alpha 1";
-            alpha1_PixelBox.Location = new Point(179, 363);
+            alpha1_PixelBox.Location = new Point(180, 63);
             alpha1_PixelBox.Name = "alpha1_PixelBox";
             alpha1_PixelBox.Size = new Size(120, 23);
             alpha1_PixelBox.Suffix = "";
@@ -445,7 +447,7 @@
             borderCheckBox.AutoSize = true;
             borderCheckBox.BackColor = Color.FromArgb(80, 80, 80);
             borderCheckBox.ForeColor = SystemColors.ButtonHighlight;
-            borderCheckBox.Location = new Point(46, 568);
+            borderCheckBox.Location = new Point(47, 268);
             borderCheckBox.Name = "borderCheckBox";
             borderCheckBox.Size = new Size(83, 19);
             borderCheckBox.TabIndex = 44;
@@ -458,7 +460,7 @@
             alpha2_PixelBox.AllowDecimals = true;
             alpha2_PixelBox.BackColor = Color.FromArgb(80, 80, 80);
             alpha2_PixelBox.LabelText = "Alpha 2";
-            alpha2_PixelBox.Location = new Point(179, 383);
+            alpha2_PixelBox.Location = new Point(180, 83);
             alpha2_PixelBox.Name = "alpha2_PixelBox";
             alpha2_PixelBox.Size = new Size(120, 23);
             alpha2_PixelBox.Suffix = "";
@@ -467,36 +469,44 @@
             alpha2_PixelBox.Visible = false;
             alpha2_PixelBox.InputSubmit += alpha2_PixelBox_InputSubmit;
             // 
-            // Stupid
+            // propertiesPanel
+            // 
+            propertiesPanel.Controls.Add(linkButton);
+            propertiesPanel.Controls.Add(heightPixelBox);
+            propertiesPanel.Controls.Add(yPixelBox);
+            propertiesPanel.Controls.Add(propertiesLabel);
+            propertiesPanel.Controls.Add(alpha2_PixelBox);
+            propertiesPanel.Controls.Add(borderHider);
+            propertiesPanel.Controls.Add(borderCheckBox);
+            propertiesPanel.Controls.Add(transformLabel);
+            propertiesPanel.Controls.Add(widthPixelBox);
+            propertiesPanel.Controls.Add(pictureBox5);
+            propertiesPanel.Controls.Add(xPixelBox);
+            propertiesPanel.Controls.Add(layeringLabel);
+            propertiesPanel.Controls.Add(alpha1_PixelBox);
+            propertiesPanel.Controls.Add(bringToFrontBtn);
+            propertiesPanel.Controls.Add(thicknessPixelBox);
+            propertiesPanel.Controls.Add(bringForwardBtn);
+            propertiesPanel.Controls.Add(borderColorBtn);
+            propertiesPanel.Controls.Add(sendBackwardsBtn);
+            propertiesPanel.Controls.Add(colorLabel);
+            propertiesPanel.Controls.Add(sendToBackBtn);
+            propertiesPanel.Controls.Add(borederLabel);
+            propertiesPanel.Controls.Add(pictureBox6);
+            propertiesPanel.Controls.Add(propertiesTabBackground);
+            propertiesPanel.Controls.Add(bottomBackground);
+            propertiesPanel.Controls.Add(propertiesTab);
+            propertiesPanel.Location = new Point(-1, 300);
+            propertiesPanel.Name = "propertiesPanel";
+            propertiesPanel.Size = new Size(343, 335);
+            propertiesPanel.TabIndex = 45;
+            // 
+            // ShapeEditor
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(343, 633);
-            Controls.Add(linkButton);
-            Controls.Add(heightPixelBox);
-            Controls.Add(yPixelBox);
-            Controls.Add(alpha2_PixelBox);
-            Controls.Add(borderCheckBox);
-            Controls.Add(widthPixelBox);
-            Controls.Add(xPixelBox);
-            Controls.Add(alpha1_PixelBox);
-            Controls.Add(thicknessPixelBox);
-            Controls.Add(borderColorBtn);
-            Controls.Add(colorLabel);
-            Controls.Add(borederLabel);
-            Controls.Add(pictureBox6);
-            Controls.Add(sendToBackBtn);
-            Controls.Add(sendBackwardsBtn);
-            Controls.Add(bringForwardBtn);
-            Controls.Add(bringToFrontBtn);
-            Controls.Add(layeringLabel);
-            Controls.Add(pictureBox5);
-            Controls.Add(transformLabel);
-            Controls.Add(pictureBox1);
-            Controls.Add(label1);
-            Controls.Add(pictureBox2);
-            Controls.Add(propertiesLabel);
-            Controls.Add(pictureBox4);
+            ClientSize = new Size(340, 601);
+            Controls.Add(propertiesPanel);
             Controls.Add(colorWheelBoarderHider);
             Controls.Add(colorPickerLabel);
             Controls.Add(colorWheelTabBackground);
@@ -505,7 +515,7 @@
             Controls.Add(valueSliderPictureBox);
             Controls.Add(colorWheelPictureBox);
             Controls.Add(colorWheelBackground);
-            Name = "Stupid";
+            Name = "ShapeEditor";
             Text = "Stupid";
             ((System.ComponentModel.ISupportInitialize)colorWheelPictureBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)valueSliderPictureBox).EndInit();
@@ -514,12 +524,14 @@
             ((System.ComponentModel.ISupportInitialize)colorWheelTab).EndInit();
             ((System.ComponentModel.ISupportInitialize)colorWheelTabBackground).EndInit();
             ((System.ComponentModel.ISupportInitialize)colorWheelBoarderHider).EndInit();
-            ((System.ComponentModel.ISupportInitialize)propertiesLabel).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)propertiesTab).EndInit();
+            ((System.ComponentModel.ISupportInitialize)bottomBackground).EndInit();
+            ((System.ComponentModel.ISupportInitialize)borderHider).EndInit();
+            ((System.ComponentModel.ISupportInitialize)propertiesTabBackground).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
+            propertiesPanel.ResumeLayout(false);
+            propertiesPanel.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -533,11 +545,11 @@
         private PictureBox colorWheelTabBackground;
         private Label colorPickerLabel;
         private PictureBox colorWheelBoarderHider;
-        private PictureBox propertiesLabel;
-        private PictureBox pictureBox4;
-        private PictureBox pictureBox1;
-        private Label label1;
-        private PictureBox pictureBox2;
+        private PictureBox propertiesTab;
+        private PictureBox bottomBackground;
+        private PictureBox borderHider;
+        private Label propertiesLabel;
+        private PictureBox propertiesTabBackground;
         private Label transformLabel;
         private PictureBox pictureBox5;
         private Button linkButton;
@@ -558,5 +570,6 @@
         private PixelTextBox alpha1_PixelBox;
         private CheckBox borderCheckBox;
         private PixelTextBox alpha2_PixelBox;
+        private Panel propertiesPanel;
     }
 }
