@@ -159,7 +159,7 @@ public partial class ShapeEditor : Form
         if (cachedBitmaps.ContainsKey(sliderValue))
             return cachedBitmaps[sliderValue];
 
-        int radius = colorWheelPictureBox.Height / 2;
+        int radius = Math.Min(colorWheelPictureBox.Width, colorWheelPictureBox.Height) / 2;
         Bitmap colorWheel = new(radius * 2, radius * 2);
 
         int centerX = radius;
@@ -220,7 +220,7 @@ public partial class ShapeEditor : Form
         e.Graphics.DrawEllipse(new Pen(Brushes.White, 1.6f), x: point.X, point.Y, cursorDiameter, cursorDiameter);
         e.Graphics.DrawEllipse(new Pen(Brushes.Black, 1.6f), x: point.X + offset / 2, point.Y + offset / 2, cursorDiameter - offset, cursorDiameter - offset);
 
-        graphics.FillEllipse(Brushes.Black, adjustedPoint.X, adjustedPoint.Y, 50, 50);
+        graphics.FillEllipse(Brushes.Black, adjustedPoint.X, adjustedPoint.Y, 5, 5);
         //graphics.FillEllipse(Brushes.White, cursorPointingToClient.X, cursorPointingToClient.Y, 5, 5);
         //graphics.FillEllipse(Brushes.Black, point.X + cursorDiameter / 2, point.Y + cursorDiameter / 2, 5, 5);
     }
@@ -264,15 +264,15 @@ public partial class ShapeEditor : Form
 
         double distance = Math.Sqrt(Math.Pow((cursorX - centerX), 2) + Math.Pow((cursorY - centerY), 2));
 
-        //if (distance > radius)
-        //{
-        //    double angle = Math.Atan2(cursorY - centerY, cursorX - centerX);
+        if (distance > radius)
+        {
+            double angle = Math.Atan2(cursorY - centerY, cursorX - centerX);
 
-        //    int clampedX = centerX + (int)(radius * Math.Cos(angle) + 5);
-        //    int clampedY = centerY + (int)(radius * Math.Sin(angle) + 5);
+            int clampedX = centerX + (int)(radius * Math.Cos(angle) + 5);
+            int clampedY = centerY + (int)(radius * Math.Sin(angle) + 5);
 
-        //    wheelCursorPoint = new Point(clampedX, clampedY);
-        //}
+            wheelCursorPoint = new Point(clampedX, clampedY);
+        }
 
         colorWheelPictureBox.Refresh();
     }
@@ -280,9 +280,11 @@ public partial class ShapeEditor : Form
     {
         const int cursorOffset = 0;
         var colorWheelBitmap = cachedBitmaps[sliderValue];
-        adjustedPoint  = new(wheelCursorPoint.X + cursorOffset, wheelCursorPoint.Y + cursorOffset);
+        adjustedPoint  = new(wheelCursorPoint.X + cursorDiameter / 4, wheelCursorPoint.Y + cursorDiameter / 4);
         //adjustedPoint = new(wheelCursorPoint.X + Location.X + cursorOffset, wheelCursorPoint.Y + Location.Y + cursorOffset);
         cursorPointingToClient = colorWheelPictureBox.PointToClient(adjustedPoint);
+        cursorPointingToClient = new(-cursorPointingToClient.X, cursorPointingToClient.Y);
+        cursorPointingToClient = adjustedPoint;
 
         //Point adjustedPoint  = new(wheelCursorPoint.X + Location.X + cursorOffset, wheelCursorPoint.Y + Location.Y + cursorOffset);
         //Point cursorPosition = colorWheelPictureBox.PointToClient(adjustedPoint);
@@ -295,7 +297,7 @@ public partial class ShapeEditor : Form
         if (cursorPointingToClient.X >= 0 && cursorPointingToClient.X < colorWheelPictureBox.Width &&
             cursorPointingToClient.Y >= 0 && cursorPointingToClient.Y < colorWheelPictureBox.Height)
         {
-            colorPickerLabel.Text = "true" + cursorPointingToClient; ;
+            colorPickerLabel.Text = "true" + cursorPointingToClient.Subtract(adjustedPoint); ;
             currentColor = colorWheelBitmap.GetPixel(cursorPointingToClient.X, cursorPointingToClient.Y);
 
             if (currentColor == Color.FromArgb(0, 0, 0, 0))
@@ -311,7 +313,8 @@ public partial class ShapeEditor : Form
             //ActiveShape.ShapeColor = currentColor;
         }
         else
-            colorPickerLabel.Text = "false" + cursorPointingToClient;
+            colorPickerLabel.Text = "false" + (cursorPointingToClient, adjustedPoint).ToString(); ;
+            //colorPickerLabel.Text = "false" + cursorPointingToClient;
     }
 
     private void colorWheelPictureBox_MouseEnter(object sender, EventArgs e) => Cursor = Cursors.Cross;
@@ -428,7 +431,7 @@ public partial class ShapeEditor : Form
 
     private void colorWheelTabBackground_MouseDown(object sender, MouseEventArgs e) => clickDragMover.OnMouseDown(e);
     private void colorWheelTabBackground_MouseUp(object sender, MouseEventArgs e) => clickDragMover.OnMouseUp(e);
-    private void colorWheelTabBackground_MouseMove(object sender, MouseEventArgs e) => Location = clickDragMover.OnMouseMove(Location, e, true) ?? Location;
+    private void colorWheelTabBackground_MouseMove(object sender, MouseEventArgs e) => Location = clickDragMover.OnMouseMove(Location, e, (Form1)Owner,true) ?? Location;
     private void colorWheelTabBackground_MouseEnter(object sender, EventArgs e) => Cursor = Cursors.SizeAll;
     private void colorWheelTabBackground_MouseLeave(object sender, EventArgs e) => Cursor = Cursors.Default;
 }

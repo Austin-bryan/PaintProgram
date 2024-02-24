@@ -7,7 +7,7 @@ public class ClickDragMover
     private Point moveStart;
 
     public void OnMouseDown(MouseEventArgs e) => (isMoving, moveStart) = (true, e.Location);
-    public Point? OnMouseMove(Point Location, MouseEventArgs e, bool shouldClamp = false)
+    public Point? OnMouseMove(Point Location, MouseEventArgs e, Form1 mainform, bool shouldClamp = false)
     {
         if (!isMoving)
             return null;
@@ -18,7 +18,7 @@ public class ClickDragMover
         int newY = Location.Y + deltaY;
 
         if (shouldClamp)
-            newY = Math.Max(newY, 40);
+            newY = Math.Max(newY, mainform.TitleBarHeight);
         
         return new Point(newX, newY);
 
