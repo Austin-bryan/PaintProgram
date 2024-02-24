@@ -38,6 +38,8 @@ public partial class ShapeEditor : Form
     private bool shouldUpdate = true;
     private float sliderValue = 1.0f;
     private Color currentColor;
+    private Point moveStart;
+    private bool isMoving;
     private readonly Dictionary<float, Bitmap> cachedBitmaps = new();
     private readonly int sliderMin, sliderMax;
     private readonly Color unlinkedColor = Color.FromArgb(255, 120, 120, 120);
@@ -308,7 +310,7 @@ public partial class ShapeEditor : Form
     }
     private void colorWheelPictureBox_MouseLeave(object sender, EventArgs e) => Cursor = Cursors.Default;
     private void colorWheelPictureBox_Paint(object sender, PaintEventArgs e) => DrawCursor(e, Brushes.Black, wheelCursorPoint);
-    
+
     private void valueSliderPictureBox_MouseEnter(object sender, EventArgs e) => Cursor = Cursors.Cross;
     private void valueSliderPictureBox_MouseDown(object sender, MouseEventArgs e)
     {
@@ -396,4 +398,36 @@ public partial class ShapeEditor : Form
     }
     private void borderCheckBox_CheckedChanged(object sender, EventArgs e) => ActiveShape.UseBorder = borderCheckBox.Checked;
     private void hideButton_Click(object sender, EventArgs e) => Hide();
+
+    private void colorWheelTabBackground_MouseDown(object sender, MouseEventArgs e)
+    {
+        moveStart = e.Location;
+        isMoving = true;
+    }
+
+    private void colorWheelTabBackground_MouseUp(object sender, MouseEventArgs e)
+    {
+        isMoving = false;
+    }
+
+    private void ShapeEditor_MouseMove(object sender, MouseEventArgs e)
+    {
+
+    }
+
+    private void colorWheelTabBackground_MouseMove(object sender, MouseEventArgs e)
+    {
+        if (!isMoving)
+            return;
+
+        var (deltaX, deltaY) = GetDelta(moveStart);
+        Location = new Point(Location.X + deltaX, Location.Y + deltaY);
+
+        return;
+
+        (int, int) GetDelta(Point point) => (e.X - point.X, e.Y - point.Y);
+    }
+
+    private void colorWheelTabBackground_MouseEnter(object sender, EventArgs e) => Cursor = Cursors.SizeAll;
+    private void colorWheelTabBackground_MouseLeave(object sender, EventArgs e) => Cursor = Cursors.Default;
 }

@@ -1,5 +1,4 @@
 using PaintProgram.Shapes;
-
 namespace PaintProgram;
 
 public partial class Form1 : Form
@@ -75,13 +74,22 @@ public partial class Form1 : Form
         ResizerF();
     }
 
-    public void HideShapeEditor() => shapeEditor.Hide();
+    public void HideShapeEditor()
+    {
+        ResetShapeEditorLocation();
+        shapeEditor.Hide();
+    }
+
     public void ShowShapeEditor(Action<Color> onSelectColor, Shape shape = null)
     {
+        bool oldVisibility = shapeEditor.Visible;
+        
         shapeEditor.Show();
         shapeEditor.OnSelectColor = onSelectColor;
-        shapeEditor.Location      = titleBar.ExitButtonLocation.Subtract(new Point(shapeEditor.Width - 20, -50));
         shapeEditor.ActiveShape   = shape;
+
+        if (!oldVisibility)
+            ResetShapeEditorLocation();
     }
     public void RefreshShapeEditor() => shapeEditor?.RefreshShapeEditor();
     public void AddShape(Shape shape) => shapes.Add(shape);
@@ -129,6 +137,7 @@ public partial class Form1 : Form
         return (randomX, randomY, 0);
     }
 
+    private void ResetShapeEditorLocation() => shapeEditor.Location = titleBar.ExitButtonLocation.Subtract(new Point(shapeEditor.Width - 20, -50));
     private void InitializeCustomTitleBar() => (FormBorderStyle, ControlBox) = (FormBorderStyle.None, false);
     private void Form1_Click(object sender, EventArgs e)
     {

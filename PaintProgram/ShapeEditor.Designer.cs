@@ -163,6 +163,11 @@
             colorWheelTabBackground.Size = new Size(243, 31);
             colorWheelTabBackground.TabIndex = 7;
             colorWheelTabBackground.TabStop = false;
+            colorWheelTabBackground.MouseDown += colorWheelTabBackground_MouseDown;
+            colorWheelTabBackground.MouseEnter += colorWheelTabBackground_MouseEnter;
+            colorWheelTabBackground.MouseLeave += colorWheelTabBackground_MouseLeave;
+            colorWheelTabBackground.MouseMove += colorWheelTabBackground_MouseMove;
+            colorWheelTabBackground.MouseUp += colorWheelTabBackground_MouseUp;
             // 
             // colorPickerLabel
             // 
@@ -533,6 +538,7 @@
             Controls.Add(colorWheelBackground);
             Name = "ShapeEditor";
             Text = "Stupid";
+            MouseMove += ShapeEditor_MouseMove;
             ((System.ComponentModel.ISupportInitialize)colorWheelPictureBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)valueSliderPictureBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)colorPreviewPictureBox).EndInit();
