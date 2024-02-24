@@ -100,21 +100,8 @@ public partial class Form1 : Form
         paintSizes[ActivePaintTool] = newSize;
         Cursor = GetCircularCursor(newSize);
     }
-    //private void Form1_Click(object sender, EventArgs e) => shapes.ForEach(s => s.HideHandles());
-
     public int AbsoluteRadius = 100;
     public int PenRadius = 3;
-
-    //public bool mouseIsDown = false;
-
-    //private EPaintTool paintTool = EPaintTool.Eraser;
-    //private Graphics g;
-    //private Color absoluteColor = Color.Black;
-    //private int x = -1;
-    //private int y = -1;
-    //private Brush brush;
-    //private Pen pen;
-    //Random random = new();
 
     public void BringTitleBarToFront()
     {
@@ -123,7 +110,7 @@ public partial class Form1 : Form
         shapeEditor.BringToFront();
     }
 
-    private static Cursor GetCircularCursor(int diameter)
+    public static Cursor GetCircularCursor(int diameter)
     {
         // Creates a circular bitmap image for the cursor
         Bitmap cursorImage = new (diameter + 10, diameter + 10);
@@ -138,7 +125,7 @@ public partial class Form1 : Form
     private static (int, int, int) GetRandomPoint(int x, int y, int radius)
     {
         Random random = new();
-        double angle = random.NextDouble() * 2 * Math.PI;              // Random angle between 0 and 2*pi
+        double angle = random.NextDouble() * 2 * Math.PI;                    // Random angle between 0 and 2*pi
         double randomRadius = Math.Sqrt(random.NextDouble()) * (radius / 2); // Random radius between 0 and maxRadius
 
         // Calculate the x and y coordinates using polar to Cartesian conversion

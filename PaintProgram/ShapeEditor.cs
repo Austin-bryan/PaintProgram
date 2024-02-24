@@ -21,13 +21,13 @@ public partial class ShapeEditor : Form
 
     public Action<Color> OnSelectColor { get; set; }
 
-    private static bool CursorVisible
+    private bool CursorVisible
     {
         set
         {
             if (value)
-                Cursor.Show();
-            else Cursor.Hide();
+                 Cursor = Cursors.Default;
+            else Cursor = Form1.GetCircularCursor(20);
         }
     }
     private const int cursorDiameter = 12;
@@ -215,14 +215,9 @@ public partial class ShapeEditor : Form
 
     private void DrawCursor(PaintEventArgs e, Brush brush, Point point)
     {
-        graphics = e.Graphics;
         int offset = 2;
         e.Graphics.DrawEllipse(new Pen(Brushes.White, 1.6f), x: point.X, point.Y, cursorDiameter, cursorDiameter);
         e.Graphics.DrawEllipse(new Pen(Brushes.Black, 1.6f), x: point.X + offset / 2, point.Y + offset / 2, cursorDiameter - offset, cursorDiameter - offset);
-
-        graphics.FillEllipse(Brushes.Black, adjustedPoint.X, adjustedPoint.Y, 5, 5);
-        //graphics.FillEllipse(Brushes.White, cursorPointingToClient.X, cursorPointingToClient.Y, 5, 5);
-        //graphics.FillEllipse(Brushes.Black, point.X + cursorDiameter / 2, point.Y + cursorDiameter / 2, 5, 5);
     }
     private void UpdateAlphaBoxes()
     {
@@ -255,9 +250,7 @@ public partial class ShapeEditor : Form
     }
     private void UpdateWheelCursor(MouseEventArgs e)
     {
-        //wheelCursorPoint = new Point(Cursor.Position.X, Cursor.Position.Y);
-        wheelCursorPoint = e.Location;
-        //wheelCursorPoint = new Point(e.Location.X - cursorDiameter / 2, e.Location.Y - cursorDiameter / 2);
+        wheelCursorPoint = e.Location.Subtract(new (cursorDiameter / 2, cursorDiameter / 2));
 
         int radius = 200 / 2;
         var (centerX, centerY, cursorX, cursorY) = (radius, radius, wheelCursorPoint.X, wheelCursorPoint.Y);
@@ -278,43 +271,22 @@ public partial class ShapeEditor : Form
     }
     private void SelectColor()
     {
-        const int cursorOffset = 0;
         var colorWheelBitmap = cachedBitmaps[sliderValue];
         adjustedPoint  = new(wheelCursorPoint.X + cursorDiameter / 4, wheelCursorPoint.Y + cursorDiameter / 4);
-        //adjustedPoint = new(wheelCursorPoint.X + Location.X + cursorOffset, wheelCursorPoint.Y + Location.Y + cursorOffset);
-        cursorPointingToClient = colorWheelPictureBox.PointToClient(adjustedPoint);
-        cursorPointingToClient = new(-cursorPointingToClient.X, cursorPointingToClient.Y);
-        cursorPointingToClient = adjustedPoint;
 
-        //Point adjustedPoint  = new(wheelCursorPoint.X + Location.X + cursorOffset, wheelCursorPoint.Y + Location.Y + cursorOffset);
-        //Point cursorPosition = colorWheelPictureBox.PointToClient(adjustedPoint);
-
-        //graphics.FillEllipse(Brushes.Black, adjustedPoint.X, adjustedPoint.Y, 5, 5);
-        //graphics.FillEllipse(Brushes.White, cursorPosition.X, cursorPosition.Y, 5, 5);
-
-        propertiesLabel.Text = adjustedPoint.ToString();
-
-        if (cursorPointingToClient.X >= 0 && cursorPointingToClient.X < colorWheelPictureBox.Width &&
-            cursorPointingToClient.Y >= 0 && cursorPointingToClient.Y < colorWheelPictureBox.Height)
+        if (adjustedPoint.X >= 0 && adjustedPoint.X < colorWheelPictureBox.Width &&
+            adjustedPoint.Y >= 0 && adjustedPoint.Y < colorWheelPictureBox.Height)
         {
-            colorPickerLabel.Text = "true" + cursorPointingToClient.Subtract(adjustedPoint); ;
-            currentColor = colorWheelBitmap.GetPixel(cursorPointingToClient.X, cursorPointingToClient.Y);
+            currentColor = colorWheelBitmap.GetPixel(adjustedPoint.X, adjustedPoint.Y);
 
             if (currentColor == Color.FromArgb(0, 0, 0, 0))
-            {
-                colorPickerLabel.Text = "trans" + cursorPointingToClient;
                 return;
-            }
 
             colorPreviewPictureBox.BackColor = currentColor;
 
             if (ActiveShape != null)
                 OnSelectColor(currentColor);
-            //ActiveShape.ShapeColor = currentColor;
         }
-        else
-            colorPickerLabel.Text = "false" + (cursorPointingToClient, adjustedPoint).ToString(); ;
-            //colorPickerLabel.Text = "false" + cursorPointingToClient;
     }
 
     private void colorWheelPictureBox_MouseEnter(object sender, EventArgs e) => Cursor = Cursors.Cross;
