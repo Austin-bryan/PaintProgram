@@ -1,4 +1,14 @@
-﻿using System;
+﻿
+/* Project: Paint
+ * Authors: Noah Curtis, Austin Bryan, Lucius Miller
+ * Class: Foundations in App Development
+ * Date: February 24th, 2024*/
+
+
+
+
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;

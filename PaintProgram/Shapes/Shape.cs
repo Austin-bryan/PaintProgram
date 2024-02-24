@@ -1,4 +1,12 @@
-﻿using static PaintProgram.Shapes.Handle;
+﻿/* Project: Paint
+ * Authors: Noah Curtis, Austin Bryan, Lucius Miller
+ * Class: Foundations in App Development
+ * Date: February 24th, 2024*/
+
+
+
+
+using static PaintProgram.Shapes.Handle;
 
 namespace PaintProgram.Shapes;
 

@@ -1,4 +1,12 @@
-﻿using PaintProgram.Shapes;
+﻿/* Project: Paint
+ * Authors: Noah Curtis, Austin Bryan, Lucius Miller
+ * Class: Foundations in App Development
+ * Date: February 24th, 2024*/
+
+
+
+
+using PaintProgram.Shapes;
 namespace PaintProgram;
 
 public partial class ShapeEditor : Form
@@ -80,7 +88,7 @@ public partial class ShapeEditor : Form
         colorWheelPictureBox.BackColor = colorWheelBackground.BackColor;
 
         // Generate the bitmaps for the color wheel for every possible value.
-        // This dramatically improves preformance of the color wheel slider
+        // This dramatically improves performance of the color wheel slider
         for (int i = 0; i < 255; i++)
         {
             sliderValue = (float)i / 255;

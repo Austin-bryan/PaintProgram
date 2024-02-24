@@ -1,4 +1,13 @@
-﻿namespace PaintProgram.Shapes;
+﻿
+/* Project: Paint
+ * Authors: Noah Curtis, Austin Bryan, Lucius Miller
+ * Class: Foundations in App Development
+ * Date: February 24th, 2024*/
+
+
+
+
+namespace PaintProgram.Shapes;
 
 public partial class Star6Points : StarShape
 {

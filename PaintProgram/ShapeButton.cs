@@ -1,4 +1,11 @@
-﻿using PaintProgram.Shapes;
+﻿/* Project: Paint
+ * Authors: Noah Curtis, Austin Bryan, Lucius Miller
+ * Class: Foundations in App Development
+ * Date: February 24th, 2024*/
+
+
+
+using PaintProgram.Shapes;
 using System.ComponentModel;
 
 namespace PaintProgram;

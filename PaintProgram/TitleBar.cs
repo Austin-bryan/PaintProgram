@@ -1,4 +1,11 @@
-﻿using System.Runtime.InteropServices;
+﻿
+/* Project: Paint
+ * Authors: Noah Curtis, Austin Bryan, Lucius Miller
+ * Class: Foundations in App Development
+ * Date: February 24th, 2024*/
+
+
+using System.Runtime.InteropServices;
 
 namespace PaintProgram;
 
