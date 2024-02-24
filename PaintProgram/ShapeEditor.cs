@@ -40,6 +40,9 @@ public partial class ShapeEditor : Form
     private Color currentColor;
     private Point moveStart;
     private bool isMoving;
+    private Graphics graphics;
+    private Point adjustedPoint;
+    private Point cursorPointingToClient;
     private readonly Dictionary<float, Bitmap> cachedBitmaps = new();
     private readonly int sliderMin, sliderMax;
     private readonly Color unlinkedColor = Color.FromArgb(255, 120, 120, 120);
@@ -203,7 +206,7 @@ public partial class ShapeEditor : Form
     }
     private static float ClampToNearestMultiple(float value)
     {
-        float scaledValue = value * 255;                            // Scale up to range [0, 255]
+        float scaledValue  = value * 255;                            // Scale up to range [0, 255]
         float roundedValue = (float)Math.Round((double)scaledValue); // Round to nearest integer
         float clampedValue = roundedValue / 255;                     // Scale back down to range [0, 1]
 
@@ -212,9 +215,14 @@ public partial class ShapeEditor : Form
 
     private void DrawCursor(PaintEventArgs e, Brush brush, Point point)
     {
+        graphics = e.Graphics;
         int offset = 2;
         e.Graphics.DrawEllipse(new Pen(Brushes.White, 1.6f), x: point.X, point.Y, cursorDiameter, cursorDiameter);
         e.Graphics.DrawEllipse(new Pen(Brushes.Black, 1.6f), x: point.X + offset / 2, point.Y + offset / 2, cursorDiameter - offset, cursorDiameter - offset);
+
+        graphics.FillEllipse(Brushes.Black, adjustedPoint.X, adjustedPoint.Y, 50, 50);
+        //graphics.FillEllipse(Brushes.White, cursorPointingToClient.X, cursorPointingToClient.Y, 5, 5);
+        //graphics.FillEllipse(Brushes.Black, point.X + cursorDiameter / 2, point.Y + cursorDiameter / 2, 5, 5);
     }
     private void UpdateAlphaBoxes()
     {
@@ -247,53 +255,71 @@ public partial class ShapeEditor : Form
     }
     private void UpdateWheelCursor(MouseEventArgs e)
     {
-        wheelCursorPoint = new Point(e.Location.X - cursorDiameter / 2, e.Location.Y - cursorDiameter / 2);
+        //wheelCursorPoint = new Point(Cursor.Position.X, Cursor.Position.Y);
+        wheelCursorPoint = e.Location;
+        //wheelCursorPoint = new Point(e.Location.X - cursorDiameter / 2, e.Location.Y - cursorDiameter / 2);
 
         int radius = 200 / 2;
         var (centerX, centerY, cursorX, cursorY) = (radius, radius, wheelCursorPoint.X, wheelCursorPoint.Y);
 
         double distance = Math.Sqrt(Math.Pow((cursorX - centerX), 2) + Math.Pow((cursorY - centerY), 2));
 
-        if (distance > radius)
-        {
-            double angle = Math.Atan2(cursorY - centerY, cursorX - centerX);
+        //if (distance > radius)
+        //{
+        //    double angle = Math.Atan2(cursorY - centerY, cursorX - centerX);
 
-            int clampedX = centerX + (int)(radius * Math.Cos(angle) + 5);
-            int clampedY = centerY + (int)(radius * Math.Sin(angle) + 5);
+        //    int clampedX = centerX + (int)(radius * Math.Cos(angle) + 5);
+        //    int clampedY = centerY + (int)(radius * Math.Sin(angle) + 5);
 
-            wheelCursorPoint = new Point(clampedX, clampedY);
-        }
+        //    wheelCursorPoint = new Point(clampedX, clampedY);
+        //}
 
         colorWheelPictureBox.Refresh();
     }
     private void SelectColor()
     {
-        const int cursorOffset = 17;
+        const int cursorOffset = 0;
         var colorWheelBitmap = cachedBitmaps[sliderValue];
-        Point adjustedPoint = new(wheelCursorPoint.X + Location.X + cursorOffset, wheelCursorPoint.Y + Location.Y + cursorOffset);
-        Point cursorPosition = colorWheelPictureBox.PointToClient(adjustedPoint);
+        adjustedPoint  = new(wheelCursorPoint.X + cursorOffset, wheelCursorPoint.Y + cursorOffset);
+        //adjustedPoint = new(wheelCursorPoint.X + Location.X + cursorOffset, wheelCursorPoint.Y + Location.Y + cursorOffset);
+        cursorPointingToClient = colorWheelPictureBox.PointToClient(adjustedPoint);
 
-        if (cursorPosition.X >= 0 && cursorPosition.X < colorWheelPictureBox.Width &&
-            cursorPosition.Y >= 0 && cursorPosition.Y < colorWheelPictureBox.Height)
+        //Point adjustedPoint  = new(wheelCursorPoint.X + Location.X + cursorOffset, wheelCursorPoint.Y + Location.Y + cursorOffset);
+        //Point cursorPosition = colorWheelPictureBox.PointToClient(adjustedPoint);
+
+        //graphics.FillEllipse(Brushes.Black, adjustedPoint.X, adjustedPoint.Y, 5, 5);
+        //graphics.FillEllipse(Brushes.White, cursorPosition.X, cursorPosition.Y, 5, 5);
+
+        propertiesLabel.Text = adjustedPoint.ToString();
+
+        if (cursorPointingToClient.X >= 0 && cursorPointingToClient.X < colorWheelPictureBox.Width &&
+            cursorPointingToClient.Y >= 0 && cursorPointingToClient.Y < colorWheelPictureBox.Height)
         {
-            currentColor = colorWheelBitmap.GetPixel(cursorPosition.X, cursorPosition.Y);
+            colorPickerLabel.Text = "true" + cursorPointingToClient; ;
+            currentColor = colorWheelBitmap.GetPixel(cursorPointingToClient.X, cursorPointingToClient.Y);
 
             if (currentColor == Color.FromArgb(0, 0, 0, 0))
+            {
+                colorPickerLabel.Text = "trans" + cursorPointingToClient;
                 return;
+            }
+
             colorPreviewPictureBox.BackColor = currentColor;
 
             if (ActiveShape != null)
                 OnSelectColor(currentColor);
             //ActiveShape.ShapeColor = currentColor;
         }
+        else
+            colorPickerLabel.Text = "false" + cursorPointingToClient;
     }
 
     private void colorWheelPictureBox_MouseEnter(object sender, EventArgs e) => Cursor = Cursors.Cross;
     private void colorWheelPictureBox_MouseDown(object sender, MouseEventArgs e)
     {
         (wheelMouseDown, CursorVisible) = (true, false);
-        SelectColor();
         UpdateWheelCursor(e);
+        SelectColor();
     }
     private void colorWheelPictureBox_MouseMove(object sender, MouseEventArgs e)
     {

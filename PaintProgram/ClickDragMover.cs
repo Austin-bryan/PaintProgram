@@ -6,14 +6,7 @@ public class ClickDragMover
     private bool isMoving;
     private Point moveStart;
 
-    //public void ShowCursorDefault() => Cursor = Cursors.Default;
-    //public void ShowCursorDrag() => Cursor = Cursors.SizeAll;
-
-    public void OnMouseDown(MouseEventArgs e)
-    {
-        isMoving = true;
-        moveStart = e.Location;
-    }
+    public void OnMouseDown(MouseEventArgs e) => (isMoving, moveStart) = (true, e.Location);
     public Point? OnMouseMove(Point Location, MouseEventArgs e, bool shouldClamp = false)
     {
         if (!isMoving)
@@ -31,8 +24,5 @@ public class ClickDragMover
 
         (int, int) GetDelta(Point point) => (e.X - point.X, e.Y - point.Y);
     }
-    public void OnMouseUp(MouseEventArgs e)
-    {
-        isMoving = false;
-    }
+    public void OnMouseUp(MouseEventArgs e) => isMoving = false;
 }
