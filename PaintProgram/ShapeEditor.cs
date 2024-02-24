@@ -64,9 +64,9 @@ public partial class ShapeEditor : Form
         DoubleBuffered = true;
         InitializeComponent();
 
-        BackColor = Color.LimeGreen;
+        BackColor       = Color.LimeGreen;
         TransparencyKey = BackColor;
-        ShowInTaskbar = false;
+        ShowInTaskbar   = false;
         FormBorderStyle = FormBorderStyle.None;
 
         valueSliderPictureBox.Image = GenerateValueSlider();
@@ -157,17 +157,15 @@ public partial class ShapeEditor : Form
         int q = Convert.ToInt32(value * (1 - f * saturation));
         int t = Convert.ToInt32(value * (1 - (1 - f) * saturation));
 
-        if (hi == 0)
-            return Color.FromArgb(255, v, t, p);
-        else if (hi == 1)
-            return Color.FromArgb(255, q, v, p);
-        else if (hi == 2)
-            return Color.FromArgb(255, p, v, t);
-        else if (hi == 3)
-            return Color.FromArgb(255, p, q, v);
-        else if (hi == 4)
-            return Color.FromArgb(255, t, p, v);
-        else return Color.FromArgb(255, v, p, q);
+        return hi switch
+        {
+            0 => Color.FromArgb(255, v, t, p),
+            1 => Color.FromArgb(255, q, v, p),
+            2 => Color.FromArgb(255, p, v, t),
+            3 => Color.FromArgb(255, p, q, v),
+            4 => Color.FromArgb(255, t, p, v),
+            _ => Color.FromArgb(255, v, p, q)
+        };
     }
 
     private void colorWheelPictureBox_Paint(object sender, PaintEventArgs e) => DrawCursor(e, Brushes.Black, wheelCursorPoint);
@@ -184,7 +182,12 @@ public partial class ShapeEditor : Form
     private void colorWheelPictureBox_MouseLeave(object sender, EventArgs e) => Cursor = Cursors.Default;
     private void valueSliderPictureBox_MouseEnter(object sender, EventArgs e) => Cursor = Cursors.Cross;
     private void valueSliderPictureBox_MouseLeave(object sender, EventArgs e) => Cursor = Cursors.Default;
-    private void valueSliderPictureBox_MouseUp(object sender, MouseEventArgs e) => (sliderMouseDown, CursorVisible) = (false, true);
+    private void valueSliderPictureBox_MouseUp(object sender, MouseEventArgs e)
+    {
+        (sliderMouseDown, CursorVisible) = (false, true);
+        if (ActiveShape == null)
+            OnSelectColor(currentColor);
+    }
 
     private static float ClampToNearestMultiple(float value)
     {
@@ -214,6 +217,7 @@ public partial class ShapeEditor : Form
     {
         if (!sliderMouseDown)
             return;
+        SelectColor();
         UpdateSliderCursor(e);
     }
     private void colorWheelPictureBox_MouseDown(object sender, MouseEventArgs e)
