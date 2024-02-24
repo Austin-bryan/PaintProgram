@@ -98,6 +98,22 @@ public partial class Form1 : Form
         paintSizes[ActivePaintTool] = newSize;
         Cursor = GetCircularCursor(newSize);
     }
+    //private void Form1_Click(object sender, EventArgs e) => shapes.ForEach(s => s.HideHandles());
+
+    public int AbsoluteRadius = 100;
+    public int PenRadius = 3;
+
+    //public bool mouseIsDown = false;
+
+    //private EPaintTool paintTool = EPaintTool.Eraser;
+    //private Graphics g;
+    //private Color absoluteColor = Color.Black;
+    //private int x = -1;
+    //private int y = -1;
+    //private Brush brush;
+    //private Pen pen;
+    //Random random = new();
+
     public void BringTitleBarToFront()
     {
         titleBar.BringToFront();
@@ -121,7 +137,7 @@ public partial class Form1 : Form
     {
         Random random = new();
         double angle = random.NextDouble() * 2 * Math.PI;              // Random angle between 0 and 2*pi
-        double randomRadius = Math.Sqrt(random.NextDouble()) * radius; // Random radius between 0 and maxRadius
+        double randomRadius = Math.Sqrt(random.NextDouble()) * (radius / 2); // Random radius between 0 and maxRadius
 
         // Calculate the x and y coordinates using polar to Cartesian conversion
         int randomX = x + (int)(randomRadius * Math.Cos(angle));
@@ -145,7 +161,7 @@ public partial class Form1 : Form
         pen             = new Pen(PaintColor, paintSizes[EPaintTool.Brush]);
         pen.StartCap    = pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
     }
-    private int DetermineFountainThickness(int x3, int y3)
+    private int DetermineFountainThickness(int x3, int y3, int fountain)
     {
         double x1 = x3; double y1 = y3;
         double x2 = startX; double y2 = startY;
@@ -153,8 +169,7 @@ public partial class Form1 : Form
         x2       *= x2; y2 *= y2;
         double sX = Math.Sqrt(x2);
         double sY = Math.Sqrt(y2);
-
-        return sX < sY ? 10 : 2;
+        return sX < sY * 500 ? fountain * 4 : fountain;
     }
 
     // The function which draws onto the panel
@@ -167,8 +182,8 @@ public partial class Form1 : Form
                 g.DrawLine(pen, new Point(startX, startY), new Point(x, y));
                 break;
             case EPaintTool.Spray:
-                
                 for (int i = 0; i < 100; i++)
+                //for (int i = 0; i < PaintSizes[EPaintTool.Spray] * 6; i++)
                 {
                     var imposter = GetRandomPoint(x, y, paintSizes[EPaintTool.Spray]);
                     g.FillEllipse(brush, imposter.Item1, imposter.Item2, 2, 2);
@@ -176,7 +191,7 @@ public partial class Form1 : Form
                 break;
             case EPaintTool.Fountain:
                 int fountainRadius = paintSizes[EPaintTool.Fountain];
-                int width = DetermineFountainThickness(x, y);
+                int width = DetermineFountainThickness(x, y, fountainRadius);
                 g.FillRectangle(brush, x, y,  width, fountainRadius);
                 break;
             case EPaintTool.Eraser:
