@@ -49,7 +49,7 @@ public partial class Form1 : Form
     private int x = -1;
     private int y = -1;
     private bool mouseIsDown = false;
-    private Brush brush;
+    private Brush brush, eraserBrush;
     private Pen pen;
 
     public Form1()
@@ -70,6 +70,8 @@ public partial class Form1 : Form
         titleBar.Show();
         titleBar.Owner = this;
         shapeEditor.Owner = this;
+
+        eraserBrush = new SolidBrush(BackColor);
 
         ResizerF();
     }
@@ -164,7 +166,7 @@ public partial class Form1 : Form
                 g.DrawLine(pen, new PointF(this.x, this.y), new PointF(x, y));
                 break;
             case EPaintTool.Spray:
-                brush = Brushes.Black;
+                
                 for (int i = 0; i < 100; i++)
                 {
                     var imposter = GetRandomPoint(x, y, paintSizes[EPaintTool.Spray]);
@@ -173,15 +175,13 @@ public partial class Form1 : Form
                 break;
             case EPaintTool.Fountain:
                 int fountainRadius = paintSizes[EPaintTool.Fountain];
-                brush = Brushes.Black;
                 int width = DetermineFountainThickness(x, y);
                 g.FillRectangle(brush, x, y, (int)(width), fountainRadius);
                 break;
             case EPaintTool.Eraser:
 
                 int eraserRadius = paintSizes[EPaintTool.Eraser];
-                brush = new SolidBrush(paintPanel.BackColor);
-                g.FillEllipse(brush, x - eraserRadius / 2, y - eraserRadius / 2, eraserRadius, eraserRadius);
+                g.FillEllipse(eraserBrush, x - eraserRadius / 2, y - eraserRadius / 2, eraserRadius, eraserRadius);
                 break;
             default:
                 break;
@@ -199,6 +199,8 @@ public partial class Form1 : Form
         
         if (ActivePaintTool == EPaintTool.None)
             HideShapeEditor();
+        else
+            brush = new SolidBrush(paintColor);
 
         (x, y) = (e.X, e.Y);
         PaintScreen(e.X, e.Y);

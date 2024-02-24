@@ -24,9 +24,9 @@ public partial class ShapeEditor : Form
     private const int cursorDiameter = 12;
 
     private Point wheelCursorPoint, valueCursorPoint;
-    private bool  sliderMouseDown, wheelMouseDown;
-    private bool  linkedEnabled = false;
-    private bool  shouldUpdate = true;
+    private bool sliderMouseDown, wheelMouseDown;
+    private bool linkedEnabled = false;
+    private bool shouldUpdate = true;
     private float sliderValue = 1.0f;
     private Color currentColor;
     private readonly Dictionary<float, Bitmap> cachedBitmaps = new();
@@ -54,7 +54,7 @@ public partial class ShapeEditor : Form
         set
         {
             if (value)
-                 Cursor.Show();
+                Cursor.Show();
             else Cursor.Hide();
         }
     }
@@ -64,9 +64,9 @@ public partial class ShapeEditor : Form
         DoubleBuffered = true;
         InitializeComponent();
 
-        BackColor       = Color.LimeGreen;
+        BackColor = Color.LimeGreen;
         TransparencyKey = BackColor;
-        ShowInTaskbar   = false;
+        ShowInTaskbar = false;
         FormBorderStyle = FormBorderStyle.None;
 
         valueSliderPictureBox.Image = GenerateValueSlider();
@@ -180,11 +180,11 @@ public partial class ShapeEditor : Form
         e.Graphics.DrawEllipse(new Pen(Brushes.Black, 1.6f), x: point.X + offset / 2, point.Y + offset / 2, cursorDiameter - offset, cursorDiameter - offset);
     }
 
-    private void colorWheelPictureBox_MouseEnter  (object sender, EventArgs e)      => Cursor = Cursors.Cross;
-    private void colorWheelPictureBox_MouseLeave  (object sender, EventArgs e)      => Cursor = Cursors.Default;
-    private void valueSliderPictureBox_MouseEnter (object sender, EventArgs e)      => Cursor = Cursors.Cross;
-    private void valueSliderPictureBox_MouseLeave (object sender, EventArgs e)      => Cursor = Cursors.Default;
-    private void valueSliderPictureBox_MouseUp    (object sender, MouseEventArgs e) => (sliderMouseDown, CursorVisible) = (false, true);
+    private void colorWheelPictureBox_MouseEnter(object sender, EventArgs e) => Cursor = Cursors.Cross;
+    private void colorWheelPictureBox_MouseLeave(object sender, EventArgs e) => Cursor = Cursors.Default;
+    private void valueSliderPictureBox_MouseEnter(object sender, EventArgs e) => Cursor = Cursors.Cross;
+    private void valueSliderPictureBox_MouseLeave(object sender, EventArgs e) => Cursor = Cursors.Default;
+    private void valueSliderPictureBox_MouseUp(object sender, MouseEventArgs e) => (sliderMouseDown, CursorVisible) = (false, true);
 
     private static float ClampToNearestMultiple(float value)
     {
@@ -294,10 +294,10 @@ public partial class ShapeEditor : Form
         linkButton.BackColor = linkedEnabled ? Color.FromArgb(255, 45, 45, 45) : unlinkedColor;
     }
 
-    private void bringToFrontBtn_Click  (object sender, EventArgs e) => ActiveShape.MoveToFront();
-    private void bringForwardBtn_Click  (object sender, EventArgs e) => ActiveShape.MoveForwards();
-    private void sendBackwardsBtn_Click (object sender, EventArgs e) => ActiveShape.MoveBackwards();
-    private void sendToBackBtn_Click    (object sender, EventArgs e) => ActiveShape.MoveToBack();
+    private void bringToFrontBtn_Click(object sender, EventArgs e) => ActiveShape.MoveToFront();
+    private void bringForwardBtn_Click(object sender, EventArgs e) => ActiveShape.MoveForwards();
+    private void sendBackwardsBtn_Click(object sender, EventArgs e) => ActiveShape.MoveBackwards();
+    private void sendToBackBtn_Click(object sender, EventArgs e) => ActiveShape.MoveToBack();
 
     private void widthPixelBox_InputSubmit(double parsedValue)
     {
@@ -345,10 +345,10 @@ public partial class ShapeEditor : Form
     {
         if (ActiveShape == null)
             return;
-        widthPixelBox.TextBoxText     = ActiveShape.Width.ToString();
-        heightPixelBox.TextBoxText    = ActiveShape.Height.ToString();
-        xPixelBox.TextBoxText         = ActiveShape.Location.X.ToString();
-        yPixelBox.TextBoxText         = ActiveShape.Location.Y.ToString();
+        widthPixelBox.TextBoxText = ActiveShape.Width.ToString();
+        heightPixelBox.TextBoxText = ActiveShape.Height.ToString();
+        xPixelBox.TextBoxText = ActiveShape.Location.X.ToString();
+        yPixelBox.TextBoxText = ActiveShape.Location.Y.ToString();
         thicknessPixelBox.TextBoxText = ActiveShape.BorderThickness.ToString();
 
         if (ActiveShape is ParametricShape parametricShape)
@@ -396,7 +396,7 @@ public partial class ShapeEditor : Form
 
     private void alpha1_PixelBox_InputSubmit(double parsedValue) => UpdateAlpha(0, parsedValue);
     private void alpha2_PixelBox_InputSubmit(double parsedValue) => UpdateAlpha(1, parsedValue);
-    
+
     private void UpdateAlpha(int index, double parsedValue)
     {
         if (ActiveShape is ParametricShape ps)
@@ -407,4 +407,6 @@ public partial class ShapeEditor : Form
     }
 
     private void borderCheckBox_CheckedChanged(object sender, EventArgs e) => ActiveShape.UseBorder = borderCheckBox.Checked;
+
+    private void hideButton_Click(object sender, EventArgs e) => Hide();
 }

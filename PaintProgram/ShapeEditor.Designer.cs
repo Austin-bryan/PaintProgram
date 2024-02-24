@@ -63,6 +63,7 @@
             borderCheckBox = new CheckBox();
             alpha2_PixelBox = new PixelTextBox();
             propertiesPanel = new Panel();
+            hideButton = new Button();
             sendBackwardsBtn = new Button();
             ((System.ComponentModel.ISupportInitialize)colorWheelPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)valueSliderPictureBox).BeginInit();
@@ -501,11 +502,26 @@
             propertiesPanel.Size = new Size(343, 335);
             propertiesPanel.TabIndex = 45;
             // 
+            // hideButton
+            // 
+            hideButton.BackColor = Color.FromArgb(45, 45, 45);
+            hideButton.FlatAppearance.BorderSize = 0;
+            hideButton.FlatStyle = FlatStyle.Flat;
+            hideButton.ForeColor = SystemColors.ButtonHighlight;
+            hideButton.Location = new Point(315, 1);
+            hideButton.Name = "hideButton";
+            hideButton.Size = new Size(25, 25);
+            hideButton.TabIndex = 45;
+            hideButton.Text = "X";
+            hideButton.UseVisualStyleBackColor = false;
+            hideButton.Click += hideButton_Click;
+            // 
             // ShapeEditor
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(340, 601);
+            Controls.Add(hideButton);
             Controls.Add(propertiesPanel);
             Controls.Add(colorWheelBoarderHider);
             Controls.Add(colorPickerLabel);
@@ -571,5 +587,7 @@
         private CheckBox borderCheckBox;
         private PixelTextBox alpha2_PixelBox;
         private Panel propertiesPanel;
+        private Button button1;
+        private Button hideButton;
     }
 }
