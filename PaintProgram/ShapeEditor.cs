@@ -21,13 +21,13 @@ public partial class ShapeEditor : Form
 
     public Action<Color> OnSelectColor { get; set; }
 
-    private bool CursorVisible
+    private static bool CursorVisible
     {
         set
         {
             if (value)
-                 Cursor = Cursors.Default;
-            else Cursor = Form1.GetCircularCursor(15);
+                 Cursor.Show();
+            else Cursor.Hide();
         }
     }
     private const int cursorDiameter = 12;
@@ -282,7 +282,7 @@ public partial class ShapeEditor : Form
         if (adjustedPoint.X >= 0 && adjustedPoint.X < colorWheelPictureBox.Width &&
             adjustedPoint.Y >= 0 && adjustedPoint.Y < colorWheelPictureBox.Height)
         {
-            colorPickerLabel.Text = "true" + adjustedPoint.Subtract(adjustedPoint); ;
+          
             currentColor = colorWheelBitmap.GetPixel(adjustedPoint.X, adjustedPoint.Y);
 
             if (currentColor == Color.FromArgb(0, 0, 0, 0))
