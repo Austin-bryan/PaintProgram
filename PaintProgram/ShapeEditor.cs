@@ -156,7 +156,7 @@ public partial class ShapeEditor : Form
         if (cachedBitmaps.ContainsKey(sliderValue))
             return cachedBitmaps[sliderValue];
 
-        int radius = colorWheelPictureBox.Height / 2;
+        int radius = Math.Min(colorWheelPictureBox.Width, colorWheelPictureBox.Height) / 2;
         Bitmap colorWheel = new(radius * 2, radius * 2);
 
         int centerX = radius;
