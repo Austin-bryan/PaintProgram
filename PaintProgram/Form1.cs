@@ -100,7 +100,7 @@ public partial class Form1 : Form
         paintSizes[ActivePaintTool] = newSize;
         Cursor = GetCircularCursor(newSize);
     }
-
+    
     public int AbsoluteRadius = 100;
     public int PenRadius = 3;
 
@@ -126,7 +126,7 @@ public partial class Form1 : Form
     private static (int, int, int) GetRandomPoint(int x, int y, int radius)
     {
         Random random = new();
-        double angle = random.NextDouble() * 2 * Math.PI;              // Random angle between 0 and 2*pi
+        double angle = random.NextDouble() * 2 * Math.PI;                    // Random angle between 0 and 2*pi
         double randomRadius = Math.Sqrt(random.NextDouble()) * (radius / 2); // Random radius between 0 and maxRadius
 
         // Calculate the x and y coordinates using polar to Cartesian conversion

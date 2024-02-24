@@ -21,13 +21,13 @@ public partial class ShapeEditor : Form
 
     public Action<Color> OnSelectColor { get; set; }
 
-    private static bool CursorVisible
+    private bool CursorVisible
     {
         set
         {
             if (value)
-                 Cursor.Show();
-            else Cursor.Hide();
+                 Cursor = Cursors.Default;
+            else Cursor = Form1.GetCircularCursor(20);
         }
     }
     private const int cursorDiameter = 12;
@@ -215,14 +215,9 @@ public partial class ShapeEditor : Form
 
     private void DrawCursor(PaintEventArgs e, Brush brush, Point point)
     {
-        graphics = e.Graphics;
         int offset = 2;
         e.Graphics.DrawEllipse(new Pen(Brushes.White, 1.6f), x: point.X, point.Y, cursorDiameter, cursorDiameter);
         e.Graphics.DrawEllipse(new Pen(Brushes.Black, 1.6f), x: point.X + offset / 2, point.Y + offset / 2, cursorDiameter - offset, cursorDiameter - offset);
-
-        graphics.FillEllipse(Brushes.Black, adjustedPoint.X, adjustedPoint.Y, 5, 5);
-        //graphics.FillEllipse(Brushes.White, cursorPointingToClient.X, cursorPointingToClient.Y, 5, 5);
-        //graphics.FillEllipse(Brushes.Black, point.X + cursorDiameter / 2, point.Y + cursorDiameter / 2, 5, 5);
     }
     private void UpdateAlphaBoxes()
     {
@@ -255,7 +250,7 @@ public partial class ShapeEditor : Form
     }
     private void UpdateWheelCursor(MouseEventArgs e)
     {
-        wheelCursorPoint = e.Location;
+        wheelCursorPoint = e.Location.Subtract(new (cursorDiameter / 2, cursorDiameter / 2));
 
         int radius = colorWheelPictureBox.Width / 2 - cursorDiameter;
         var (centerX, centerY, cursorX, cursorY) = (radius, radius, wheelCursorPoint.X, wheelCursorPoint.Y);
@@ -282,7 +277,6 @@ public partial class ShapeEditor : Form
         if (adjustedPoint.X >= 0 && adjustedPoint.X < colorWheelPictureBox.Width &&
             adjustedPoint.Y >= 0 && adjustedPoint.Y < colorWheelPictureBox.Height)
         {
-          
             currentColor = colorWheelBitmap.GetPixel(adjustedPoint.X, adjustedPoint.Y);
 
             if (currentColor == Color.FromArgb(0, 0, 0, 0))
