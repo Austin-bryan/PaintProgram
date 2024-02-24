@@ -538,7 +538,6 @@
             Controls.Add(colorWheelBackground);
             Name = "ShapeEditor";
             Text = "Stupid";
-            MouseMove += ShapeEditor_MouseMove;
             ((System.ComponentModel.ISupportInitialize)colorWheelPictureBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)valueSliderPictureBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)colorPreviewPictureBox).EndInit();

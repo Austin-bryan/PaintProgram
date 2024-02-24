@@ -125,6 +125,11 @@ namespace PaintProgram
             headerBackground.Size = new Size(78, 31);
             headerBackground.TabIndex = 34;
             headerBackground.TabStop = false;
+            headerBackground.MouseDown += headerBackground_MouseDown;
+            headerBackground.MouseEnter += headerBackground_MouseEnter;
+            headerBackground.MouseLeave += headerBackground_MouseLeave;
+            headerBackground.MouseMove += headerBackground_MouseMove;
+            headerBackground.MouseUp += headerBackground_MouseUp;
             // 
             // toolBarLabel
             // 

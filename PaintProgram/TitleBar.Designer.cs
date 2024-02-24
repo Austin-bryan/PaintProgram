@@ -45,7 +45,7 @@
             pictureBox1.InitialImage = (Image)resources.GetObject("pictureBox1.InitialImage");
             pictureBox1.Location = new Point(5, 5);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(25, 25);
+            pictureBox1.Size = new Size(27, 27);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 9;
             pictureBox1.TabStop = false;
@@ -56,7 +56,7 @@
             titleLabel.BackColor = Color.FromArgb(30, 30, 30);
             titleLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             titleLabel.ForeColor = Color.White;
-            titleLabel.Location = new Point(35, 9);
+            titleLabel.Location = new Point(38, 10);
             titleLabel.Name = "titleLabel";
             titleLabel.Size = new Size(83, 15);
             titleLabel.TabIndex = 8;
@@ -70,9 +70,9 @@
             minimizeButton.Font = new Font("Consolas", 15F, FontStyle.Regular, GraphicsUnit.Point);
             minimizeButton.ForeColor = Color.White;
             minimizeButton.ImageAlign = ContentAlignment.TopCenter;
-            minimizeButton.Location = new Point(530, 0);
+            minimizeButton.Location = new Point(533, 0);
             minimizeButton.Name = "minimizeButton";
-            minimizeButton.Size = new Size(34, 34);
+            minimizeButton.Size = new Size(30, 30);
             minimizeButton.TabIndex = 7;
             minimizeButton.Text = "-";
             minimizeButton.UseVisualStyleBackColor = false;
@@ -88,7 +88,7 @@
             exitButton.ImageAlign = ContentAlignment.TopCenter;
             exitButton.Location = new Point(567, 0);
             exitButton.Name = "exitButton";
-            exitButton.Size = new Size(34, 34);
+            exitButton.Size = new Size(30, 30);
             exitButton.TabIndex = 6;
             exitButton.Text = "x";
             exitButton.UseVisualStyleBackColor = false;
@@ -101,7 +101,7 @@
             titleBarImage.BackColor = Color.FromArgb(30, 30, 30);
             titleBarImage.Location = new Point(0, 0);
             titleBarImage.Name = "titleBarImage";
-            titleBarImage.Size = new Size(601, 34);
+            titleBarImage.Size = new Size(601, 40);
             titleBarImage.TabIndex = 5;
             titleBarImage.TabStop = false;
             // 

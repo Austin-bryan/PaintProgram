@@ -7,6 +7,7 @@ public partial class ToolBarForm : Form
 {
     private Form1 MainForm => (Form1)Owner;
     private bool IsBrushActive { set => sizePanel.Visible = value; }
+    private readonly ClickDragMover clickDragMover = new();
 
     public ToolBarForm()
     {
@@ -40,20 +41,20 @@ public partial class ToolBarForm : Form
         MainForm.HideShapeEditor();
     }
 
-    private void brushBtn_Click  (object sender, EventArgs e) => ActivatePaintTool(Form1.EPaintTool.Brush);
-    private void eraserBtn_Click (object sender, EventArgs e) => ActivatePaintTool(Form1.EPaintTool.Eraser, false);
-    private void sprayBtn_Click  (object sender, EventArgs e) => ActivatePaintTool(Form1.EPaintTool.Spray);
-    private void inkBtn_Click    (object sender, EventArgs e) => ActivatePaintTool(Form1.EPaintTool.Fountain);
+    private void brushBtn_Click(object sender, EventArgs e) => ActivatePaintTool(Form1.EPaintTool.Brush);
+    private void eraserBtn_Click(object sender, EventArgs e) => ActivatePaintTool(Form1.EPaintTool.Eraser, false);
+    private void sprayBtn_Click(object sender, EventArgs e) => ActivatePaintTool(Form1.EPaintTool.Spray);
+    private void inkBtn_Click(object sender, EventArgs e) => ActivatePaintTool(Form1.EPaintTool.Fountain);
 
     private void ActivatePaintTool(Form1.EPaintTool paintTool, bool showEditor = true)
     {
-        IsBrushActive            = true;
+        IsBrushActive = true;
         MainForm.ActivePaintTool = paintTool;
-        trackBar1.Value          = MainForm.PaintSizes[MainForm.ActivePaintTool];
+        trackBar1.Value = MainForm.PaintSizes[MainForm.ActivePaintTool];
         sizePixelBox.TextBoxText = trackBar1.Value.ToString();
 
         if (showEditor)
-             MainForm.ShowShapeEditor((color) => MainForm.PaintColor = color);
+            MainForm.ShowShapeEditor((color) => MainForm.PaintColor = color);
         else MainForm.HideShapeEditor();
     }
 
@@ -70,5 +71,16 @@ public partial class ToolBarForm : Form
         sizePixelBox.TextBoxText = parsedText.ToString();
 
         MainForm.SetBrushSize(trackBar1.Value);
+    }
+
+    private void headerBackground_MouseDown(object sender, MouseEventArgs e) => clickDragMover.OnMouseDown(e);
+    private void headerBackground_MouseEnter(object sender, EventArgs e)     => Cursor = Cursors.SizeAll;
+    private void headerBackground_MouseLeave(object sender, EventArgs e)     => Cursor = Cursors.Default;
+    private void headerBackground_MouseUp(object sender, MouseEventArgs e)   => clickDragMover.OnMouseUp(e);
+    private void headerBackground_MouseMove(object sender, MouseEventArgs e)
+    {
+        Location = clickDragMover.OnMouseMove(Location, e, true) ?? Location;
+        //Point newLoc = clickDragMover.OnMouseMove(Location, e) ?? Location;
+        //Location = new(newLoc.X, Math.Max(30, newLoc.Y));
     }
 }//77

@@ -44,6 +44,7 @@ public partial class ShapeEditor : Form
     private readonly int sliderMin, sliderMax;
     private readonly Color unlinkedColor = Color.FromArgb(255, 120, 120, 120);
     private readonly List<PixelTextBox> alphaBoxes = new();
+    private readonly ClickDragMover clickDragMover = new();
 
     // Prevents a flicker from occuring when being opened the first time
     protected override CreateParams CreateParams
@@ -399,35 +400,9 @@ public partial class ShapeEditor : Form
     private void borderCheckBox_CheckedChanged(object sender, EventArgs e) => ActiveShape.UseBorder = borderCheckBox.Checked;
     private void hideButton_Click(object sender, EventArgs e) => Hide();
 
-    private void colorWheelTabBackground_MouseDown(object sender, MouseEventArgs e)
-    {
-        moveStart = e.Location;
-        isMoving = true;
-    }
-
-    private void colorWheelTabBackground_MouseUp(object sender, MouseEventArgs e)
-    {
-        isMoving = false;
-    }
-
-    private void ShapeEditor_MouseMove(object sender, MouseEventArgs e)
-    {
-
-    }
-
-    private void colorWheelTabBackground_MouseMove(object sender, MouseEventArgs e)
-    {
-        if (!isMoving)
-            return;
-
-        var (deltaX, deltaY) = GetDelta(moveStart);
-        Location = new Point(Location.X + deltaX, Location.Y + deltaY);
-
-        return;
-
-        (int, int) GetDelta(Point point) => (e.X - point.X, e.Y - point.Y);
-    }
-
+    private void colorWheelTabBackground_MouseDown(object sender, MouseEventArgs e) => clickDragMover.OnMouseDown(e);
+    private void colorWheelTabBackground_MouseUp(object sender, MouseEventArgs e) => clickDragMover.OnMouseUp(e);
+    private void colorWheelTabBackground_MouseMove(object sender, MouseEventArgs e) => Location = clickDragMover.OnMouseMove(Location, e, true) ?? Location;
     private void colorWheelTabBackground_MouseEnter(object sender, EventArgs e) => Cursor = Cursors.SizeAll;
     private void colorWheelTabBackground_MouseLeave(object sender, EventArgs e) => Cursor = Cursors.Default;
 }

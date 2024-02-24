@@ -47,13 +47,6 @@ public partial class Shape : Form
             Refresh();
         }
     }
-
-    // - Protected - //
-    protected const int Gap = 10;
-    protected bool ShouldShowHandles { get; private set; } = false;
-    protected Point resizeStart, moveStart;
-    protected Point[] points;
-    protected State State;
     public Color ShapeColor
     {
         get => shapeColor;
@@ -73,17 +66,24 @@ public partial class Shape : Form
         }
     }
 
+    // - Protected - //
+    protected const int Gap = 10;
+    protected bool ShouldShowHandles { get; private set; } = false;
+    protected Point resizeStart, moveStart;
+    protected Point[] points;
+    protected State State;
+    protected const int BorderLength = 4;
+
     // - Private - //
     private const int HandleSize = 8;
     private static readonly List<Shape> shapes = new();
     private static readonly Dictionary<int, Shape> zOrderMap = new();
-    private const int shade = 90;
-    protected const int BorderLength = 4;
 
     private Color shapeColor = Color.FromArgb(255, 90, 90, 150);
     private Color borderColor = Color.Black;
     private Rectangle[] resizeHandles;
     private Handle activeHandle;
+    private ClickDragMover clickDragMover = new();
 
     // ---- Methods ---- //
     // - Public - //
@@ -193,6 +193,7 @@ public partial class Shape : Form
         ShouldShowHandles = true;
         Refresh();
 
+        clickDragMover.OnMouseDown(e);
         moveStart = e.Location;
 
         ((Form1)Owner).ShowShapeEditor((color) => ShapeColor = color, this);
@@ -231,9 +232,7 @@ public partial class Shape : Form
             break;
         case State.Moving:
         {
-            var (deltaX, deltaY) = GetDelta(moveStart);
-            Location = new Point(Location.X + deltaX, Location.Y + deltaY);
-
+            Location = clickDragMover.OnMouseMove(Location, e) ?? Location;
             ((Form1)Owner).RefreshShapeEditor();
             break;
         }
@@ -242,7 +241,6 @@ public partial class Shape : Form
             break;
 
         }
-
         (int, int) GetDelta(Point point) => (e.X - point.X, e.Y - point.Y);
     }
     protected virtual void OnAlphaChange() { }
@@ -250,6 +248,7 @@ public partial class Shape : Form
     {
         base.OnMouseUp(e);
 
+        clickDragMover.OnMouseDown(e);
         State = State.Idle;
         Cursor = Cursors.Default;
     }

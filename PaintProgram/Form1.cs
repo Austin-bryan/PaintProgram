@@ -20,12 +20,7 @@ public partial class Form1 : Form
     public Color PaintColor
     {
         get => paintColor;
-        set
-        {
-            paintColor = value;
-            pen.Color = value;
-            brush = new SolidBrush(value);
-        }
+        set => (paintColor, pen.Color, brush) = (value, value, new SolidBrush(value));
     }
 
     public Dictionary<EPaintTool, int> PaintSizes => paintSizes;
@@ -62,13 +57,11 @@ public partial class Form1 : Form
         InitializeCustomTitleBar();
         toolBarForm.Show();
         toolBarForm.Owner = this;
-        toolBarForm.Location = new Point(10, 40);
+        toolBarForm.Location = new Point(20, 60);
 
-        // Set the form's cursor to the circular cursor
         titleBar.Show();
         titleBar.Owner = this;
         shapeEditor.Owner = this;
-
         eraserBrush = new SolidBrush(BackColor);
 
         ResizerF();
@@ -137,7 +130,7 @@ public partial class Form1 : Form
         return (randomX, randomY, 0);
     }
 
-    private void ResetShapeEditorLocation() => shapeEditor.Location = titleBar.ExitButtonLocation.Subtract(new Point(shapeEditor.Width - 20, -50));
+    private void ResetShapeEditorLocation() => shapeEditor.Location = titleBar.ExitButtonLocation.Subtract(new Point(shapeEditor.Width - 20, -60));
     private void InitializeCustomTitleBar() => (FormBorderStyle, ControlBox) = (FormBorderStyle.None, false);
     private void Form1_Click(object sender, EventArgs e)
     {
