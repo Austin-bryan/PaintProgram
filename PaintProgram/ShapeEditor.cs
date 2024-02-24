@@ -249,7 +249,7 @@ public partial class ShapeEditor : Form
     {
         wheelCursorPoint = new Point(e.Location.X - cursorDiameter / 2, e.Location.Y - cursorDiameter / 2);
 
-        int radius = 200 / 2;
+        int radius = Math.Min(colorWheelPictureBox.Width, colorWheelPictureBox.Height) / 2;
         var (centerX, centerY, cursorX, cursorY) = (radius, radius, wheelCursorPoint.X, wheelCursorPoint.Y);
 
         double distance = Math.Sqrt(Math.Pow((cursorX - centerX), 2) + Math.Pow((cursorY - centerY), 2));
