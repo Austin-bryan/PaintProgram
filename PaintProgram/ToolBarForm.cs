@@ -16,7 +16,10 @@ public partial class ToolBarForm : Form
     private Form1 MainForm => (Form1)Owner;
     private bool IsBrushActive { set => sizePanel.Visible = value; }
     private readonly ClickDragMover clickDragMover = new();
-
+    
+    //color values for the buttons
+    Color buttonDownColor = Color.FromArgb(45, 45, 45);
+    Color buttonDefaultColor = Color.FromArgb(120, 120, 120);
     public ToolBarForm()
     {
         InitializeComponent();
@@ -47,6 +50,7 @@ public partial class ToolBarForm : Form
         IsBrushActive = false;
         MainForm.ActivePaintTool = Form1.EPaintTool.None;
         MainForm.HideShapeEditor();
+
     }
 
     private void brushBtn_Click(object sender, EventArgs e) => ActivatePaintTool(Form1.EPaintTool.Brush);
@@ -82,13 +86,53 @@ public partial class ToolBarForm : Form
     }
 
     private void headerBackground_MouseDown(object sender, MouseEventArgs e) => clickDragMover.OnMouseDown(e);
-    private void headerBackground_MouseEnter(object sender, EventArgs e)     => Cursor = Cursors.SizeAll;
-    private void headerBackground_MouseLeave(object sender, EventArgs e)     => Cursor = Cursors.Default;
-    private void headerBackground_MouseUp(object sender, MouseEventArgs e)   => clickDragMover.OnMouseUp(e);
+    private void headerBackground_MouseEnter(object sender, EventArgs e) => Cursor = Cursors.SizeAll;
+    private void headerBackground_MouseLeave(object sender, EventArgs e) => Cursor = Cursors.Default;
+    private void headerBackground_MouseUp(object sender, MouseEventArgs e) => clickDragMover.OnMouseUp(e);
     private void headerBackground_MouseMove(object sender, MouseEventArgs e)
     {
         Location = clickDragMover.OnMouseMove(Location, e, (Form1)Owner, true) ?? Location;
         //Point newLoc = clickDragMover.OnMouseMove(Location, e) ?? Location;
         //Location = new(newLoc.X, Math.Max(30, newLoc.Y));
+    }
+
+    private void brushBtn_MouseDown(object sender, MouseEventArgs e)
+    {
+        resetButtonColor();
+        brushBtn.BackColor = buttonDownColor;
+    }
+
+    //makes each button our default color
+    private void resetButtonColor()
+    {
+        foreach (var control in brushToolPanel.Controls)
+        {
+            var button = control as Button;
+            button.BackColor = buttonDefaultColor;
+        }
+    }
+
+    private void cursorBtn_MouseDown(object sender, MouseEventArgs e)
+    {
+        resetButtonColor();
+        cursorBtn.BackColor = buttonDownColor;
+    }
+
+    private void eraserBtn_MouseDown(object sender, MouseEventArgs e)
+    {
+        resetButtonColor();
+        eraserBtn.BackColor = buttonDownColor;
+    }
+
+    private void sprayBtn_MouseDown(object sender, MouseEventArgs e)
+    {
+        resetButtonColor();
+        sprayBtn.BackColor = buttonDownColor;
+    }
+
+    private void inkBtn_MouseDown(object sender, MouseEventArgs e)
+    {
+        resetButtonColor();
+        inkBtn.BackColor = buttonDownColor;
     }
 }//77
