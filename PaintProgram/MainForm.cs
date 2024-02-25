@@ -5,6 +5,7 @@
 
 using PaintProgram.Shapes;
 using System.Drawing.Drawing2D;
+using static System.Windows.Forms.AxHost;
 namespace PaintProgram;
 
 /*
@@ -210,7 +211,12 @@ public partial class MainForm : Form
     }
 
     // Returns a different thickness based on whether the user move mostly horiziontally or mostly vertically
-    private int DetermineFountainThickness(int x, int y, int fountain) => x - brushStartX < y - brushStartY * 500 ? fountain * 4 : fountain;
+    private int DetermineFountainThickness(int x, int y, int fountain)
+    {
+        double x2 = brushStartX - x; 
+        double y2 = brushStartY - y;
+        return x2 < y2 * 500 ? fountain * 4 : fountain;
+    }
 
     // The function which draws onto the panel
     private void PaintScreen(int x, int y)
