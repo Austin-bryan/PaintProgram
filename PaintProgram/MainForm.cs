@@ -44,7 +44,7 @@ public partial class MainForm : Form
     };
 
     private Graphics g;
-    private int startX = -1, startY = -1; 
+    private int brushStartX = -1, brushStartY = -1; 
     private bool mouseIsDown = false; 
     private Brush brush;
     private Pen pen;
@@ -127,7 +127,7 @@ public partial class MainForm : Form
     }
 
     //gets a random point around a circle
-    private static (int, int, int) GetRandomPoint(int x, int y, int radius)
+    private static Point GetRandomPoint(int x, int y, int radius)
     {
         Random random = new();
         double angle = random.NextDouble() * 2 * Math.PI;                    // Random angle between 0 and 2*pi
@@ -137,7 +137,7 @@ public partial class MainForm : Form
         int randomX = x + (int)(randomRadius * Math.Cos(angle));
         int randomY = y + (int)(randomRadius * Math.Sin(angle));
 
-        return (randomX, randomY, 0);
+        return new Point(randomX, randomY);
     }
 
     private void ResetShapeEditorLocation() => shapeEditor.Location = titleBar.ExitButtonLocation.Subtract(new Point(shapeEditor.Width - 20, -60));
@@ -158,22 +158,8 @@ public partial class MainForm : Form
         pen.StartCap    = pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
     }
 
-    // determins if the direction the mouse is moving should either be thick or thin
-    private int DetermineFountainThickness(int x3, int y3, int fountain)
-    {
-        //takes determins distance using an old point and new point
-        double x1 = x3; double y1 = y3;
-        double x2 = startX; double y2 = startY;
-
-        //calculates the absolute value of the difference
-        x2       -= x1; y2 -= y1;
-        x2       *= x2; y2 *= y2;
-        double sX = Math.Sqrt(x2);
-        double sY = Math.Sqrt(y2);
-
-        //determines to return either a thick, or thin line
-        return sX < sY * 500 ? fountain * 4 : fountain;
-    }
+    // Returns a different thickness based on whether the user move mostly horiziontally or mostly vertically
+    private int DetermineFountainThickness(int x, int y, int fountain) => x - brushStartX < y - brushStartY * 500 ? fountain * 4 : fountain;
 
     // The function which draws onto the panel
     private int PaintScreen(int x, int y)
@@ -182,13 +168,13 @@ public partial class MainForm : Form
         {
             case EPaintTool.Brush: //a simple pen/brush tool
                 pen.Width = paintSizes[EPaintTool.Brush];
-                g.DrawLine(pen, new Point(startX, startY), new Point(x, y));
+                g.DrawLine(pen, new Point(brushStartX, brushStartY), new Point(x, y));
                 break;
             case EPaintTool.Spray: //the for loops puts random points to the screen.
                 for (int i = 0; i < 100; i++)
                 {
-                    (int, int, int) imposter = GetRandomPoint(x, y, paintSizes[EPaintTool.Spray]);
-                    g.FillEllipse(brush, imposter.Item1, imposter.Item2, 2, 2);
+                    Point randomPoint = GetRandomPoint(x, y, paintSizes[EPaintTool.Spray]);
+                    g.FillEllipse(brush, randomPoint.X, randomPoint.Y, 2, 2);
                 }
                 break;
             case EPaintTool.Fountain: //draws like a fountain pen
@@ -220,7 +206,7 @@ public partial class MainForm : Form
         else
             brush = new SolidBrush(paintColor);
 
-        (startX, startY) = (e.X, e.Y);
+        (brushStartX, brushStartY) = (e.X, e.Y);
         PaintScreen(e.X, e.Y);
         mouseIsDown = true;
     }
@@ -228,10 +214,10 @@ public partial class MainForm : Form
     // when the mouse moves it calls a function to paint.
     private void paintPanel_MouseMove(object sender, MouseEventArgs e)
     {
-        if (mouseIsDown && startX != -1 && startY != -1)
+        if (mouseIsDown && brushStartX != -1 && brushStartY != -1)
         {
             PaintScreen(e.X, e.Y);
-            (startX, startY) = (e.X, e.Y);
+            (brushStartX, brushStartY) = (e.X, e.Y);
         }
     }
 
