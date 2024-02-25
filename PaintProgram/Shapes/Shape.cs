@@ -103,7 +103,7 @@ public partial class Shape : Form
         Width = Height = 300;
 
         OnResize(default);
-        FormHider.Hide(this);
+        FormAsControlStyler.StyleFormAsControl(this);
 
         shapes.Add(this);
         ZOrder = shapes.Count - 1;

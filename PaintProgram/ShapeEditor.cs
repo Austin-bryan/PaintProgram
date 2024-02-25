@@ -73,7 +73,7 @@ public partial class ShapeEditor : Form
         DoubleBuffered = true;
         InitializeComponent();
 
-        FormHider.Hide(this);
+        FormAsControlStyler.StyleFormAsControl(this);
 
         valueSliderPictureBox.Image = GenerateValueSlider();
 

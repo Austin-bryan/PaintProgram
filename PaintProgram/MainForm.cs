@@ -38,6 +38,16 @@ namespace PaintProgram;
  * The result is very seemless and I don't think its noticable, and I got the desired result. 
  */
 
+
+/*
+ * Main form has two primary functions. Obviously this violates the Single Responsibility Principle, but the second responsibilty was 
+ * written by a teammate and it would've been too much work to move the code else where. 
+ * 
+ * Responsibility 1. Creating and managing the other forms. MainForm creates the shapes, which again are other forms themselves, which require
+ *      the titlebar, and shape editor and tool bar.
+ * Responsibility 2. Handling the painting with brushes, pens, erasers and fountain pens. The painting is done on a specfic paint panel that spans
+ *      the entire form. Ideally this would be a separate control, but the code works, and I'm impressed with his work. 
+ */
 public partial class MainForm : Form
 {
     public enum EPaintTool { None, Brush, Spray, Fountain, Eraser } // The different paint tools
