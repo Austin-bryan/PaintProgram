@@ -12,47 +12,55 @@ public partial class ToolBarForm : Form
 {
     private MainForm MainForm => (MainForm)Owner;
     private bool IsBrushActive { set => sizePanel.Visible = value; }
+
+    private Color defaultPaintToolColor;
     private readonly ClickDragMover clickDragMover = new();
-    
+
     public ToolBarForm()
     {
         InitializeComponent();
         FormHider.Hide(this);
+        defaultPaintToolColor = Color.FromArgb(255, 120, 120, 120);
+
+        ShowButtonSelection(cursorBtn);
         IsBrushActive = false;
     }
 
-    private void squareBtn_Click(object sender, EventArgs e) => MainForm.CreateShape<RectangleShape>();
-    private void triangleBtn_Click(object sender, EventArgs e) => MainForm.CreateShape<TriangleShape>();
-    private void rightTriangleBtn_Click(object sender, EventArgs e) => MainForm.CreateShape<RightTriangleShape>();
-    private void ellipseBtn_Click(object sender, EventArgs e) => MainForm.CreateShape<EllipseShape>();
-    private void crossBtn_Click(object sender, EventArgs e) => MainForm.CreateShape<CrossShape>();
-    private void star4Btn_Click(object sender, EventArgs e) => MainForm.CreateShape<Star4Points>();
-    private void star5Btn_Click(object sender, EventArgs e) => MainForm.CreateShape<Star5Points>();
-    private void star6Btn_Click(object sender, EventArgs e) => MainForm.CreateShape<Star6Points>();
-    private void pentagonBtn_Click(object sender, EventArgs e) => MainForm.CreateShape<PentagonShape>();
-    private void hexagonBtn_Click(object sender, EventArgs e) => MainForm.CreateShape<HexagonShape>();
-    private void septagonBtn_Click(object sender, EventArgs e) => MainForm.CreateShape<SeptagonShape>();
-    private void decagonBtn_Click(object sender, EventArgs e) => MainForm.CreateShape<DecagonShape>();
-    private void trapazoidBtn_Click(object sender, EventArgs e) => MainForm.CreateShape<TrapazoidShape>();
-    private void arrowBtn_Click(object sender, EventArgs e) => MainForm.CreateShape<ArrowShape>();
-    private void doubleArrowBtn_Click(object sender, EventArgs e) => MainForm.CreateShape<DoubleArrowShape>();
-    private void chevronBtn_Click(object sender, EventArgs e) => MainForm.CreateShape<ChevronShape>();
+    private void squareBtn_Click        (object sender, EventArgs e) => MainForm.CreateShape<RectangleShape>();
+    private void triangleBtn_Click      (object sender, EventArgs e) => MainForm.CreateShape<TriangleShape>();
+    private void rightTriangleBtn_Click (object sender, EventArgs e) => MainForm.CreateShape<RightTriangleShape>();
+    private void ellipseBtn_Click       (object sender, EventArgs e) => MainForm.CreateShape<EllipseShape>();
+    private void crossBtn_Click         (object sender, EventArgs e) => MainForm.CreateShape<CrossShape>();
+    private void star4Btn_Click         (object sender, EventArgs e) => MainForm.CreateShape<Star4Points>();
+    private void star5Btn_Click         (object sender, EventArgs e) => MainForm.CreateShape<Star5Points>();
+    private void star6Btn_Click         (object sender, EventArgs e) => MainForm.CreateShape<Star6Points>();
+    private void pentagonBtn_Click      (object sender, EventArgs e) => MainForm.CreateShape<PentagonShape>();
+    private void hexagonBtn_Click       (object sender, EventArgs e) => MainForm.CreateShape<HexagonShape>();
+    private void septagonBtn_Click      (object sender, EventArgs e) => MainForm.CreateShape<SeptagonShape>();
+    private void decagonBtn_Click       (object sender, EventArgs e) => MainForm.CreateShape<DecagonShape>();
+    private void trapazoidBtn_Click     (object sender, EventArgs e) => MainForm.CreateShape<TrapazoidShape>();
+    private void arrowBtn_Click         (object sender, EventArgs e) => MainForm.CreateShape<ArrowShape>();
+    private void doubleArrowBtn_Click   (object sender, EventArgs e) => MainForm.CreateShape<DoubleArrowShape>();
+    private void chevronBtn_Click       (object sender, EventArgs e) => MainForm.CreateShape<ChevronShape>();
 
     private void cursorBtn_Click(object sender, EventArgs e)
     {
+        ShowButtonSelection(cursorBtn);
         IsBrushActive = false;
         MainForm.ActivePaintTool = MainForm.EPaintTool.None;
         MainForm.HideShapeEditor();
 
     }
 
-    private void brushBtn_Click  (object sender, EventArgs e) => ActivatePaintTool(MainForm.EPaintTool.Brush);
-    private void eraserBtn_Click (object sender, EventArgs e) => ActivatePaintTool(MainForm.EPaintTool.Eraser, false);
-    private void sprayBtn_Click  (object sender, EventArgs e) => ActivatePaintTool(MainForm.EPaintTool.Spray);
-    private void inkBtn_Click    (object sender, EventArgs e) => ActivatePaintTool(MainForm.EPaintTool.Fountain);
+    private void brushBtn_Click (object sender, EventArgs e) => ActivatePaintTool(brushBtn, MainForm.EPaintTool.Brush);
+    private void eraserBtn_Click(object sender, EventArgs e) => ActivatePaintTool(eraserBtn, MainForm.EPaintTool.Eraser, false);
+    private void sprayBtn_Click (object sender, EventArgs e) => ActivatePaintTool(sprayBtn, MainForm.EPaintTool.Spray);
+    private void inkBtn_Click   (object sender, EventArgs e) => ActivatePaintTool(inkBtn, MainForm.EPaintTool.Fountain);
 
-    private void ActivatePaintTool(MainForm.EPaintTool paintTool, bool showEditor = true)
+    private void ActivatePaintTool(Button button, MainForm.EPaintTool paintTool, bool showEditor = true)
     {
+        ShowButtonSelection(button);
+
         IsBrushActive            = true;
         MainForm.ActivePaintTool = paintTool;
         trackBar1.Value          = MainForm.PaintSizes[MainForm.ActivePaintTool];
@@ -61,6 +69,13 @@ public partial class ToolBarForm : Form
         if (showEditor)
              MainForm.ShowShapeEditor((color) => MainForm.PaintColor = color);
         else MainForm.HideShapeEditor();
+    }
+    private void ShowButtonSelection(Button button)
+    {
+        foreach (var control in brushToolPanel.Controls)
+            if (control is Button otherButton)
+                otherButton.BackColor = defaultPaintToolColor;
+        button.BackColor = Color.FromArgb(255, 45, 45, 45);
     }
 
     private void trackBar1_Scroll(object sender, EventArgs e)
@@ -79,8 +94,9 @@ public partial class ToolBarForm : Form
     }
 
     private void headerBackground_MouseDown(object sender, MouseEventArgs e) => clickDragMover.OnMouseDown(e);
-    private void headerBackground_MouseEnter(object sender, EventArgs e)     => Cursor = Cursors.SizeAll;
-    private void headerBackground_MouseLeave(object sender, EventArgs e)     => Cursor = Cursors.Default;
-    private void headerBackground_MouseUp(object sender, MouseEventArgs e)   => clickDragMover.OnMouseUp(e);
+    private void headerBackground_MouseEnter(object sender, EventArgs e) => Cursor = Cursors.SizeAll;
+    private void headerBackground_MouseLeave(object sender, EventArgs e) => Cursor = Cursors.Default;
+    private void headerBackground_MouseUp(object sender, MouseEventArgs e) => clickDragMover.OnMouseUp(e);
     private void headerBackground_MouseMove(object sender, MouseEventArgs e) => Location = clickDragMover.OnMouseMove(Location, e, (MainForm)Owner, true) ?? Location;
+
 }//77

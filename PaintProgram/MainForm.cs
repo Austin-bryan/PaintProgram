@@ -187,7 +187,7 @@ public partial class MainForm : Form
             case EPaintTool.Spray: //the for loops puts random points to the screen.
                 for (int i = 0; i < 100; i++)
                 {
-                    var imposter = GetRandomPoint(x, y, paintSizes[EPaintTool.Spray]);
+                    (int, int, int) imposter = GetRandomPoint(x, y, paintSizes[EPaintTool.Spray]);
                     g.FillEllipse(brush, imposter.Item1, imposter.Item2, 2, 2);
                 }
                 break;
