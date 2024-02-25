@@ -426,7 +426,7 @@
             brushToolPanel.Controls.Add(eraserBtn);
             brushToolPanel.Controls.Add(sprayBtn);
             brushToolPanel.Location = new Point(12, 206);
-            brushToolPanel.Margin = new Padding(2, 2, 2, 2);
+            brushToolPanel.Margin = new Padding(2);
             brushToolPanel.Name = "brushToolPanel";
             brushToolPanel.Size = new Size(156, 73);
             brushToolPanel.TabIndex = 62;
@@ -491,7 +491,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(560, 492);
+            ClientSize = new Size(180, 368);
             Controls.Add(brushToolPanel);
             Controls.Add(label1);
             Controls.Add(chevronBtn);
@@ -516,7 +516,7 @@
             Controls.Add(squareBtn);
             Controls.Add(sizePanel);
             Controls.Add(background1);
-            Margin = new Padding(2, 2, 2, 2);
+            Margin = new Padding(2);
             Name = "ToolBarForm";
             Text = "ToolBarForm";
             ((System.ComponentModel.ISupportInitialize)background1).EndInit();
