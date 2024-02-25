@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-namespace PaintProgram;
+﻿namespace PaintProgram;
 
 public partial class TitleBar : Form
 {
@@ -12,34 +10,18 @@ public partial class TitleBar : Form
         InitializeComponent();
         FormHider.Hide(this);
 
-        int screenWidth = Screen.PrimaryScreen.Bounds.Width;
-        int screenHeight = Screen.PrimaryScreen.Bounds.Height;
-
-       // int formWidth = 2000;
-       int buttonOffset = 15;
-        int buttonWidth = exitButton.Width;
-
+        var (screenWidth, screenHeight) = (Form1.ScreenSize.Width, Form1.ScreenSize.Height);
+        var (buttonOffset, buttonWidth) = (15, exitButton.Width);
         Width = screenWidth;
 
-
-
-        titleBarImage.Width = ClientSize.Width;
-       // titleBarImage.Location = new Point(buttonOffset, buttonWidth);
-
-        titleBarImage.Dock = DockStyle.Top;
-        titleBarImage.Size = new Size(buttonWidth, buttonWidth);
+        titleBarImage.Width  = ClientSize.Width;
+        titleBarImage.Dock   = DockStyle.Top;
+        titleBarImage.Size   = new Size(buttonWidth, buttonWidth);
         titleBarImage.Height = screenHeight / 25;
 
-        exitButton.Location = new Point(screenWidth - buttonWidth - buttonOffset, 0);
+        exitButton.Location     = new Point(screenWidth - buttonWidth - buttonOffset, 0);
         minimizeButton.Location = new Point(exitButton.Location.X - buttonWidth - buttonOffset, exitButton.Location.Y);
-        FormBorderStyle = FormBorderStyle.None;
-
-        /*titleBarImage.Width     = ClientSize.Width;
-        titleBarImage.Location  = new Point(0, 0);
-        titleBarImage.Dock      = DockStyle.Top;
-        exitButton.Location     = new Point(1885, 0);
-        minimizeButton.Location = new Point(exitButton.Location.X - exitButton.Width, exitButton.Location.Y);
-        FormBorderStyle         = FormBorderStyle.None;  */
+        FormBorderStyle         = FormBorderStyle.None;
     }
 
     private void TitleBar_Load        (object sender, EventArgs e) => (Location, ControlBox, ShowInTaskbar) = (new Point(0, 0), false, false);

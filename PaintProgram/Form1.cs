@@ -5,19 +5,16 @@ public partial class Form1 : Form
 {
     public enum EPaintTool { None, Brush, Spray, Fountain, Eraser }
 
-    public int TitleBarHeight => titleBar.BarHeight;
+    public static Size ScreenSize => Screen.PrimaryScreen.Bounds.Size;
+    public int TitleBarHeight => titleBar.Height;
 
-    private EPaintTool paintTool = EPaintTool.None;
+    private EPaintTool _activePaintTool = EPaintTool.None;
     public EPaintTool ActivePaintTool
     {
-        get => paintTool;
-        set
-        {
-            paintTool = value;
-            Cursor = value == EPaintTool.None ? Cursors.Default : GetCircularCursor(paintSizes[ActivePaintTool]);
-        }
+        get => _activePaintTool;
+        set => (_activePaintTool, Cursor) = (value, value == EPaintTool.None ? Cursors.Default : GetCircularCursor(paintSizes[value]));
     }
-    
+
     private Color paintColor = Color.Black;
     public Color PaintColor
     {
@@ -52,19 +49,19 @@ public partial class Form1 : Form
         InitializeComponent();
         WindowState = FormWindowState.Maximized;
 
-        paintPanel.Size = Size;
+        paintPanel.Size = ScreenSize;
         paintPanel.Size += new Size(200, 200);
         paintPanel.BackColor = BackColor;
 
         InitializeCustomTitleBar();
         toolBarForm.Show();
-        toolBarForm.Owner = this;
+        toolBarForm.Owner    = this;
         toolBarForm.Location = new Point(20, 60);
 
         titleBar.Show();
-        titleBar.Owner = this;
+        titleBar.Owner    = this;
         shapeEditor.Owner = this;
-        eraserBrush = new SolidBrush(BackColor);
+        eraserBrush       = new SolidBrush(BackColor);
 
         ResizerF();
     }

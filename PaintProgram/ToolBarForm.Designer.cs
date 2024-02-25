@@ -1,6 +1,4 @@
-﻿using static PaintProgram.ShapeButton;
-
-namespace PaintProgram
+﻿namespace PaintProgram
 {
     partial class ToolBarForm
     {

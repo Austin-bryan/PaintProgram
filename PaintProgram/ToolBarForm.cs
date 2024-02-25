@@ -41,20 +41,20 @@ public partial class ToolBarForm : Form
         MainForm.HideShapeEditor();
     }
 
-    private void brushBtn_Click(object sender, EventArgs e) => ActivatePaintTool(Form1.EPaintTool.Brush);
-    private void eraserBtn_Click(object sender, EventArgs e) => ActivatePaintTool(Form1.EPaintTool.Eraser, false);
-    private void sprayBtn_Click(object sender, EventArgs e) => ActivatePaintTool(Form1.EPaintTool.Spray);
-    private void inkBtn_Click(object sender, EventArgs e) => ActivatePaintTool(Form1.EPaintTool.Fountain);
+    private void brushBtn_Click  (object sender, EventArgs e) => ActivatePaintTool(Form1.EPaintTool.Brush);
+    private void eraserBtn_Click (object sender, EventArgs e) => ActivatePaintTool(Form1.EPaintTool.Eraser, false);
+    private void sprayBtn_Click  (object sender, EventArgs e) => ActivatePaintTool(Form1.EPaintTool.Spray);
+    private void inkBtn_Click    (object sender, EventArgs e) => ActivatePaintTool(Form1.EPaintTool.Fountain);
 
     private void ActivatePaintTool(Form1.EPaintTool paintTool, bool showEditor = true)
     {
-        IsBrushActive = true;
+        IsBrushActive            = true;
         MainForm.ActivePaintTool = paintTool;
-        trackBar1.Value = MainForm.PaintSizes[MainForm.ActivePaintTool];
+        trackBar1.Value          = MainForm.PaintSizes[MainForm.ActivePaintTool];
         sizePixelBox.TextBoxText = trackBar1.Value.ToString();
 
         if (showEditor)
-            MainForm.ShowShapeEditor((color) => MainForm.PaintColor = color);
+             MainForm.ShowShapeEditor((color) => MainForm.PaintColor = color);
         else MainForm.HideShapeEditor();
     }
 
@@ -77,10 +77,5 @@ public partial class ToolBarForm : Form
     private void headerBackground_MouseEnter(object sender, EventArgs e)     => Cursor = Cursors.SizeAll;
     private void headerBackground_MouseLeave(object sender, EventArgs e)     => Cursor = Cursors.Default;
     private void headerBackground_MouseUp(object sender, MouseEventArgs e)   => clickDragMover.OnMouseUp(e);
-    private void headerBackground_MouseMove(object sender, MouseEventArgs e)
-    {
-        Location = clickDragMover.OnMouseMove(Location, e, (Form1)Owner, true) ?? Location;
-        //Point newLoc = clickDragMover.OnMouseMove(Location, e) ?? Location;
-        //Location = new(newLoc.X, Math.Max(30, newLoc.Y));
-    }
+    private void headerBackground_MouseMove(object sender, MouseEventArgs e) => Location = clickDragMover.OnMouseMove(Location, e, (Form1)Owner, true) ?? Location;
 }//77
