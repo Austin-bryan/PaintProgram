@@ -6,6 +6,8 @@
 
 namespace PaintProgram;
 
+// Purpose: A form with this object can forward its mouse events to automatically be able to be dragged and moved
+// This is used 3x. 
 public class ClickDragMover
 {
     private bool isMoving;
@@ -27,6 +29,7 @@ public class ClickDragMover
         
         return new Point(newX, newY);
 
+        // Local Functions //
         (int, int) GetDelta(Point point) => (e.X - point.X, e.Y - point.Y);
     }
     public void OnMouseUp(MouseEventArgs e) => isMoving = false;
