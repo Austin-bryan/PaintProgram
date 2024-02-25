@@ -3,9 +3,6 @@
  * Class: Foundations in App Development
  * Date: February 24th, 2024*/
 
-
-
-
 namespace PaintProgram.Shapes;
 
 public partial class Star4Points : StarShape

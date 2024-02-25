@@ -1,11 +1,8 @@
-﻿
-/* Project: Paint
+﻿/* Project: Paint
  * Authors: Austin Bryan, Lucius Miller, Noah Curtis
  * Class: Foundations in App Development
- * Date: February 24th, 2024*/
-
-
-
+ * Date: February 24th, 2024
+ */
 
 using static PaintProgram.Shapes.ParametricShape;
 
@@ -13,19 +10,23 @@ namespace PaintProgram.Shapes;
 
 using GetAlphaFunc = Func<MouseEventArgs, AlphaHandle, float>;
 
+// Purpose: Draws the alpha handle and handles the click event for when it is pressed
+// The public properties are very important, used to prevent dragging too far from messing the shape, and to prevent the 
+// The user from entering user from entering invalid alpha values in text boxes
 public partial class ParametricShape
 {
     public class AlphaHandle
     {
-        public float Alpha    { get; set; }
+        public float Alpha    { get; set; }     // Used later by the shape in the GetPoint functions
         public float MinAlpha { get; private set; }
         public float MaxAlpha { get; set;}
         public bool IsPressed { get; set; }
-        private ParametricShape Owner;
+        
+        private readonly ParametricShape Owner;
         private readonly int pointIndex;
+        private readonly GetAlphaFunc GetAlpha;
         private Point[] Points => Owner.points;
         private Rectangle rect;
-        GetAlphaFunc GetAlpha;
 
         public AlphaHandle(ParametricShape parameterticShape, int alphaPointIndex, float alpha, float minAlpha, float maxAlpha, GetAlphaFunc getAlpha) => (Owner, pointIndex, Alpha, MinAlpha, MaxAlpha, GetAlpha) = (parameterticShape, alphaPointIndex, alpha, minAlpha, maxAlpha, getAlpha);
 

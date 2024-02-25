@@ -17,31 +17,15 @@
     <Compile Update="Shapes\ChevronShape.cs" />
     <Compile Update="Shapes\DoubleArrowShape.cs" />
     <Compile Update="Shapes\ArrowShape.cs" />
-    <Compile Update="Shapes\NGons\OctagonShape.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Shapes\NGons\SeptagonShape.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Shapes\NGons\HexagonShape.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Shapes\NGons\PentagonShape.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Shapes\NGons\DecagonShape.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Shapes\NGons\OctagonShape.cs" />
+    <Compile Update="Shapes\NGons\SeptagonShape.cs" />
+    <Compile Update="Shapes\NGons\HexagonShape.cs" />
+    <Compile Update="Shapes\NGons\PentagonShape.cs" />
     <Compile Update="Shapes\NGons\DecagonShape.cs" />
-    <Compile Update="Shapes\NGons\OctagonShape.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Shapes\NGons\SeptagonShape.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Shapes\NGons\HexagonShape.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Shapes\NGons\DecagonShape.cs" />
+    <Compile Update="Shapes\NGons\OctagonShape.cs" />
+    <Compile Update="Shapes\NGons\SeptagonShape.cs" />
+    <Compile Update="Shapes\NGons\HexagonShape.cs" />
     <Compile Update="Shapes\MapShape.cs" />
     <Compile Update="Shapes\ParametricShape .cs" />
   </ItemGroup>

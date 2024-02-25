@@ -9,13 +9,14 @@ namespace PaintProgram.Shapes;
 /* Purpose: Gives a yellow diamond I call alpha handle that the user can click and drag to change a single parameter of the shape. 
  * The max number of alpha handles is 2, but thats mainly because I don't want to have too many text boxes for alphas,
  * And there aren't many shapes that use 3 or more alpha handles. 
+ * 
+ * This class mostly forwards the functions to the alpha handle class which does most the heavy lifting
  */
 public partial class ParametricShape : Shape
 {
     public override bool ShowAlphaBox => true;
     public List<AlphaHandle> AlphaHandles => alphaHandles.ToList(); // Returns a copy of the original to prevent public mutataion of the list
 
-    protected virtual float WidthAdjustment { get; }
     protected readonly List<AlphaHandle> alphaHandles = new();
 
     public ParametricShape() => InitializeComponent();
@@ -39,9 +40,9 @@ public partial class ParametricShape : Shape
     }
     protected override void OnMouseDown(MouseEventArgs e)
     {
-        if (!IsAlphaHandleHover(e, a =>
+        if (!IsAlphaHandleHover(e, alphaHandler =>
         {
-            a.IsPressed = true;
+            alphaHandler.IsPressed = true;
             Refresh();
             (State, moveStart) = (State.ChangingAlpha, e.Location);
 
@@ -57,9 +58,13 @@ public partial class ParametricShape : Shape
     protected int ShortLength(int n) => ShortLength(n, 0);
     protected int LongLength(int n)  => LongLength(n, 0);
 
+    // Short length uses the alpha to get a distance from the left (if using width) or top (if using height)
     protected int ShortLength(int n, int alphaIndex) => (int)(n * alphaHandles[alphaIndex].Alpha);
+
+    // Long length does something similar, but gets a point from the right (with width) or bottom (if height) that is based on the alpha
     protected int LongLength(int n, int alphaIndex)  => (int)(n * (1 - alphaHandles[alphaIndex].Alpha));
 
+    // Returns true if one of the alpha handles is being hovered
     private bool IsAlphaHandleHover(MouseEventArgs e, Action<AlphaHandle> action)
     {
         foreach (var alphaHandle in alphaHandles)

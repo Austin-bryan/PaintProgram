@@ -11,6 +11,12 @@ namespace PaintProgram.Shapes;
 enum Handle { TopLeft, TopMiddle, TopRight, CenterRight, BottomRight, BottomMiddle, BottomLeft, CenterLeft }
 public enum State { Idle, Resizing, ChangingAlpha, Moving}
 
+/* Purpose: Shape is designed to be very easy to create child classes. All that needs to be done is to override the GetPoints function. 
+ * Every point in the array of points thats generated is based on width and height, allowing it to be stretched and the unique algorithm for each shape
+ * Will be redrawn. Since the shapes are just changed values here and there and override the GetPoints function, I won't be commenting them since
+ * There's nothing meaningful for me to add. 
+ */
+
 public partial class Shape : Form
 {
     // ---- Properties ---- //
