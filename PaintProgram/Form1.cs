@@ -1,20 +1,19 @@
-/* Project: Paint
- * Authors: Noah Curtis, Austin Bryan, Lucius Miller
- * Class: Foundations in App Development
- * Date: February 24th, 2024*/
-
-
+/* Program: PaintProgram.Form1
+ * Purpose: Painting/Art Software
+ * Author : Lucius Miller, Bryan Austin, Noah Curtis
+ * Date   : February, 24, 2024
+ */
 
 using PaintProgram.Shapes;
 namespace PaintProgram;
 
 public partial class Form1 : Form
 {
-    public enum EPaintTool { None, Brush, Spray, Fountain, Eraser }
+    public enum EPaintTool { None, Brush, Spray, Fountain, Eraser } //the different paint tools
 
     public int TitleBarHeight => titleBar.BarHeight;
 
-    private EPaintTool paintTool = EPaintTool.None;
+    private EPaintTool paintTool = EPaintTool.None; // default state for the paint tool
     public EPaintTool ActivePaintTool
     {
         get => paintTool;
@@ -25,7 +24,7 @@ public partial class Form1 : Form
         }
     }
     
-    private Color paintColor = Color.Black;
+    private Color paintColor = Color.Black; // default painting color
     public Color PaintColor
     {
         get => paintColor;
@@ -49,10 +48,12 @@ public partial class Form1 : Form
     };
 
     private Graphics g;
-    private int startX = -1, startY = -1;
-    private bool mouseIsDown = false;
+    private int startX = -1, startY = -1; 
+    private bool mouseIsDown = false; 
     private Brush brush;
     private Pen pen;
+    public int AbsoluteRadius = 100;
+    public int PenRadius = 3;
 
     public Form1()
     {
@@ -107,9 +108,9 @@ public partial class Form1 : Form
         paintSizes[ActivePaintTool] = newSize;
         Cursor = GetCircularCursor(newSize);
     }
+    //private void Form1_Click(object sender, EventArgs e) => shapes.ForEach(s => s.HideHandles());
+
     
-    public int AbsoluteRadius = 100;
-    public int PenRadius = 3;
 
     public void BringTitleBarToFront()
     {
@@ -130,6 +131,8 @@ public partial class Form1 : Form
 
         return new Cursor(cursorImage.GetHicon());
     }
+
+    //gets a random point around a circle
     private static (int, int, int) GetRandomPoint(int x, int y, int radius)
     {
         Random random = new();
@@ -150,6 +153,8 @@ public partial class Form1 : Form
         shapes.ForEach(s => s.HideHandles());
         shapeEditor.Hide();
     }
+
+    //resizes the panel
     private void ResizerF()
     {
         g               = paintPanel.CreateGraphics();
@@ -158,14 +163,21 @@ public partial class Form1 : Form
         pen             = new Pen(PaintColor, paintSizes[EPaintTool.Brush]);
         pen.StartCap    = pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
     }
+
+    // determins if the direction the mouse is moving should either be thick or thin
     private int DetermineFountainThickness(int x3, int y3, int fountain)
     {
+        //takes determins distance using an old point and new point
         double x1 = x3; double y1 = y3;
         double x2 = startX; double y2 = startY;
+
+        //calculates the absolute value of the difference
         x2       -= x1; y2 -= y1;
         x2       *= x2; y2 *= y2;
         double sX = Math.Sqrt(x2);
         double sY = Math.Sqrt(y2);
+
+        //determines to return either a thick, or thin line
         return sX < sY * 500 ? fountain * 4 : fountain;
     }
 
@@ -174,24 +186,23 @@ public partial class Form1 : Form
     {
         switch (ActivePaintTool)
         {
-            case EPaintTool.Brush:
+            case EPaintTool.Brush: //a simple pen/brush tool
                 pen.Width = paintSizes[EPaintTool.Brush];
                 g.DrawLine(pen, new Point(startX, startY), new Point(x, y));
                 break;
-            case EPaintTool.Spray:
+            case EPaintTool.Spray: //the for loops puts random points to the screen.
                 for (int i = 0; i < 100; i++)
-                //for (int i = 0; i < PaintSizes[EPaintTool.Spray] * 6; i++)
                 {
                     var imposter = GetRandomPoint(x, y, paintSizes[EPaintTool.Spray]);
                     g.FillEllipse(brush, imposter.Item1, imposter.Item2, 2, 2);
                 }
                 break;
-            case EPaintTool.Fountain:
+            case EPaintTool.Fountain: //draws like a fountain pen
                 int fountainRadius = paintSizes[EPaintTool.Fountain];
                 int width = DetermineFountainThickness(x, y, fountainRadius);
                 g.FillRectangle(brush, x, y,  width, fountainRadius);
                 break;
-            case EPaintTool.Eraser:
+            case EPaintTool.Eraser: //erases what is drawn
 
                 int eraserRadius = paintSizes[EPaintTool.Eraser];
                 g.FillEllipse(eraserBrush, x - eraserRadius / 2, y - eraserRadius / 2, eraserRadius, eraserRadius);
@@ -205,6 +216,7 @@ public partial class Form1 : Form
     // This lets the expanded canvas be useable.
     private void panel1_Resize(object sender, EventArgs e) => ResizerF();
 
+    //when the mouse is clicked it lets painting occur. 
     private void paintPanel_MouseDown(object sender, MouseEventArgs e)
     {
         shapes.ForEach(s => s.HideHandles());
@@ -218,6 +230,8 @@ public partial class Form1 : Form
         PaintScreen(e.X, e.Y);
         mouseIsDown = true;
     }
+
+    // when the mouse moves it calls a function to paint.
     private void paintPanel_MouseMove(object sender, MouseEventArgs e)
     {
         if (mouseIsDown && startX != -1 && startY != -1)
@@ -226,5 +240,7 @@ public partial class Form1 : Form
             (startX, startY) = (e.X, e.Y);
         }
     }
+
+    // when the mouse is not being held down, it doesn't paint. 
     private void paintPanel_MouseUp(object sender, MouseEventArgs e) => mouseIsDown = false;
 }
