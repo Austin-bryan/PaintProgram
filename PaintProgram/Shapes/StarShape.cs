@@ -1,10 +1,8 @@
 ﻿/* Project: Paint
  * Authors: Austin Bryan, Lucius Miller, Noah Curtis
  * Class: Foundations in App Development
- * Date: February 24th, 2024*/
-
-
-
+ * Date: February 24th, 2024
+ */
 
 using PaintProgram.Shapes.NGons;
 namespace PaintProgram.Shapes;
@@ -24,10 +22,9 @@ public partial class StarShape : ParametricShape
     public StarShape()
     {
         InitializeComponent();
-        Alpha = StartAlpha;
         nGonGenerator = new(NumSides, Offset, Gap);
 
-        alphaHandles.Add(new AlphaHandle(this, AlphaPointIndex, Alpha, MinAlpha, MaxAlpha, (e, @this) => 1 - (e.X - (Width / 2)) / (float)Width * WidthAdjustment));
+        alphaHandles.Add(new AlphaHandle(this, AlphaPointIndex, StartAlpha, MinAlpha, MaxAlpha, (e, @this) => 1 - (e.X - (Width / 2)) / (float)Width * WidthAdjustment));
     }
     protected override Point[] GetPoints() => nGonGenerator.GetPoints(Width, Height, alphaHandles[0].Alpha);
 }

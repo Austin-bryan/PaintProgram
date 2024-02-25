@@ -14,15 +14,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="Shapes\ChevronShape.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Shapes\DoubleArrowShape.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Shapes\ArrowShape.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Shapes\ChevronShape.cs" />
+    <Compile Update="Shapes\DoubleArrowShape.cs" />
+    <Compile Update="Shapes\ArrowShape.cs" />
     <Compile Update="Shapes\NGons\OctagonShape.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -49,9 +43,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Shapes\MapShape.cs" />
-    <Compile Update="Shapes\ParametricShape .cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Shapes\ParametricShape .cs" />
   </ItemGroup>
 
   <ItemGroup>

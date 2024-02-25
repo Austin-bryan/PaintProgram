@@ -1,20 +1,20 @@
 ﻿/* Project: Paint
  * Authors: Austin Bryan, Lucius Miller, Noah Curtis
  * Class: Foundations in App Development
- * Date: February 24th, 2024*/
-
-
-
-
+ * Date: February 24th, 2024
+ */
 
 namespace PaintProgram.Shapes;
 
+/* Purpose: Gives a yellow diamond I call alpha handle that the user can click and drag to change a single parameter of the shape. 
+ * The max number of alpha handles is 2, but thats mainly because I don't want to have too many text boxes for alphas,
+ * And there aren't many shapes that use 3 or more alpha handles. 
+ */
 public partial class ParametricShape : Shape
 {
     public override bool ShowAlphaBox => true;
     public List<AlphaHandle> AlphaHandles => alphaHandles.ToList(); // Returns a copy of the original to prevent public mutataion of the list
 
-    public float Alpha { get; set; } = 0.25f;
     protected virtual float WidthAdjustment { get; }
     protected readonly List<AlphaHandle> alphaHandles = new();
 
