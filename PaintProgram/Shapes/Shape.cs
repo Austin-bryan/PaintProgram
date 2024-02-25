@@ -204,8 +204,8 @@ public partial class Shape : Form
         clickDragMover.OnMouseDown(e);
         moveStart = e.Location;
 
-        ((Form1)Owner).ShowShapeEditor((color) => ShapeColor = color, this);
-        ((Form1)Owner).BringTitleBarToFront();
+        ((MainForm)Owner).ShowShapeEditor((color) => ShapeColor = color, this);
+        ((MainForm)Owner).BringTitleBarToFront();
     }
     protected override void OnMouseMove(MouseEventArgs e)
     {
@@ -229,19 +229,19 @@ public partial class Shape : Form
                 case BottomRight:  ResizeControl(sizeDelta: (deltaX, deltaY), positionDelta: (0, 0), e.Location); break;
             }
                     
-            ((Form1)Owner).RefreshShapeEditor();
+            ((MainForm)Owner).RefreshShapeEditor();
             break;
         }
         case State.ChangingAlpha:
             AdjustAlpha(e);
 
             OnAlphaChange();
-            ((Form1)Owner).RefreshShapeEditor();
+            ((MainForm)Owner).RefreshShapeEditor();
             break;
         case State.Moving:
         {
-            Location = clickDragMover.OnMouseMove(Location, e, (Form1)Owner) ?? Location;
-            ((Form1)Owner).RefreshShapeEditor();
+            Location = clickDragMover.OnMouseMove(Location, e, (MainForm)Owner) ?? Location;
+            ((MainForm)Owner).RefreshShapeEditor();
             break;
         }
         default:
@@ -371,7 +371,7 @@ public partial class Shape : Form
     public void MoveToFront()
     {
         BringToFront();
-        ((Form1)Owner).BringTitleBarToFront();
+        ((MainForm)Owner).BringTitleBarToFront();
 
         var above = shapes.Where(s => s.ZOrder > ZOrder).ToList();
         above.ForEach(s => zOrderMap.Remove(s.ZOrder));

@@ -13,7 +13,7 @@ public class ClickDragMover
     private Point moveStart;
 
     public void OnMouseDown(MouseEventArgs e) => (isMoving, moveStart) = (true, e.Location);
-    public Point? OnMouseMove(Point Location, MouseEventArgs e, Form1 mainform, bool shouldClamp = false)
+    public Point? OnMouseMove(Point Location, MouseEventArgs e, MainForm mainform, bool shouldClamp = false)
     {
         if (!isMoving)
             return null;

@@ -16,7 +16,7 @@ public partial class TitleBar : Form
         InitializeComponent();
         FormHider.Hide(this);
 
-        var (screenWidth, screenHeight) = (Form1.ScreenSize.Width, Form1.ScreenSize.Height);
+        var (screenWidth, screenHeight) = (MainForm.ScreenSize.Width, MainForm.ScreenSize.Height);
         var (buttonOffset, buttonWidth) = (15, exitButton.Width);
         Width = screenWidth;
 

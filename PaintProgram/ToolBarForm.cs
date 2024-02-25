@@ -10,7 +10,7 @@ namespace PaintProgram;
 
 public partial class ToolBarForm : Form
 {
-    private Form1 MainForm => (Form1)Owner;
+    private MainForm MainForm => (MainForm)Owner;
     private bool IsBrushActive { set => sizePanel.Visible = value; }
     private readonly ClickDragMover clickDragMover = new();
     
@@ -41,17 +41,17 @@ public partial class ToolBarForm : Form
     private void cursorBtn_Click(object sender, EventArgs e)
     {
         IsBrushActive = false;
-        MainForm.ActivePaintTool = Form1.EPaintTool.None;
+        MainForm.ActivePaintTool = MainForm.EPaintTool.None;
         MainForm.HideShapeEditor();
 
     }
 
-    private void brushBtn_Click  (object sender, EventArgs e) => ActivatePaintTool(Form1.EPaintTool.Brush);
-    private void eraserBtn_Click (object sender, EventArgs e) => ActivatePaintTool(Form1.EPaintTool.Eraser, false);
-    private void sprayBtn_Click  (object sender, EventArgs e) => ActivatePaintTool(Form1.EPaintTool.Spray);
-    private void inkBtn_Click    (object sender, EventArgs e) => ActivatePaintTool(Form1.EPaintTool.Fountain);
+    private void brushBtn_Click  (object sender, EventArgs e) => ActivatePaintTool(MainForm.EPaintTool.Brush);
+    private void eraserBtn_Click (object sender, EventArgs e) => ActivatePaintTool(MainForm.EPaintTool.Eraser, false);
+    private void sprayBtn_Click  (object sender, EventArgs e) => ActivatePaintTool(MainForm.EPaintTool.Spray);
+    private void inkBtn_Click    (object sender, EventArgs e) => ActivatePaintTool(MainForm.EPaintTool.Fountain);
 
-    private void ActivatePaintTool(Form1.EPaintTool paintTool, bool showEditor = true)
+    private void ActivatePaintTool(MainForm.EPaintTool paintTool, bool showEditor = true)
     {
         IsBrushActive            = true;
         MainForm.ActivePaintTool = paintTool;
@@ -82,5 +82,5 @@ public partial class ToolBarForm : Form
     private void headerBackground_MouseEnter(object sender, EventArgs e)     => Cursor = Cursors.SizeAll;
     private void headerBackground_MouseLeave(object sender, EventArgs e)     => Cursor = Cursors.Default;
     private void headerBackground_MouseUp(object sender, MouseEventArgs e)   => clickDragMover.OnMouseUp(e);
-    private void headerBackground_MouseMove(object sender, MouseEventArgs e) => Location = clickDragMover.OnMouseMove(Location, e, (Form1)Owner, true) ?? Location;
+    private void headerBackground_MouseMove(object sender, MouseEventArgs e) => Location = clickDragMover.OnMouseMove(Location, e, (MainForm)Owner, true) ?? Location;
 }//77
