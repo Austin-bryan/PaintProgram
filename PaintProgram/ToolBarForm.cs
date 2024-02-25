@@ -3,9 +3,6 @@
  * Class: Foundations in App Development
  * Date: February 24th, 2024*/
 
-
-
-
 using PaintProgram.Shapes;
 using PaintProgram.Shapes.NGons;
 
@@ -16,13 +13,12 @@ public partial class ToolBarForm : Form
     private Form1 MainForm => (Form1)Owner;
     private bool IsBrushActive { set => sizePanel.Visible = value; }
     private readonly ClickDragMover clickDragMover = new();
-
+    
     public ToolBarForm()
     {
         InitializeComponent();
         FormHider.Hide(this);
         IsBrushActive = false;
-
     }
 
     private void squareBtn_Click(object sender, EventArgs e) => MainForm.CreateShape<RectangleShape>();
@@ -47,6 +43,7 @@ public partial class ToolBarForm : Form
         IsBrushActive = false;
         MainForm.ActivePaintTool = Form1.EPaintTool.None;
         MainForm.HideShapeEditor();
+
     }
 
     private void brushBtn_Click  (object sender, EventArgs e) => ActivatePaintTool(Form1.EPaintTool.Brush);
