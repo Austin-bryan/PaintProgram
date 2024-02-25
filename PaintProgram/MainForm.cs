@@ -35,7 +35,9 @@ namespace PaintProgram;
  *     The background has been set to transparent
  *     Shapes are removed from the task bar, so they are not visible via alt tab, which happens by default, and is very confusing. 
  *     
- * The result is very seemless and I don't think its noticable, and I got the desired result. 
+ * The result is very seemless and I don't think its noticable, and I got the desired result. This was the solution I was able to find while research this.
+ * I recognized the unorthodox nature of this solution, which is why if this was a commerical product, I would have instead used WPF, where
+ * Not only transparency for controls exists, but controls can be rotated, which would have been very nice feature to add. 
  */
 
 
@@ -158,13 +160,13 @@ public partial class MainForm : Form
         var shape = new T { Owner = this };
         shape.Show();
         shapes.Add(shape);
-        BringTitleBarToFront();
+        BringTopUIToFront();
     }
     // Gets a new cursor of the right size, and caches the new size for the tool being used
     public void SetBrushSize(int newSize) => (paintSizes[ActivePaintTool], Cursor) = (newSize, GetCircularCursor(newSize));
 
     // Whenever a shape is brought to the front, it will naturally overlap these three forms, so these are brought to be in front of that
-    public void BringTitleBarToFront()
+    public void BringTopUIToFront()
     {
         titleBar.BringToFront();
         toolBarForm.BringToFront();
