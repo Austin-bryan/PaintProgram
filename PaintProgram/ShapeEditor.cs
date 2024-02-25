@@ -1,4 +1,12 @@
-﻿using PaintProgram.Shapes;
+﻿/* Project: Paint
+ * Authors: Austin Bryan, Lucius Miller, Noah Curtis
+ * Class: Foundations in App Development
+ * Date: February 24th, 2024*/
+
+
+
+
+using PaintProgram.Shapes;
 namespace PaintProgram;
 
 public partial class ShapeEditor : Form
@@ -80,7 +88,7 @@ public partial class ShapeEditor : Form
         colorWheelPictureBox.BackColor = colorWheelBackground.BackColor;
 
         // Generate the bitmaps for the color wheel for every possible value.
-        // This dramatically improves preformance of the color wheel slider
+        // This dramatically improves performance of the color wheel slider
         for (int i = 0; i < 255; i++)
         {
             sliderValue = (float)i / 255;
@@ -252,7 +260,7 @@ public partial class ShapeEditor : Form
     {
         wheelCursorPoint = e.Location.Subtract(new (cursorDiameter / 2, cursorDiameter / 2));
 
-        int radius = 200 / 2;
+        int radius = colorWheelPictureBox.Width / 2 - cursorDiameter;
         var (centerX, centerY, cursorX, cursorY) = (radius, radius, wheelCursorPoint.X, wheelCursorPoint.Y);
 
         double distance = Math.Sqrt(Math.Pow((cursorX - centerX), 2) + Math.Pow((cursorY - centerY), 2));
@@ -272,7 +280,7 @@ public partial class ShapeEditor : Form
     private void SelectColor()
     {
         var colorWheelBitmap = cachedBitmaps[sliderValue];
-        adjustedPoint  = new(wheelCursorPoint.X + cursorDiameter / 4, wheelCursorPoint.Y + cursorDiameter / 4);
+        adjustedPoint = new(wheelCursorPoint.X + cursorDiameter / 4, wheelCursorPoint.Y + cursorDiameter / 4);
 
         if (adjustedPoint.X >= 0 && adjustedPoint.X < colorWheelPictureBox.Width &&
             adjustedPoint.Y >= 0 && adjustedPoint.Y < colorWheelPictureBox.Height)

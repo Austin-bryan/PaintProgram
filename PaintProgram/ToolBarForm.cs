@@ -1,4 +1,12 @@
-﻿using PaintProgram.Shapes;
+﻿/* Project: Paint
+ * Authors: Austin Bryan, Lucius Miller, Noah Curtis
+ * Class: Foundations in App Development
+ * Date: February 24th, 2024*/
+
+
+
+
+using PaintProgram.Shapes;
 using PaintProgram.Shapes.NGons;
 
 namespace PaintProgram;

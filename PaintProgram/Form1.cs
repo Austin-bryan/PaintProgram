@@ -1,3 +1,10 @@
+/* Project: Paint
+ * Authors: Austin Bryan, Lucius Miller, Noah Curtis
+ * Class: Foundations in App Development
+ * Date: February 24th, 2024*/
+
+
+
 using PaintProgram.Shapes;
 namespace PaintProgram;
 
@@ -97,6 +104,7 @@ public partial class Form1 : Form
         paintSizes[ActivePaintTool] = newSize;
         Cursor = GetCircularCursor(newSize);
     }
+    
     public int AbsoluteRadius = 100;
     public int PenRadius = 3;
 

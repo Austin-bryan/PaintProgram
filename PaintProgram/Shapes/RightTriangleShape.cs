@@ -1,4 +1,13 @@
 ﻿
+/* Project: Paint
+ * Authors: Austin Bryan, Lucius Miller, Noah Curtis
+ * Class: Foundations in App Development
+ * Date: February 24th, 2024*/
+
+
+
+
+
 namespace PaintProgram.Shapes;
 
 public partial class RightTriangleShape : Shape

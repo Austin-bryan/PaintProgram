@@ -1,4 +1,12 @@
-﻿using PaintProgram.Shapes.NGons;
+﻿/* Project: Paint
+ * Authors: Austin Bryan, Lucius Miller, Noah Curtis
+ * Class: Foundations in App Development
+ * Date: February 24th, 2024*/
+
+
+
+
+using PaintProgram.Shapes.NGons;
 namespace PaintProgram.Shapes;
 
 public partial class StarShape : ParametricShape

@@ -1,4 +1,13 @@
-﻿using static PaintProgram.Shapes.ParametricShape;
+﻿
+/* Project: Paint
+ * Authors: Austin Bryan, Lucius Miller, Noah Curtis
+ * Class: Foundations in App Development
+ * Date: February 24th, 2024*/
+
+
+
+
+using static PaintProgram.Shapes.ParametricShape;
 
 namespace PaintProgram.Shapes;
 
