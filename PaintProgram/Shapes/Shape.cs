@@ -36,6 +36,7 @@ public partial class Shape : Form
 
             _zOrder = value;
             zOrderLabel.Text = value.ToString();
+
         }
     }
 
@@ -95,6 +96,7 @@ public partial class Shape : Form
 
     private Rectangle[] resizeHandles;      // Resize handles allow the user to click and drag to change the proportions of the shape
     private Handle activeHandle;            // The handle being dragged
+    private bool shouldPaint;
     private readonly ClickDragMover clickDragMover = new();
 
     // ---- Methods ---- //
@@ -355,39 +357,42 @@ public partial class Shape : Form
     {
         if (ZOrder == 0)    // Prevent moving back if already last in line
             return;
-        zOrderMap.Clear();  // Clearing the zOrderMap prevents duplicate entries being added to the map later. 
+
+        var shapesBelowThis = shapes.Where(s => s.ZOrder < ZOrder).ToList();
+        shapesBelowThis.ForEach(s => zOrderMap.Remove(s.ZOrder));
+        zOrderMap.Remove(ZOrder);    
 
         // Calls BringToFront() on all forms in the correct order to maintain previous order
         shapes.OrderBy(s => s.ZOrder).ToList().ForEach(s =>
         {
             if (s != this)  // Ignoring this to push it to back
-            {
-                s.ZOrder++;
                 s.BringToFront();
-            }
         });
+
+        shapesBelowThis.ForEach(s => s.ZOrder++);
         ZOrder = 0;
+        ((MainForm)Owner).BringTopUIToFront();
     }
     public void MoveToFront()
     {
         BringToFront();
-        ((MainForm)Owner).BringTopUIToFront();
 
         // Cache all the shapes above this one, before the move occured
-        var above = shapes.Where(s => s.ZOrder > ZOrder).ToList();
-        above.ForEach(s => zOrderMap.Remove(s.ZOrder));
+        var shapesAboveThis = shapes.Where(s => s.ZOrder > ZOrder).ToList();
+        shapesAboveThis.ForEach(s => zOrderMap.Remove(s.ZOrder));
 
         // Decrement the shapes that used to be above this shape
         zOrderMap.Remove(ZOrder);
-        above.ForEach(s => s.ZOrder--);
+        shapesAboveThis.ForEach(s => s.ZOrder--);
 
         ZOrder = shapes.Count - 1;
+        ((MainForm)Owner).BringTopUIToFront();
     }
     public void MoveForwards()
     {
         if (!zOrderMap.ContainsKey(ZOrder + 1)) // Prevent moving front if already first in line
             return;
-        
+
         // Swaps zOrders with the shape directly above
         Shape shapeAboveThis = zOrderMap[ZOrder + 1];
 
@@ -400,6 +405,8 @@ public partial class Shape : Form
 
         // Bring to front all the shapes that should be on top of this in the correct order
         shapes.Where(s => s._zOrder > _zOrder).ToList().ForEach(shape => shape.BringToFront());
+
+        ((MainForm)Owner).BringTopUIToFront();
     }
 
     public void MoveBackwards()
@@ -408,15 +415,16 @@ public partial class Shape : Form
             return;
 
         // Swap z order with the shape below this
-        Shape shapeBelowTHis = zOrderMap[ZOrder - 1];
+        Shape shapeBelowThis = zOrderMap[ZOrder - 1];
 
         zOrderMap.Remove(ZOrder);
         zOrderMap.Remove(ZOrder - 1);
 
-        shapeBelowTHis.BringToFront();
-        shapeBelowTHis.ZOrder++;
+        shapeBelowThis.BringToFront();
+        shapeBelowThis.ZOrder++;
         ZOrder--;
 
         shapes.Where(s => s._zOrder > _zOrder).ToList().ForEach(shape => shape.BringToFront());
+        ((MainForm)Owner).BringTopUIToFront();
     }
 }

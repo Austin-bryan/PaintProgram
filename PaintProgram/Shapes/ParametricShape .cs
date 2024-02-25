@@ -21,7 +21,12 @@ public partial class ParametricShape : Shape
 
     public ParametricShape() => InitializeComponent();
 
-    public void SetAlpha(int index, float alpha) => alphaHandles[index].Alpha = alpha;
+    public void SetAlpha(int index, float alpha)
+    {
+        if (index < alphaHandles.Count)
+            alphaHandles[index].Alpha = alpha;
+    }
+
     protected override void OnPaint(PaintEventArgs e)
     {
         base.OnPaint(e);

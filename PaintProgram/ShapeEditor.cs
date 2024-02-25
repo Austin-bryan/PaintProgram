@@ -402,7 +402,7 @@ public partial class ShapeEditor : Form
 
             heightPixelBox.TextBoxText = ActiveShape.Height.ToString();
         }
-        else shouldUpdate = true;
+        shouldUpdate = true;
     }
     private void heightPixelBox_InputSubmit(double parsedValue)
     {
@@ -418,7 +418,7 @@ public partial class ShapeEditor : Form
 
             widthPixelBox.TextBoxText = ActiveShape.Width.ToString();
         }
-        else shouldUpdate = true;
+        shouldUpdate = true;
     }
     private void xPixelBox_InputSubmit(double parsedValue)         => ActiveShape.Location = new((int)parsedValue, ActiveShape.Location.Y);
     private void yPixelBox_InputSubmit(double parsedValue)         => ActiveShape.Location = new(ActiveShape.Location.X, (int)parsedValue);

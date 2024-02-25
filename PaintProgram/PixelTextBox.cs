@@ -68,8 +68,9 @@ public partial class PixelTextBox : UserControl
 
     private void entryBox_KeyPress(object sender, KeyPressEventArgs e)
     {
-        if (!AllowDecimals && e.KeyChar == '.' 
-            || !char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+        if (AllowDecimals && e.KeyChar == '.')
+            return;
+        if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             e.Handled = true;   // Ignores any inputs that arent numbers, or if they are entering a decimal in a non decimal field
                                 // This also prevents negative numbers for free
     }
