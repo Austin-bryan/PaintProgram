@@ -33,9 +33,9 @@ This was also required to force the title bar on top of the form-shapes. This is
 ## Installation
 To run this project, ensure you have .NET installed. Clone the repository and build the solution in your preferred IDE.
 
-'''
+```
 git clone https://github.com/Austin-bryan/PaintProgram
-''' 
+``` 
 
 ### Usage
 Launch the application, use the toolbar to create shapes, and use the shape editor to modify them. The painting tools allow you to draw directly on the canvas.
